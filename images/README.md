@@ -58,3 +58,11 @@ All images in this folder are licensed under the [GNU General Public License ver
 ## 0znzw/ScriptManagment.svg
  - Created by [@SharkPool](https://www.youtube.com/c/SharkPoolthe1)
  - For [@0znzw](https://scratch.mit.edu/users/0znzw)
+
+## 0znzw/spellCheck.svg
+ - Created by [@Bitter_130](https://linktr.ee/Bitter_130)
+ - For [@0znzw](https://scratch.mit.edu/users/0znzw)
+
+## 0znzw/RightClickMenu.svg
+ - Created by [@Ardaonly](https://www.youtube.com/channel/UCjZKSSnH7y_tBeptES74fFQ)
+ - For [@0znzw](https://scratch.mit.edu/users/0znzw)
