@@ -1,6 +1,6 @@
-# Unofficial gallery.
+# Survs Gallery
 
-For extensions that cant get on the official gallery.
+For extensions that cant get on the official gallery, or dont want to. (also for me lmao)
 the "cyclic:prod" deployment is a mimic development server, dont use it.
 ## Contributing
 
