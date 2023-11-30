@@ -49,3 +49,12 @@ All images in this folder are licensed under the [GNU General Public License ver
 ## ION/Since2k.svg
  - Created by [@SharkPool](https://www.youtube.com/c/SharkPoolthe1)
  - For [@ION](https://scratch.mit.edu/users/ionslayer)
+
+## Yoreni/breakEternityScratch.svg
+ - Created by [@Bitter_130](https://linktr.ee/Bitter_130)
+ - Font licensed for personal use [Anurati In Use](https://www.emmeranrichard.fr/foundry/anurati-pro)
+ - For [@Yoreni](https://github.com/Yoreni)
+
+## 0znzw/ScriptManagment.svg
+ - Created by [@SharkPool](https://www.youtube.com/c/SharkPoolthe1)
+ - For [@0znzw](https://scratch.mit.edu/users/0znzw)

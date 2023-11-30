@@ -332,7 +332,7 @@
       return `
       <div class="extension-banner">
         <!-- @css-ignore -->
-        <img loading="lazy" src="${imageSource}" class="${imageClasses.join(' ')}" style="/* @css-ignore */${options.style || ''}">
+        <img loading="lazy" src="${imageSource}" class="${imageClasses.join(' ')}" style="${options.style || ''}">
         <div class="extension-buttons">
           <button class="copy" data-copy="${host}${extensionFile}.js">Copy URL</button>
           ${mode === "desktop" ? (`
@@ -431,10 +431,9 @@
         <span onclick="sortExtensions(this,'fun')" data-active="0" class="sort_button">Fun</span><wbr>
 
         <span onclick="sortExtensions(this,'storage')" data-active="0" class="sort_button">Storage</span><wbr>
-        <span onclick="sortExtensions(this,'networking')" data-active="0" class="sort_button">Networking</span><wbr>
 
         <span onclick="sortExtensions(this,'additions')" data-active="0" class="sort_button">Expansion</span><wbr>
-        <span onclick="sortExtensions(this,'conversion')" data-active="0" class="sort_button">Conversion</span><wbr>
+        <span onclick="sortExtensions(this,'conversion')" data-active="0" class="sort_button">Management</span><wbr>
 
         <span onclick="sortExtensions(this,'new')" data-active="0" class="sort_button">New</span><wbr>
         <span onclick="sortExtensions(this,'updated')" data-active="0" class="sort_button">Updated</span><wbr>
@@ -481,7 +480,7 @@
           <p>Placeholder text. Created by <a href="#">Placeholder</a>.</p>
         </div>
 
-        <div class="extension" data-type='["additions","new","featured"]'>
+        <div class="extension" data-type='["additions","new","featured","experimental"]'>
           <%- banner('TurboCharged') %>
           <h3>TurboCharged</h3>
           <p>Add blocks to the base scratch categories :&gt;!<br>Credits in extension.</p>
@@ -493,7 +492,7 @@
           <p>Completely new audio system.<br>Created by <a href="https://scratch.mit.edu/users/0znzw">0znzw</a>.</p>
         </div>
 
-        <div class="extension" data-type='["utilities","updated"]'>
+        <div class="extension" data-type='["utilities"]'>
           <%- banner('0znzw/NicheToolbox') %>
           <h3>Niche Toolbox</h3>
           <p>Some blocks for niche use cases.<br>Created by <a href="https://scratch.mit.edu/users/0znzw">0znzw</a>.</p>
@@ -527,22 +526,28 @@
 
         <!-- Removed -->
 
-        <div class="extension" data-type='["experimental"]'>
+        <div class="extension" data-type='["experimental","management"]'>
           <%- banner('CST1229/inlineblocks') %>
           <h3>Inline Blocks</h3>
           <p>Created by <a href="https://github.com/CST1229">CST1229</a> *And <a href="https://scratch.mit.edu/users/LilyMakesThings/">LilyMakesThings</a>.<br><a href="./extended_description/inlineblocks.html">Extended Description (click me)</a></p>
+        </div>
+
+        <div class="extension" data-type='["utilities","management","new","featured"]'>
+          <%- banner('0znzw/ScriptManager') %>
+          <h3>Script Manager</h3>
+          <p>Manage scripts and threads, allowing for better control of your project. (thanks sp)<br>Created by <a href="https://scratch.mit.edu/users/0znzw">0znzw</a>.</p>
+        </div>
+
+        <div class="extension" data-type='["experimental","management"]'>
+          <%- banner('0znzw/SwitchCase') %>
+          <h3>Switch Case</h3>
+          <p>Some blocks for replacing if statments.<br>Created by <a href="https://scratch.mit.edu/users/0znzw">0znzw</a>.</p>
         </div>
 
         <div class="extension" data-type='["fun"]'>
           <%- banner('0znzw/PeriodicTable') %>
           <h3>Periodic Table</h3>
           <p>You can now get periodic table elements!<br>Created by <a href="https://scratch.mit.edu/users/0znzw">0znzw</a>.</p>
-        </div>
-
-        <div class="extension" data-type='["utilities","additions"]'>
-          <%- banner('0znzw/SwitchCase') %>
-          <h3>Switch Case</h3>
-          <p>Some blocks for replacing if statments.<br>Created by <a href="https://scratch.mit.edu/users/0znzw">0znzw</a>.</p>
         </div>
 
         <!-- Removed -->
@@ -609,13 +614,13 @@
           <p>Disable and enable the right click menu.<br>Created by <a href="https://scratch.mit.edu/users/0znzw">0znzw</a>.</p>
         </div>
 
-        <div class="extension" data-type='["new","featured","utilities"]'>
+        <div class="extension" data-type='["featured","utilities"]'>
           <%- banner('0znzw/DOMPurify') %>
           <h3>DOMPurify</h3>
           <p>Sanitize user inputted HTML.<br>Created by <a href="https://scratch.mit.edu/users/0znzw">0znzw</a>.</p>
         </div>
 
-        <div class="extension" data-type='["new","featured","utilities"]'>
+        <div class="extension" data-type='["utilities"]'>
           <%- banner('0znzw/HtmlEntitys') %>
           <h3>HTML Entitys</h3>
           <p>Encode user inputted HTML. (better version of "HTML Encode")<br>Created by <a href="https://scratch.mit.edu/users/0znzw">0znzw</a>.</p>
