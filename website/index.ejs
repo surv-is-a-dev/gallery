@@ -331,7 +331,8 @@
       if (options.invertDark) imageClasses.push("invert-dark");
       return `
       <div class="extension-banner">
-        <img loading="lazy" src="${imageSource}" class="${imageClasses.join(' ')}" style="${options.style || ''}">
+        <!-- @css-ignore -->
+        <img loading="lazy" src="${imageSource}" class="${imageClasses.join(' ')}" style="/* @css-ignore */${options.style || ''}">
         <div class="extension-buttons">
           <button class="copy" data-copy="${host}${extensionFile}.js">Copy URL</button>
           ${mode === "desktop" ? (`
