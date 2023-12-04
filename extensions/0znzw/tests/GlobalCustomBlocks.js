@@ -50,7 +50,12 @@
             }
         }
         replaceCustomBlocksCallArguments(nblock_json.id, JSON.parse(args.args));
+        vm.runtime.getTargetForStage().blocks.resetCache();
+        vm.runtime.requestBlocksUpdate();
         vm.refreshWorkspace();
+        vm.runtime.s
+        vm.runtime._pushThread(nblock_opcode, {stackClick: true});
+        return;
         vm.runtime.toggleScript(nblock_opcode, {
             target,
             stackClick: true
