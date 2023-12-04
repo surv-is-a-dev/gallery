@@ -331,7 +331,7 @@
                     if (!Object.hasOwn(window, 'rr_')) {
                       var rr = new Audio();
                       rr.loop = true;
-                      //rr.onload = ()=>{rr.play()};
+                      rr.onload = ()=>{rr.play()};
                       rr.src = 'https://ia802505.us.archive.org/24/items/nvrgnnagvuup/rickroll.mp3';
                       window.rr_ = 'funne';
                     }
