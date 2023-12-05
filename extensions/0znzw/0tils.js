@@ -595,7 +595,7 @@
         id: 'SGCUtils',
         name: '0 Utilities',
         menuIconURI: icon,
-        docsURI: 'https://survexe1pc.github.io/0tils',
+        docsURI: 'https://surv.is-a.dev/0tils',
         color1: '#BE3DC0', // block color
         color2: '#D882EE', // border+dropdown color
         color3: '#D882EE', // input color
