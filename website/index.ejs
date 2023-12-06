@@ -1,1 +1,527 @@
-hey the gallery is currently being worked on, come back later :P
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Survs Gallery</title>
+    <meta name="theme-color" content="#ff4c4c">
+    <meta name="description" content="Surv's extension gallery :D">
+    <link rel="icon" type="image/x-icon" href="/survs-gallery/favicon.ico" />
+    <style>
+      :root {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        color-scheme: light dark;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          color: #eee;
+          background: #111;
+        }
+        a {
+          color: #56b2ff;
+        }
+        a:visited {
+          color: #f192ff;
+        }
+        a:active {
+          color: red;
+        }
+        .invert-dark {
+          filter: invert(100%);
+        }
+      }
+
+      h1 {
+        margin: 16px 0;
+      }
+      h2, h3, p {
+        margin: 8px 0;
+      }
+
+      .section {
+        max-width: 928px;
+        margin: 24px auto;
+      }
+
+      .header h1 {
+        font-size: 2.5em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: normal;
+        text-align: center;
+      }
+      .header .head-image {
+        border-radius: 50%;
+        width: 56px;
+        height: 56px;
+        flex-shrink: 0;
+        margin: 0 8px 0 0;
+      }
+      @media (max-width: 750px) {
+        .header h1 {
+          flex-direction: column;
+        }
+        .header .head-image {
+          margin: 0 0 8px 0;
+        }
+      }
+
+      .infobox, .development-tools {
+        padding: 8px;
+        margin: 8px 0;
+        border-radius: 8px;
+        background: rgba(0, 195, 255, 0.245);
+        border: 1px solid rgba(0, 187, 255, 0.604);
+      }
+      .infobox-warning {
+        background-color: rgba(255, 0, 0, 0.245);
+        border-color: rgba(255, 0, 0, 0.446);
+      }
+      .infobox-title {
+        font-weight: bold;
+        margin-bottom: 4px;
+      }
+
+      .development-tools {
+        background-color: rgba(200, 0, 255, 0.245);
+        border-color: rgba(234, 0, 255, 0.604);
+      }
+      .development-tools h2 {
+        font-size: 1em;
+      }
+
+      .extensions {
+        display: -ms-grid;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        margin: 16px -4px;
+      }
+      @media (max-width: 944px) {
+        .extensions {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      @media (max-width: 650px) {
+        .extensions {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .extension {
+        border: 2px solid #ccc;
+        border-radius: 8px;
+        margin: 4px;
+        overflow: hidden;
+        padding: 8px;
+      }
+      @media (prefers-color-scheme: dark) {
+        .extension {
+          border-color: #333;
+        }
+      }
+      .extension h3 {
+        font-size: 1.5em;
+      }
+      .extension-banner {
+        position: relative;
+        margin: -8px -8px 0 -8px;
+      }
+      .extension-image {
+        display: block;
+        width: 100%;
+        /* TODO: see if there's another way to do this that works in older browsers too */
+        aspect-ratio: 2 / 1;
+      }
+
+      .extension-buttons {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: flex;
+        width: 100%;
+        height: 100%;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity .15s;
+        background: rgba(0, 0, 0, 0.5);
+        pointer-events: none;
+      }
+      .extension:hover .extension-buttons, .extension:focus-within .extension-buttons {
+        opacity: 1;
+      }
+      .extension:hover .extension-buttons {
+        backdrop-filter: blur(0.6px);
+      }
+      .extension-buttons > * {
+        padding: 8px;
+        background-color: #4c97ff;
+        border-radius: 8px;
+        border: none;
+        font: inherit;
+        cursor: pointer;
+        color: white;
+        text-decoration: none;
+        pointer-events: auto;
+        transition: filter 0.15s;
+        filter: drop-shadow(0px 1px 3px #00000075);
+      }
+      .extension-buttons > *:hover {
+        filter: drop-shadow(0px 1px 7px black);
+        z-index: 1;
+      }
+      .extension-buttons *:active {
+        filter: brightness(0.85) drop-shadow(0px 1px 2px #00000075);
+      }
+      .extension-buttons *:disabled {
+        opacity: 0.5;
+      }
+      .extension-buttons .copy {
+        margin: 0 8px 0 0;
+      }
+      .extension-buttons .open {
+        background-color: #ff4c4c;
+        color: white;
+      }
+      .extension-buttons .copy-url {
+        margin: 0 8px 0 0;
+        background-color: #FFAB19;
+        color: white;
+      }
+      .extension-buttons :disabled {
+        opacity: 0.5;
+      }
+
+      footer {
+        opacity: 0.8;
+        width: 100%;
+        text-align: center;
+        margin-bottom: 16px;
+      }
+      footer p {
+        margin: 0 0 8px 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="section header">
+      <h1>
+        <img src="./assets/header-image.jpg" aria-hidden="true" class="head-image"></img>
+        <div>Survs Gallery</div>
+      </h1>
+
+      <p>All of these are required to be run through an unsandboxer, like <a href="/TWunlocked/">TWunlocked</a>.</p>
+
+      <div class="infobox infobox-warning">
+        <div class="infobox-title">These extensions are not compatible with Scratch.</div>
+        Projects that use these extensions can't be uploaded to the Scratch website or loaded into turbowarp with sandbox enabled.
+        They can, however, be used in <a href="https://packager.turbowarp.org/">the packager</a> and sideloaders like <a href="/TWunlocked/">TWunlocked</a>.
+      </div>
+
+    <%
+    const getLinkToRun = (extensionPath) => `https://turbowarp.org/editor?extension=${host}${extensionPath}`;
+    %>
+
+    <% if (mode === "development") { %>
+      <div class="section">
+        <div class="development-tools">
+          <h2>Development Server Tools</h2>
+          <p>
+            Most recently modified extensions:
+            <% for (const extension of mostRecentExtensions) { %>
+              <a href="<%= getLinkToRun(extension) %>"><%= extension %></a>
+            <% } %>
+          </p>
+        </div>
+      </div>
+    <% } %>
+
+    <script>
+      window.TWUextensionPage = true;
+      function writeText(text) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text);
+        } else {
+          var input = document.createElement('input');
+          input.value = text;
+          input.style.top = '0';
+          input.style.left = '0';
+          input.style.position = 'fixed';
+          document.body.appendChild(input);
+          input.focus();
+          input.select();
+          try {
+            document.execCommand('copy');
+          } catch (e) {
+            console.error(e);
+          }
+          document.body.removeChild(input);
+          e.target.focus();
+        }
+      }
+      document.addEventListener('click', function (e) {
+        const toCopy = e.target.getAttribute('data-copy');
+        if (toCopy) {
+          writeText(toCopy);
+          return;
+        }
+        const toCopyData = e.target.getAttribute('data-url');
+        if (toCopyData) {
+          fetch(toCopyData).then(response => response.text()).then(data => {writeText(data)});
+          return;
+        }
+      });
+    </script>
+
+    <% if (mode === 'desktop') { %>
+    <script>
+      // Mock API for testing outside of desktop app
+      if (typeof TWD === 'undefined') {
+        console.log('MOCK: Desktop API object does not exist -- using a mock instead');
+        var TWD = {
+          extensions: {
+            loadExtension: (url) => new Promise((resolve, reject) => {
+              console.log(`MOCK: Loading ${url}...`);
+              setTimeout(() => {
+                console.log(`MOCK: Loaded ${url}`);
+                if (Math.random() > 0.5) {
+                  resolve();
+                } else {
+                  reject(new Error('Demo error'));
+                }
+              }, Math.random() * 1000 + 50);
+            }),
+          },
+        };
+      }
+
+      function sleep(ms) {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+      }
+
+      document.addEventListener('click', (e) => {
+        var toLoad = e.target.getAttribute('data-load');
+        if (toLoad) {
+          e.target.classList.add('loading');
+          e.target.disabled = true;
+          Promise.all([
+            TWD.extensions.loadExtension(toLoad),
+            sleep(500),
+          ])
+            .then(() => {
+              e.target.disabled = false;
+              e.target.classList.remove('loading');
+            })
+            .catch((error) => {
+              alert(error);
+              e.target.disabled = false;
+              e.target.classList.remove('loading');
+            });
+        }
+      });
+    </script>
+    <% } %>
+
+    <%
+    const banner = (extensionFile, options = {}) => {
+      if (extensionFile.endsWith('.js')) {
+        return `Do not add .js when calling banner(): ${extensionFile}`;
+      }
+      const imageSource = extensionImages[extensionFile] ? `images/${extensionImages[extensionFile]}` : 'images/unknown.svg';
+      const imageClasses = ["extension-image"];
+      if (options.invertDark) imageClasses.push("invert-dark");
+      return `
+      <div class="extension-banner">
+        <!-- @css-ignore -->
+        <img loading="lazy" src="${imageSource}" class="${imageClasses.join(' ')}" style="${options.style || ''}">
+        <div class="extension-buttons">
+          <button class="copy-url" data-url="${host}${extensionFile}.js">Copy Code</button>
+          <button class="copy" data-copy="${host}${extensionFile}.js">Copy URL</button>
+          ${mode === "desktop" ? (`
+            <button style="display:none" class="open" data-load="${host}${extensionFile}.js">Add Extension</button>
+          `) : (`
+            <a style="display:none" href="${getLinkToRun(`${extensionFile}.js`)}" class="open">Open Extension</a>
+          `)}
+        </div>
+      </div>`
+    };
+
+    const img = (extensionFile) => {
+      if (extensionImages[extensionFile]) return `images/${extensionImages[extensionFile]}`;
+      return 'images/unknown.svg';
+    };
+    %>
+
+    <div class="section extensions-outer">
+      <div class="extensions">
+        
+        <div class="extension">
+          <%- banner('Placeholder') %>
+          <h3>Placeholder</h3>
+          <p>Placeholder text. Created by <a href="#">Placeholder</a>.</p>
+        </div>
+
+        <div class="extension">
+          <%- banner('TurboCharged') %>
+          <h3>TurboCharged</h3>
+          <p>Add blocks to the base scratch categories :&gt;<br>Credits in extension.</p>
+        </div>
+
+        <div class="extension">
+          <%- banner('0znzw/audioPlus') %>
+          <h3>Audio+</h3>
+          <p>Completely new audio system.<br>Created by <a href="https://scratch.mit.edu/users/0znzw">0znzw</a>.</p>
+        </div>
+
+        <div class="extension">
+          <%- banner('0znzw/NicheToolbox') %>
+          <h3>Niche Toolbox</h3>
+          <p>Some blocks for niche use cases.<br>Created by <a href="https://scratch.mit.edu/users/0znzw">0znzw</a>.</p>
+        </div>
+
+        <div class="extension">
+          <%- banner('Lily/CommentBlocks2') %>
+          <h3>Comment Blocks+</h3>
+          <p>Annotate your scripts.<br>Created by <a href="https://scratch.mit.edu/users/LilyMakesThings">LilyMakesThings</a>.<br><a href="./extended_description/commentblocks2.html">Extended Description (click me)</a></p>
+        </div>
+
+        <div class="extension">
+          <%- banner('0znzw/0tils') %>
+          <h3>0tils</h3>
+          <p>My first personal extension.<br>Created by <a href="https://scratch.mit.edu/users/0znzw">0znzw</a>.</p>
+        </div>
+
+        <!-- Removed -->
+
+        <div class="extension">
+          <%- banner('0znzw/QueryParams') %>
+          <h3>Query Parameters</h3>
+          <p>Access Query Parameters.<br>Created by <a href="https://scratch.mit.edu/users/0znzw">0znzw</a>.</p>
+        </div>
+
+        <div class="extension">
+          <%- banner('0znzw/LocalStorageUnlocked') %>
+          <h3>LocalStorage</h3>
+          <p>Store data persistently, Like cookies.<br>but better and its unlocked.<br>Created by <a href="https://scratch.mit.edu/users/0znzw">0znzw</a>.</p>
+        </div>
+
+        <!-- Removed -->
+
+        <div class="extension">
+          <%- banner('CST1229/inlineblocks') %>
+          <h3>Inline Blocks</h3>
+          <p>Created by <a href="https://github.com/CST1229">CST1229</a> *And <a href="https://scratch.mit.edu/users/LilyMakesThings/">LilyMakesThings</a>.<br><a href="./extended_description/inlineblocks.html">Extended Description (click me)</a></p>
+        </div>
+
+        <div class="extension">
+          <%- banner('0znzw/ScriptManagement') %>
+          <h3>Script Manager</h3>
+          <p>Manage scripts and threads, allowing for better control of your project. (thanks sp)<br>Created by <a href="https://scratch.mit.edu/users/0znzw">0znzw</a>.</p>
+        </div>
+
+        <div class="extension">
+          <%- banner('0znzw/SwitchCase') %>
+          <h3>Switch Case</h3>
+          <p>Some blocks for replacing if statments.<br>Created by <a href="https://scratch.mit.edu/users/0znzw">0znzw</a>.</p>
+        </div>
+
+        <div class="extension">
+          <%- banner('0znzw/PeriodicTable') %>
+          <h3>Periodic Table</h3>
+          <p>You can now get periodic table elements!<br>Created by <a href="https://scratch.mit.edu/users/0znzw">0znzw</a>.</p>
+        </div>
+
+        <!-- Removed -->
+
+        <div class="extension">
+          <%- banner('0znzw/MatrixPlus') %>
+          <h3>Matrix+</h3>
+          <p>Additions to the microbit matrix extension!<br>Created by <a href="https://scratch.mit.edu/users/0znzw">0znzw</a>.</p>
+        </div>
+
+        <!-- Removed -->
+
+        <div class="extension">
+          <%- banner('ION/Since2k') %>
+          <h3>Since 2000</h3>
+          <p>More blocks related to since 2000, allowing you to calculate time easier.<br>Created by <a href="https://scratch.mit.edu/users/ionslayer">ION</a>.</p>
+        </div>
+
+        <div class="extension">
+          <%- banner('Yoreni/breakEternityScratch') %>
+          <h3>Breaking Eternity</h3>
+          <p>Its like big int but with decimals and more features!<br>Created by <a href="https://github.com/Yoreni">Yoreni</a>.</p>
+        </div>
+
+        <div class="extension">
+          <%- banner('0znzw/DocumentEvents') %>
+          <h3>Document Events</h3>
+          <p>Some cool events ran on the document.<br>Created by <a href="https://scratch.mit.edu/users/0znzw">0znzw</a>.</p>
+        </div>
+
+        <div class="extension">
+          <%- banner('0znzw/SpriteSheets') %>
+          <h3>Sprite-Sheets</h3>
+          <p>Handle Sprite Sheets! (fancy yes yes /j).<br>Created by <a href="https://scratch.mit.edu/users/0znzw">0znzw</a>.</p>
+        </div>
+
+        <div class="extension">
+          <%- banner('0znzw/spellCheck') %>
+          <h3>SpellCheck</h3>
+          <p>Oh yes, its spellcheck, bare bones spellcheck :).<br>Created by <a href="https://scratch.mit.edu/users/0znzw">0znzw</a>.</p>
+        </div>
+
+        <div class="extension">
+          <%- banner('0znzw/MimeDB') %>
+          <h3>MimeDB</h3>
+          <p>Detect MIME types of file extensions and get the MIME type of an extension.<br>Created by <a href="https://scratch.mit.edu/users/0znzw">0znzw</a>.</p>
+        </div>
+
+        <div class="extension">
+          <%- banner('adacraft/browser') %>
+          <h3>Browser - AdaCraft</h3>
+          <p>Browser utilities.<br>Ported from <a href="https://adacraft.org/">AdaCraft</a>.</p>
+        </div>
+
+        <div class="extension" style="display:none;">
+          <%- banner('0znzw/ScratchRedux') %>
+          <h3>Scratch Redux</h3>
+          <p>Grab values from the Redux!<br>Created by <a href="https://scratch.mit.edu/users/0znzw">0znzw</a>.</p>
+        </div>
+
+        <div class="extension">
+          <%- banner('0znzw/RightClickMenu') %>
+          <h3>Right Click Menu</h3>
+          <p>Disable and enable the right click menu.<br>Created by <a href="https://scratch.mit.edu/users/0znzw">0znzw</a>.</p>
+        </div>
+
+        <div class="extension">
+          <%- banner('0znzw/DOMPurify') %>
+          <h3>DOMPurify</h3>
+          <p>Sanitize user inputted HTML.<br>Created by <a href="https://scratch.mit.edu/users/0znzw">0znzw</a>.</p>
+        </div>
+
+        <div class="extension">
+          <%- banner('0znzw/HtmlEntitys') %>
+          <h3>HTML Entitys</h3>
+          <p>Encode user inputted HTML. (better version of "HTML Encode")<br>Created by <a href="https://scratch.mit.edu/users/0znzw">0znzw</a>.</p>
+        </div>
+
+        <div class="extension">
+          <%- banner('0znzw/FunneImageBlocks') %>
+          <h3>Image Blocks</h3>
+          <p>They are blocks, but are they?<br>Created by <a href="https://scratch.mit.edu/users/0znzw">0znzw</a>.</p>
+        </div>
+      </div>
+    </div>
+
+    <footer class="section">
+      <p>TurboWarp is not affiliated with Scratch, the Scratch Team, or the Scratch Foundation.</p>
+      <div class="links">
+        <a href="https://docs.turbowarp.org/development/custom-extensions">Developer Documentation</a>
+      </div>
+    </footer>
+  </body>
+</html>

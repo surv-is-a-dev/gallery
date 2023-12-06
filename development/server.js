@@ -44,7 +44,10 @@ app.get('/*', (req, res, next) => {
     return;
   }
 
-  const fileInBuild = mostRecentBuild.getFile(req.path);
+  let path = req.path;
+  if (path.startsWith('/survs-gallery')) path = path.replace('/survs-gallery', '');
+
+  const fileInBuild = mostRecentBuild.getFile(path);
   if (!fileInBuild) {
     return next();
   }
