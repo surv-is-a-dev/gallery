@@ -6,7 +6,7 @@
     <title>Survs Gallery</title>
     <meta name="theme-color" content="#ff4c4c">
     <meta name="description" content="Surv's extension gallery :D">
-    <link rel="icon" type="image/x-icon" href="/survs-gallery/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
     <style>
       :root {
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -126,20 +126,88 @@
       .extension-news-banner {
         position: absolute;
         right: 0;
+        top: 0;
+        aspect-ratio: 1/1;
+        width: 25%;
+        height: auto;
       }
       /* end block */
 
-      /* Cubester helped with this :D */
       .i-card-wrapper {
-        position: relative;
         opacity: 0;
         transition: opacity .15s;
       }
 
       .i-card {
         position: absolute;
-        right: 0;
-        z-index: 9999;
+        top: 0;
+        left: 0;
+        margin: 2%;
+      }
+
+      .search-outer {
+        position: relative;
+        height: 100%;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+        margin: 0px 0.75rem 0px 0px;
+        background: #404040;
+        border-radius: 4px;
+        border-width: 2%;
+        border-style: solid;
+        border-color: #2c2c2c;
+        display: flexbox;
+        display: -ms-flexbox;
+        display: -webkit-flexbox;
+      }
+
+      .search-outer * {
+        display: inline-block;
+        padding-block: 1px;
+        padding-inline: 2px;
+      }
+
+      .search-input {
+        background-color: #1e1e1e;
+        font-size: 1rem;
+        font-weight: bold;
+        border-radius: 4px;
+        border-width: 1px;
+        border-style: solid;
+        border-color: #404040;
+        color: #ffffff;
+        height: 100%;
+        writing-mode: horizontal-tb !important;
+      }
+
+      .search-tag {
+        padding-left: 1%;
+        padding-right: 1%;
+        margin-left: 1.5%;
+        border-radius: 6px;
+        border-width: 10%;
+        border-style: solid;
+        color: white;
+      }
+
+      .search-tag * {
+        pointer-events: none;
+      }
+
+      .search-tag[data-active="1"] {
+        border-color: #272727;
+        background-color: #454545
+      }
+
+      .search-tag[data-active="0"] {
+        border-color: #1e1e1e;
+        background-color: #2a2a2a
+      }
+
+      .extension-search-tags {
+        display: none;
       }
 
       @media (max-width: 218px) {
@@ -350,11 +418,18 @@
           window.open(iCardURL);
           return;
         }
+        const searchTag = e.target.getAttribute('data-tag');
+        if (searchTag) {
+          const tagActive = parseInt(e.target.getAttribute('data-active'));
+          if (tagActive  > 0) {
+            e.target.setAttribute('data-active', '0');
+          } else e.target.setAttribute('data-active', '1');
+          searchViaTags();
+        }
       });
     </script>
 
     <script defer>
-
       const search = function(query) {
         document.querySelectorAll('div.extension').forEach(div => {
           if (div.dataset.nosearch) return;
@@ -374,6 +449,26 @@
           let joinedData = `${creditsText}\n${description}\n${title}`.toLowerCase();
           const foundText = joinedData.includes(query.toLowerCase());
           if (foundText) return;
+          div.style.display = 'none';
+        });
+      }
+
+      const searchViaTags = function() {
+        const activeTags = Array.from(document.querySelectorAll('.search-tag[data-active="1"]')).map(tag => tag.innerText);
+        document.querySelectorAll('div.extension').forEach(div => {
+          if (div.dataset.nosearch) return;
+          div.style.display = '';
+          if (activeTags.length < 1) return;
+          let myTags = div.querySelector('div.extension-search-tags');
+          if (!myTags || myTags == null) {
+            div.style.display = 'none';
+            return;
+          }
+          myTags = myTags.dataset.tags.split(',');
+          const matched = myTags.filter(tag => activeTags.includes(tag));
+          if (matched.length > 0) {
+            return;
+          }
           div.style.display = 'none';
         });
       }
@@ -440,17 +535,18 @@
     <% } %>
 
     <%
-    const banner = (extensionFile, options = {}) => {
+    const banner = (extensionFile, options = {}, afterHTML) => {
       if (extensionFile.endsWith('.js')) {
         return `Do not add .js when calling banner(): ${extensionFile}`;
       }
+      afterHTML = afterHTML ?? '';
       const imageSource = extensionImages[extensionFile] ? `images/${extensionImages[extensionFile]}` : 'images/unknown.svg';
       const imageClasses = ["extension-image"];
       if (options.invertDark) imageClasses.push("invert-dark");
       return `
       <div class="extension-banner">
         <!-- @css-ignore -->
-        <img loading="lazy" src="${imageSource}" class="${imageClasses.join(' ')}" style="${options.style || ''}">
+        <img loading="lazy" src="${imageSource}" class="${imageClasses.join(' ')}" style="${options.style ?? ''}">
         <div class="extension-buttons">
           <button class="copy-url" data-url="${host}${extensionFile}.js">Copy Code</button>
           <button class="copy" data-copy="${host}${extensionFile}.js">Copy URL</button>
@@ -460,6 +556,7 @@
             <a style="display:none" href="${getLinkToRun(`${extensionFile}.js`)}" class="open">Open Extension</a>
           `)}
         </div>
+        ${ afterHTML }
       </div>`
     };
 
@@ -523,28 +620,52 @@
 
       const iCard = function(url, description) {
         const i_card_size = 20;
-        return `<div class="i-card-wrapper" style="display:none;">
+        return `<div class="i-card-wrapper">
           <img class="i-card" src="assets/info-circle.svg" loading="lazy" width="${i_card_size}" height="${i_card_size}" title="${description}" data-icard="${url}"></img>
         </div>`;
+      }
+
+      const bannerExpansion = function(iCard, isNew, isUpdated) {
+        if (isUpdated) isNew = false;
+        if (isNew) isUpdated = false;
+        isUpdated = isUpdated ?? false;
+        isNew = isNew ?? false;
+        if (isUpdated) isUpdated = `\n<img class="extension-news-banner" src="assets/update-banner.svg" loading="lazy" title="This extension has been updated recently."></img>`;
+          else isUpdated = '';
+        if (isNew) isNew = `\n<img class="extension-news-banner" src="assets/new-banner.svg" loading="lazy" title="This extension is new to the gallery!"></img>`;
+          else isNew = '';
+        return `${iCard}${isNew}${isUpdated}`;
+      }
+
+      const sTag = function(tag) {
+        return `<div class="search-tag" data-active="0" data-tag="${tag}">
+          <span>${tag}</span>
+        </div>`
+      }
+
+      const searchTags = function(tags) {
+        return `<div class="extension-search-tags" data-tags="${tags.join(',').toLowerCase()}"></div>`;
       }
     %>
 
     <div class="section extensions-outer">
       <div class="search-outer">
         <input class="search-input" type="text" placeholder="Search..."/>
+        <%- sTag('experimental') %>
+        <%- sTag('advanced') %>
       </div>
       <div class="extensions">
         <div class="extension">
-          <%- banner('Placeholder') %>
+          <%- banner('Placeholder', {}, `${bannerExpansion(iCard(null, 'Very cool placeholder website!'))}`)%>
           <h3>Placeholder</h3>
           <p>A placeholder for people to use when adding extensions :P</p>
           <%- credit([['Placeholder', '#'], ['Placeholder SR', '#'], ['Placeholder JR', '#']]) %>
           <%- tags(['internet', 'hardware', 'mobile']) %>
-          <%- iCard('#', 'Very cool placeholder website!') %>
+          <%- searchTags(['experimental', 'advanced']) %>
         </div>
 
         <div class="extension">
-          <%- banner('TurboCharged') %>
+          <%- banner('TurboCharged', {}, `${bannerExpansion('', undefined, true)}`) %>
           <h3>TurboCharged</h3>
           <p>Add blocks to the base scratch categories :&gt;<br>Credits in extension.</p>
         </div>
@@ -564,11 +685,10 @@
         </div>
 
         <div class="extension">
-          <%- banner('Lily/CommentBlocks2') %>
+          <%- banner('Lily/CommentBlocks2', {}, bannerExpansion(iCard('extended_description/commentblocks2.html', 'Extended description'))) %>
           <h3>Comment Blocks+</h3>
           <p>Annotate your scripts.</p>
           <%- credit(['LilyMakesThings', 'https://scratch.mit.edu/users/LilyMakesThings/']) %>
-          <%- iCard('extended_description/commentblocks2.html', 'Extended description') %>
         </div>
 
         <div class="extension">
@@ -597,11 +717,10 @@
         <!-- Removed -->
 
         <div class="extension">
-          <%- banner('CST1229/inlineblocks') %>
+          <%- banner('CST1229/inlineblocks', {}, bannerExpansion(iCard('extended_description/inlineblocks.html', 'Extended description'))) %>
           <h3>Inline Blocks</h3>
           <p>Like custom reporters, but you code directly inside the "reporter".</p>
           <%- credit([['CST1229', 'https://github.com/CST1229/'], ['LilyMakesThings', 'https://scratch.mit.edu/users/LilyMakesThings/']]) %>
-          <%- iCard('extended_description/inlineblocks.html', 'Extended description') %>
         </div>
 
         <div class="extension">
@@ -687,7 +806,7 @@
           <%- tags(['internet']) %>
         </div>
 
-        <div class="extension" style="display:none;">
+        <div class="extension" style="display:none;" data-nosearch="1">
           <%- banner('0znzw/ScratchRedux') %>
           <h3>Scratch Redux</h3>
           <p>Grab values from the Redux!</p>

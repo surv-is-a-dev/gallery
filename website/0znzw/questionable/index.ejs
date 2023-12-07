@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Survs Gallery | 0znzw's Questionable Stuff</title>
     <meta name="theme-color" content="#ff4c4c">
-    <link rel="icon" type="image/x-icon" href="/survs-gallery/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
     <style>
       :root {
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -309,7 +309,7 @@
       if (extensionFile.endsWith('.js')) {
         return `Do not add .js when calling banner(): ${extensionFile}`;
       }
-      const imageSource = extensionImages[extensionFile] ? `/survs-gallery/0znzw/tests/images/${extensionImages[extensionFile]}` : '/survs-gallery/images/unknown.svg';
+      const imageSource = extensionImages[extensionFile] ? `0znzw/tests/images/${extensionImages[extensionFile]}` : 'images/unknown.svg';
       const imageClasses = ["extension-image"];
       if (options.invertDark) imageClasses.push("invert-dark");
       return `
