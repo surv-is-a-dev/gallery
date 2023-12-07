@@ -97,6 +97,73 @@
         grid-template-columns: 1fr 1fr 1fr;
         margin: 16px -4px;
       }
+
+      /* thanks nexuskitten for letting me use this 💖 */
+      .extension-boxing-outer {
+        width: 100px;
+        height: fit-content;
+      }
+      .extension-boxing-inner {
+        text-align: left;
+        font-size: 10px;
+        line-height: 60%;
+      }
+      .extended-box {
+        float: left;
+      }
+      .credit-box {
+        float: right;
+      }
+      .extension-tags {
+        margin-left: 10px;
+        width: 100px;
+        height: 40px;
+      }
+      .extension-tag-icon {
+        vertical-align: middle;
+        margin-right: 4px;
+      }
+      .extension-news-banner {
+        position: absolute;
+        right: 0;
+      }
+      /* end block */
+
+      /* Cubester helped with this :D */
+      .i-card-wrapper {
+        position: relative;
+        opacity: 0;
+        transition: opacity .15s;
+      }
+
+      .i-card {
+        position: absolute;
+        right: 0;
+        z-index: 9999;
+      }
+
+      @media (max-width: 218px) {
+        .toSmall-box {
+          position: absolute;
+          left: 0px;
+          top: 0px;
+          display: block;
+          z-index: 32767;
+          width: 100vw;
+          height: 100vh;
+          background: #000000;
+          color: #FFFFFF;
+        }
+        * {
+          scrollbar-width: 0px;
+          overflow: hidden;
+        }
+      }
+      @media (min-width: 218px) {
+        .toSmall-box {
+          display: none;
+        }
+      }
       @media (max-width: 944px) {
         .extensions {
           grid-template-columns: 1fr 1fr;
@@ -150,6 +217,9 @@
       }
       .extension:hover .extension-buttons, .extension:focus-within .extension-buttons {
         opacity: 1;
+      }
+      .extension:hover .i-card-wrapper, .extension:focus-within .i-card-wrapper {
+        opacity: 0.9;
       }
       .extension:hover .extension-buttons {
         backdrop-filter: blur(0.6px);
@@ -206,6 +276,9 @@
   </head>
 
   <body>
+
+    <div class="toSmall-box">Your screen is too small for this gallery.</div>
+
     <div class="section header">
       <h1>
         <img src="./assets/header-image.jpg" aria-hidden="true" class="head-image"></img>
@@ -272,7 +345,49 @@
           fetch(toCopyData).then(response => response.text()).then(data => {writeText(data)});
           return;
         }
+        const iCardURL = e.target.getAttribute('data-icard');
+        if (iCardURL && iCardURL != 'null') {
+          window.open(iCardURL);
+          return;
+        }
       });
+    </script>
+
+    <script defer>
+
+      const search = function(query) {
+        document.querySelectorAll('div.extension').forEach(div => {
+          if (div.dataset.nosearch) return;
+          div.style.display = '';
+          let creditsText = div.querySelector('div.extension-boxing-inner');
+          if (!creditsText || creditsText == null) {
+              creditsText = '';
+          } else creditsText = creditsText.innerText;
+          let description = div.querySelector('p');
+          if (!description || description == null) {
+              description = '';
+          } else description = description.innerText;
+          let title = div.querySelector('h3');
+          if (!title || title == null) {
+              title = '';
+          } else title = title.innerText;
+          let joinedData = `${creditsText}\n${description}\n${title}`.toLowerCase();
+          const foundText = joinedData.includes(query.toLowerCase());
+          if (foundText) return;
+          div.style.display = 'none';
+        });
+      }
+
+      setTimeout(_ => {
+        // Mobile shit
+        if (screen.availWidth < 218) document.querySelector('div.toSmall-box').scrollIntoView();
+        // Search stuff
+        const searchInput = document.querySelector('input.search-input');
+        searchInput.oninput = function(e) {
+          const searchQuery = e.srcElement.value;
+          search(searchQuery);
+        }
+      }, 500);
     </script>
 
     <% if (mode === 'desktop') { %>
@@ -354,13 +469,78 @@
     };
     %>
 
+    <%
+      const tags = function(icons) {
+        let html = `<div class="extension-tags">`;
+        for (const icon of icons) {
+          switch (icon) {
+            case 'hardware':
+              html += '\n<img src="assets/hardware-icon.svg" title="Requires Hardware" class="extension-tag-icon">';
+              break;
+            case 'internet':
+              html += '\n<img src="assets/internet-icon.svg" title="Requires Internet" class="extension-tag-icon">';
+              break;
+            case 'mobile':
+              html += '\n<img src="assets/mobile-icon.svg" title="Mobile-Only Features" class="extension-tag-icon">';
+              break;
+            default:
+              console.warn('Unknown icon found: ' + icon)
+          }
+        }
+        html += '\n</div>';
+        return html;
+      }
+
+      const credit = function(users) {
+        const placeholder = `<div class="extension-boxing-outer credit-box">
+          <div class="extension-boxing-inner">
+            <br>
+            <b>Made By:</b>
+            <br>
+            #placeholder
+          </div>
+        </div>`;
+        let html = ``;
+        if (typeof users !== 'object') return '';
+        if (users.length < 1) {
+          return '';
+        }
+        if (users.length == 1) {
+          return placeholder.replace('#placeholder', `<p><a href="${users[0][1]}">${users[0][0]}</a></p>`);
+        }
+        if (typeof users[0] === 'string') {
+          return placeholder.replace('#placeholder', `<p><a href="${users[1]}">${users[0]}</a></p>`);
+        }
+        const lastUser = users.pop(users.length);
+        let i = 0;
+        for (const user of users) {
+          html += `<p><a href="${user[1]}">${user[0]}</a>${ i < users.length-1 ? ', ' : ' and ' }</p>`;
+          i++;
+        }
+        html += `<p><a href="${lastUser[1]}">${lastUser[0]}</a>.</p>`
+        return placeholder.replace('#placeholder', html);
+      }
+
+      const iCard = function(url, description) {
+        const i_card_size = 20;
+        return `<div class="i-card-wrapper" style="display:none;">
+          <img class="i-card" src="assets/info-circle.svg" loading="lazy" width="${i_card_size}" height="${i_card_size}" title="${description}" data-icard="${url}"></img>
+        </div>`;
+      }
+    %>
+
     <div class="section extensions-outer">
+      <div class="search-outer">
+        <input class="search-input" type="text" placeholder="Search..."/>
+      </div>
       <div class="extensions">
-        
         <div class="extension">
           <%- banner('Placeholder') %>
           <h3>Placeholder</h3>
-          <p>Placeholder text. Created by <a href="#">Placeholder</a>.</p>
+          <p>A placeholder for people to use when adding extensions :P</p>
+          <%- credit([['Placeholder', '#'], ['Placeholder SR', '#'], ['Placeholder JR', '#']]) %>
+          <%- tags(['internet', 'hardware', 'mobile']) %>
+          <%- iCard('#', 'Very cool placeholder website!') %>
         </div>
 
         <div class="extension">
@@ -372,25 +552,30 @@
         <div class="extension">
           <%- banner('0znzw/audioPlus') %>
           <h3>Audio+</h3>
-          <p>Completely new audio system.<br>Created by <a href="https://scratch.mit.edu/users/0znzw">0znzw</a>.</p>
+          <p>Completely new audio system.</p>
+          <%- credit(['Ashime', 'https://scratch.mit.edu/users/0znzw/']) %>
         </div>
 
         <div class="extension">
           <%- banner('0znzw/NicheToolbox') %>
           <h3>Niche Toolbox</h3>
-          <p>Some blocks for niche use cases.<br>Created by <a href="https://scratch.mit.edu/users/0znzw">0znzw</a>.</p>
+          <p>Some blocks for niche use cases.</p>
+          <%- credit(['Ashime', 'https://scratch.mit.edu/users/0znzw/']) %>
         </div>
 
         <div class="extension">
           <%- banner('Lily/CommentBlocks2') %>
           <h3>Comment Blocks+</h3>
-          <p>Annotate your scripts.<br>Created by <a href="https://scratch.mit.edu/users/LilyMakesThings">LilyMakesThings</a>.<br><a href="./extended_description/commentblocks2.html">Extended Description (click me)</a></p>
+          <p>Annotate your scripts.</p>
+          <%- credit(['LilyMakesThings', 'https://scratch.mit.edu/users/LilyMakesThings/']) %>
+          <%- iCard('extended_description/commentblocks2.html', 'Extended description') %>
         </div>
 
         <div class="extension">
           <%- banner('0znzw/0tils') %>
           <h3>0tils</h3>
-          <p>My first personal extension.<br>Created by <a href="https://scratch.mit.edu/users/0znzw">0znzw</a>.</p>
+          <p>My first personal extension.</p>
+          <%- credit(['Ashime', 'https://scratch.mit.edu/users/0znzw/']) %>
         </div>
 
         <!-- Removed -->
@@ -398,13 +583,15 @@
         <div class="extension">
           <%- banner('0znzw/QueryParams') %>
           <h3>Query Parameters</h3>
-          <p>Access Query Parameters.<br>Created by <a href="https://scratch.mit.edu/users/0znzw">0znzw</a>.</p>
+          <p>Access Query Parameters.</p>
+          <%- credit(['Ashime', 'https://scratch.mit.edu/users/0znzw/']) %>
         </div>
 
-        <div class="extension">
+        <div class="extension" style="display:none;">
           <%- banner('0znzw/LocalStorageUnlocked') %>
           <h3>LocalStorage</h3>
-          <p>Store data persistently, Like cookies.<br>but better and its unlocked.<br>Created by <a href="https://scratch.mit.edu/users/0znzw">0znzw</a>.</p>
+          <p>Store data persistently, Like cookies.<br>but better and its unlocked.</p>
+          <%- credit(['Ashime', 'https://scratch.mit.edu/users/0znzw/']) %>
         </div>
 
         <!-- Removed -->
@@ -412,25 +599,30 @@
         <div class="extension">
           <%- banner('CST1229/inlineblocks') %>
           <h3>Inline Blocks</h3>
-          <p>Created by <a href="https://github.com/CST1229">CST1229</a> *And <a href="https://scratch.mit.edu/users/LilyMakesThings/">LilyMakesThings</a>.<br><a href="./extended_description/inlineblocks.html">Extended Description (click me)</a></p>
+          <p>Like custom reporters, but you code directly inside the "reporter".</p>
+          <%- credit([['CST1229', 'https://github.com/CST1229/'], ['LilyMakesThings', 'https://scratch.mit.edu/users/LilyMakesThings/']]) %>
+          <%- iCard('extended_description/inlineblocks.html', 'Extended description') %>
         </div>
 
         <div class="extension">
           <%- banner('0znzw/ScriptManagement') %>
           <h3>Script Manager</h3>
-          <p>Manage scripts and threads, allowing for better control of your project. (thanks sp)<br>Created by <a href="https://scratch.mit.edu/users/0znzw">0znzw</a>.</p>
+          <p>Manage scripts and threads, allowing for better control of your project.</p>
+          <%- credit([['Ashime', 'https://scratch.mit.edu/users/0znzw/'], ['SharkPool', 'https://github.com/SharkPool-SP/']]) %>
         </div>
 
         <div class="extension">
           <%- banner('0znzw/SwitchCase') %>
           <h3>Switch Case</h3>
-          <p>Some blocks for replacing if statments.<br>Created by <a href="https://scratch.mit.edu/users/0znzw">0znzw</a>.</p>
+          <p>Some blocks for replacing if statments.</p>
+          <%- credit(['Ashime', 'https://scratch.mit.edu/users/0znzw/']) %>
         </div>
 
         <div class="extension">
           <%- banner('0znzw/PeriodicTable') %>
           <h3>Periodic Table</h3>
-          <p>You can now get periodic table elements!<br>Created by <a href="https://scratch.mit.edu/users/0znzw">0znzw</a>.</p>
+          <p>You can now get periodic table elements!</p>
+          <%- credit(['Ashime', 'https://scratch.mit.edu/users/0znzw/']) %>
         </div>
 
         <!-- Removed -->
@@ -438,7 +630,9 @@
         <div class="extension">
           <%- banner('0znzw/MatrixPlus') %>
           <h3>Matrix+</h3>
-          <p>Additions to the microbit matrix extension!<br>Created by <a href="https://scratch.mit.edu/users/0znzw">0znzw</a>.</p>
+          <p>Additions to the microbit matrix extension!</p>
+          <%- credit(['Ashime', 'https://scratch.mit.edu/users/0znzw/']) %>
+          <%- tags(['hardware']) %>
         </div>
 
         <!-- Removed -->
@@ -446,73 +640,87 @@
         <div class="extension">
           <%- banner('ION/Since2k') %>
           <h3>Since 2000</h3>
-          <p>More blocks related to since 2000, allowing you to calculate time easier.<br>Created by <a href="https://scratch.mit.edu/users/ionslayer">ION</a>.</p>
+          <p>More blocks related to since 2000, allowing you to calculate time easier.</p>
+          <%- credit(['ION', 'https://scratch.mit.edu/users/ionslayer/']) %>
         </div>
 
         <div class="extension">
           <%- banner('Yoreni/breakEternityScratch') %>
           <h3>Breaking Eternity</h3>
-          <p>Its like big int but with decimals and more features!<br>Created by <a href="https://github.com/Yoreni">Yoreni</a>.</p>
+          <p>Its like big int but with decimals and more features!</p>
+          <%- credit(['Yoreni', 'https://github.com/Yoreni/']) %>
         </div>
 
         <div class="extension">
           <%- banner('0znzw/DocumentEvents') %>
           <h3>Document Events</h3>
-          <p>Some cool events ran on the document.<br>Created by <a href="https://scratch.mit.edu/users/0znzw">0znzw</a>.</p>
+          <p>Some cool events ran on the document.</p>
+          <%- credit(['Ashime', 'https://scratch.mit.edu/users/0znzw/']) %>
         </div>
 
         <div class="extension">
           <%- banner('0znzw/SpriteSheets') %>
           <h3>Sprite-Sheets</h3>
-          <p>Handle Sprite Sheets! (fancy yes yes /j).<br>Created by <a href="https://scratch.mit.edu/users/0znzw">0znzw</a>.</p>
+          <p>Handle Sprite Sheets! (fancy yes yes /j).</p>
+          <%- credit(['Ashime', 'https://scratch.mit.edu/users/0znzw/']) %>
         </div>
 
         <div class="extension">
           <%- banner('0znzw/spellCheck') %>
           <h3>SpellCheck</h3>
-          <p>Oh yes, its spellcheck, bare bones spellcheck :).<br>Created by <a href="https://scratch.mit.edu/users/0znzw">0znzw</a>.</p>
+          <p>Oh yes, its spellcheck, bare bones spellcheck :).</p>
+          <%- credit(['Ashime', 'https://scratch.mit.edu/users/0znzw/']) %>
         </div>
 
         <div class="extension">
           <%- banner('0znzw/MimeDB') %>
           <h3>MimeDB</h3>
-          <p>Detect MIME types of file extensions and get the MIME type of an extension.<br>Created by <a href="https://scratch.mit.edu/users/0znzw">0znzw</a>.</p>
+          <p>Detect MIME types of file extensions and get the MIME type of an extension.</p>
+          <%- credit(['Ashime', 'https://scratch.mit.edu/users/0znzw/']) %>
         </div>
 
         <div class="extension">
           <%- banner('adacraft/browser') %>
           <h3>Browser - AdaCraft</h3>
-          <p>Browser utilities.<br>Ported from <a href="https://adacraft.org/">AdaCraft</a>.</p>
+          <p>Browser utilities.</p>
+          <%- credit(['AdaCraft', 'https://adacraft.org/']) %>
+          <%- tags(['internet']) %>
         </div>
 
         <div class="extension" style="display:none;">
           <%- banner('0znzw/ScratchRedux') %>
           <h3>Scratch Redux</h3>
-          <p>Grab values from the Redux!<br>Created by <a href="https://scratch.mit.edu/users/0znzw">0znzw</a>.</p>
+          <p>Grab values from the Redux!</p>
+          <%- credit(['Ashime', 'https://scratch.mit.edu/users/0znzw/']) %>
         </div>
 
         <div class="extension">
           <%- banner('0znzw/RightClickMenu') %>
           <h3>Right Click Menu</h3>
-          <p>Disable and enable the right click menu.<br>Created by <a href="https://scratch.mit.edu/users/0znzw">0znzw</a>.</p>
+          <p>Disable and enable the right click menu.</p>
+          <%- credit(['Ashime', 'https://scratch.mit.edu/users/0znzw/']) %>
         </div>
 
         <div class="extension">
           <%- banner('0znzw/DOMPurify') %>
           <h3>DOMPurify</h3>
-          <p>Sanitize user inputted HTML.<br>Created by <a href="https://scratch.mit.edu/users/0znzw">0znzw</a>.</p>
+          <p>Sanitize user inputted HTML.</p>
+          <%- credit(['Ashime', 'https://scratch.mit.edu/users/0znzw/']) %>
         </div>
 
         <div class="extension">
           <%- banner('0znzw/HtmlEntitys') %>
           <h3>HTML Entitys</h3>
-          <p>Encode user inputted HTML. (better version of "HTML Encode")<br>Created by <a href="https://scratch.mit.edu/users/0znzw">0znzw</a>.</p>
+          <p>Encode user inputted HTML. (better version of "HTML Encode")</p>
+          <%- credit(['Ashime', 'https://scratch.mit.edu/users/0znzw/']) %>
         </div>
 
         <div class="extension">
           <%- banner('0znzw/FunneImageBlocks') %>
           <h3>Image Blocks</h3>
-          <p>They are blocks, but are they?<br>Created by <a href="https://scratch.mit.edu/users/0znzw">0znzw</a>.</p>
+          <p>They are blocks, but are they?</p>
+          <%- credit(['Ashime', 'https://scratch.mit.edu/users/0znzw/']) %>
+          <%- tags(['internet']) %>
         </div>
       </div>
     </div>
