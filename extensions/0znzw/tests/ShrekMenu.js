@@ -98,6 +98,8 @@
                                 menu: 'shrek',
                             },
                         },
+                        // this only works in vm's with the PR:
+                        branchIcon: shrekJpeg
                     },
                 ],
                 menus: {
