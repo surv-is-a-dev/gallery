@@ -8,8 +8,8 @@
 (function(Scratch) {
   'use strict';
   if (!Scratch.extensions.unsandboxed) {
-    throw new Error(`QueryParams must run unsandboxed`);
-  }
+    throw new Error(`"Query Parameters" extension must be ran unsandboxed.`);
+}
   var urlParams = new URLSearchParams(window.location.search);
   const vm = Scratch.vm;
   class QueryParams {

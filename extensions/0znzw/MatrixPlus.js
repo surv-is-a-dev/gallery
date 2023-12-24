@@ -8,7 +8,7 @@
 
 
     if (!Scratch.extensions.unsandboxed) {
-        throw new Error('Microbit-Matrix+ must be run unsandboxed');
+      throw new Error(`"MicroBit_Matrix+" extension must be ran unsandboxed.`);
     }
 
     class Extension {

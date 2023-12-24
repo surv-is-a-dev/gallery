@@ -6,7 +6,7 @@
 (function(Scratch) {
     'use strict';
     if (!Scratch.extensions.unsandboxed) {
-        throw new Error(`AddonBlock creator must run unsandboxed`);
+        throw new Error(`"AddonBlock Creator" extension must be ran unsandboxed.`);
     }
     const vm = Scratch.vm;
     const runtime = vm.runtime;

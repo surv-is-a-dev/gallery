@@ -1,5 +1,8 @@
 (function(Scratch) {
     'use strict';
+    if (!Scratch.extensions.unsandboxed) {
+        throw new Error(`"Konachan API" extension must be ran unsandboxed.`);
+    }
     function constructPostUrl(args) {
         let url = 'https://konachan.net/post.json?limit=100&page=1&tags= -rating:s';
         if (args.page != undefined) {

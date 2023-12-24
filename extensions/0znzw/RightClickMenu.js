@@ -7,7 +7,7 @@
 (function(Scratch) {
   'use strict';
   if (!Scratch.extensions.unsandboxed) {
-    throw new Error('Right-Click-Menu(Extension) must be run unsandboxed');
+    throw new Error(`"RightClick-Menu" extension must be ran unsandboxed.`);
   }
   const disable = function(e){e.preventDefault(); return false}, enable = function(e){return true};
   const fakeEvent = {preventDefault: function(){}};

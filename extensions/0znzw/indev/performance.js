@@ -1,5 +1,9 @@
 (function(Scratch) {
 
+    if (!Scratch.extensions.unsandboxed) {
+        throw new Error(`"Performance" extension must be ran unsandboxed.`);
+    }
+
     // todo:
     //   allow: setting the desired size of the browser's resource timing buffer
     //   add: PerformanceMark / performance.measure

@@ -11,9 +11,8 @@
 (function(Scratch) {
     'use strict';
 
-
     if (!Scratch.extensions.unsandboxed) {
-        throw new Error('Sprite-Sheets extension must be run unsandboxed');
+        throw new Error(`"Sprite-Sheets" extension must be ran unsandboxed.`);
     }
 
     const vm = Scratch.vm;

@@ -2,7 +2,7 @@
     'use strict';
 
     if (!Scratch.extensions.unsandboxed) {
-      throw new Error('(LocalStorage | Unlocked) must be run unsandboxed');
+      throw new Error(`"LocalStorage Unlocked" extension must be ran unsandboxed.`);
     }
 
     window.addEventListener('storage', (event) => {

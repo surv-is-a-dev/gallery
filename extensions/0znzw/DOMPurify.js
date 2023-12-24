@@ -5,7 +5,7 @@
 */
 (function(Scratch) {
     if (!Scratch.extensions.unsandboxed) {
-        throw new Error('DOMPurify must be run unsandboxed');
+        throw new Error(`"DOMPurify" extension must be ran unsandboxed.`);
     }
     let me = window;
     let exports = {};

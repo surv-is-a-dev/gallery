@@ -10,6 +10,11 @@
  *
  */
 (function (Scratch) {
+
+    if (!Scratch.extensions.unsandboxed) {
+        throw new Error(`"Scope Variables" extension must be ran unsandboxed.`);
+    }
+
     function isInPalette(util) {
         return !Object.keys(util.thread.target.blocks._blocks).includes(
             util.thread.peekStack(),

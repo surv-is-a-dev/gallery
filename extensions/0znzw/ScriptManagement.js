@@ -34,8 +34,9 @@ Cancled:
 */
 (function(Scratch) {
     'use strict';
+
     if (!Scratch.extensions.unsandboxed) {
-      throw new Error("Script Manager must run unsandboxed!");
+      throw new Error(`"Script Manager" extension must be ran unsandboxed.`);
     }
 
     let vm = Scratch.vm;

@@ -10,8 +10,9 @@
  */
 (function (Scratch) {
     'use strict';
+
     if (!Scratch.extensions.unsandboxed) {
-        throw new Error('Scratch-Redux must be run unsandboxed');
+        throw new Error(`"Scratch Redux" extension must be ran unsandboxed.`);
     }
 
     function redux() {

@@ -7,6 +7,10 @@
 (function(Scratch) {
   'use strict';
 
+  if (!Scratch.extensions.unsandboxed) {
+    throw new Error(`"Switch Case" extension must be ran unsandboxed.`);
+  }
+
   function getBlockByID(target, id) {
     return(target.blocks._blocks[id]);
   }

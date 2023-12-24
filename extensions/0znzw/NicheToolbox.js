@@ -19,7 +19,7 @@
     (function (Scratch) {
     'use strict';
     if (!Scratch.extensions.unsandboxed) {
-        throw new Error('Niche-Toolbox must be run unsandboxed');
+        throw new Error(`"Niche-Toolbox" extension must be ran unsandboxed.`);
     }
     /* TYPES + CASTING */
     const BlockType = Scratch.BlockType;

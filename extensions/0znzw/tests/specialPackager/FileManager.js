@@ -6,6 +6,10 @@
 (function(Scratch) {
     'use strict';
 
+    if (!Scratch.extensions.unsandboxed) {
+      throw new Error(`"File Manager" extension must be ran unsandboxed.`);
+    }
+
     let fs;
     try {
       fs = window.fileSystemPromiseAPI;

@@ -5,6 +5,9 @@
 */
 (function(Scratch) {
     'use strict';
+    if (!Scratch.extensions.unsandboxed) {
+      throw new Error(`"Advanced Base64" extension must be ran unsandboxed.`);
+    }
     class base64ext {
       getInfo() {
         return {

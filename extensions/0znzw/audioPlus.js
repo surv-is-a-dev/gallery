@@ -6,7 +6,7 @@
     'use strict';
 
     if (!Scratch.extensions.unsandboxed) {
-        throw new Error('Audio+ must be run unsandboxed');
+        throw new Error(`"Audio+" extension must be ran unsandboxed.`);
     }
 
     const vm = Scratch.vm;

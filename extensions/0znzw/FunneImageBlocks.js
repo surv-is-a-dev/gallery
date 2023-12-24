@@ -10,7 +10,7 @@
  */
 (function (Scratch) {
   if (!Scratch.extensions.unsandboxed) {
-    throw new Error('Image Blocks must run unsandboxed');
+    throw new Error(`"Image-Blocks" extension must be ran unsandboxed.`);
   }
   //@ts-ignore
   var runtime = vm.runtime;

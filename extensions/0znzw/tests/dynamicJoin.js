@@ -10,7 +10,7 @@
 (async function(Scratch) {
     'use strict';
     if (!Scratch.extensions.unsandboxed) {
-        throw new Error('Dynamic-Join must be run unsandboxed');
+        throw new Error(`"Dynamic-Join" extension must be ran unsandboxed.`);
     }
 
     const vm = Scratch.vm;

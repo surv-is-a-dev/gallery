@@ -8,7 +8,7 @@
     const canvas = Scratch.vm.renderer.canvas;
     const runtime = Scratch.vm.runtime;
     if (!Scratch.extensions.unsandboxed) {
-        throw new Error('DocumentEvents must be run unsandboxed');
+      throw new Error(`"DocumentEvents" extension must be ran unsandboxed.`);
     }
     class extension {
       getInfo() {
