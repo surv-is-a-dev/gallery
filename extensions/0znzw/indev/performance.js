@@ -7,7 +7,6 @@
     // todo:
     //   allow: setting the desired size of the browser's resource timing buffer
     //   add: PerformanceMark / performance.measure
-    //   add: performace.memory
 
     class extension {
         getInfo() {
@@ -17,6 +16,10 @@
                 blocks: [{
                     opcode: 'toJSON',
                     text: 'performance json',
+                    blockType: 'reporter'
+                }, {
+                    opcode: 'TIMINGtoJSON',
+                    text: 'timing json',
                     blockType: 'reporter'
                 }, {
                     opcode: 'baselineTimestamp',
@@ -29,7 +32,63 @@
                 }, {
                     opcode: 'markInTimeline',
                     text: 'mark performance in timeline, name: [MARK_NAME]',
-                    blockType: 'command'
+                    blockType: 'command',
+                    arguments: {
+                        MARK_NAME: {
+                            type: 'string',
+                            defaultValue: 'MARK'
+                        }
+                    }
+                },
+                {
+                    opcode: 'getCores',
+                    text: 'get number of cores',
+                    blockType: 'reporter'
+                },
+                {
+                    opcode: 'setResourceTimingBufferSize',
+                    text: 'set resource timing buffer size to: [SIZE]',
+                    blockType: 'command',
+                    arguments: {
+                        SIZE: {
+                            type: 'number',
+                            defaultValue: '255'
+                        }
+                    }
+                },
+                {
+                    blockType: 'label',
+                    text: 'Navigation'
+                },
+                {
+                    opcode: 'navType_NAVIGATE',
+                    text: 'NAVIGATE TYPE CODE',
+                    blockType: 'reporter'
+                },
+                {
+                    opcode: 'navType_RESERVED',
+                    text: 'RESERVED TYPE CODE',
+                    blockType: 'reporter'
+                },
+                {
+                    opcode: 'navType_RELOAD',
+                    text: 'RELOAD TYPE CODE',
+                    blockType: 'reporter'
+                },
+                {
+                    opcode: 'navType_BNEXT',
+                    text: 'BACK-NEXT TYPE CODE',
+                    blockType: 'reporter'
+                },
+                {
+                    opcode: 'navType',
+                    text: 'navigation type',
+                    blockType: 'reporter'
+                },
+                {
+                    opcode: 'redirectCount',
+                    text: 'redirection count',
+                    blockType: 'reporter'
                 },
                 {
                     blockType: 'label',
@@ -38,6 +97,21 @@
                 {
                     opcode: 'measureUsage',
                     text: 'measure web app usage',
+                    blockType: 'reporter'
+                },
+                {
+                    opcode: 'heapLimit',
+                    text: 'JS heap limit',
+                    blockType: 'reporter'
+                },
+                {
+                    opcode: 'usedHeap',
+                    text: 'used JS heap',
+                    blockType: 'reporter'
+                },
+                {
+                    opcode: 'totalHeap',
+                    text: 'total JS heap',
                     blockType: 'reporter'
                 }]
             }
@@ -61,6 +135,53 @@
             // @ts-expect-error its experimental, ignore this error
             const sample = await performance.measureUserAgentSpecificMemory();
             return sample;
+        }
+        heapLimit() {
+            // @ts-expect-error its experimental, ignore this error (deprecated also)
+            return performance.memory.jsHeapSizeLimit;
+        }
+        usedHeap() {
+            // @ts-expect-error its experimental, ignore this error (deprecated also)
+            return performance.memory.usedJSHeapSize;
+        }
+        totalHeap() {
+            // @ts-expect-error its experimental, ignore this error (deprecated also)
+            return performance.memory.totalJSHeapSize;
+        }
+        getCores() {
+            return navigator.hardwareConcurrency;
+        }
+        setResourceTimingBufferSize({ SIZE }) {
+            SIZE = Scratch.Cast.toNumber(SIZE);
+            performance.setResourceTimingBufferSize(SIZE);
+        }
+        navType() {
+            // deprecated
+            return performance.navigation.type;
+        }
+        redirectCount() {
+            // deprecated
+            return performance.navigation.redirectCount;
+        }
+        navType_RELOAD() {
+            // deprecated
+            return performance.navigation.TYPE_RELOAD;
+        }
+        navType_RESERVED() {
+            // deprecated
+            return performance.navigation.TYPE_RESERVED;
+        }
+        navType_BNEXT() {
+            // deprecated
+            return performance.navigation.TYPE_BACK_FORWARD;
+        }
+        navType_NAVIGATE() {
+            // deprecated
+            return performance.navigation.TYPE_NAVIGATE;
+        }
+        TIMINGtoJSON() {
+            // deprecated
+            return JSON.stringify(performance.timing);
         }
     }
 
