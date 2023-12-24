@@ -68,9 +68,14 @@
                 color1: '#9999FF',
                 blocks: [
                     {
-                        text: 'scope',
+                        text: ['scope', 'block traversal: [BLOCK_SCOPE_TRAVERSAL]'],
                         opcode: 'scope',
                         blockType: 'conditional',
+                        arguments: {
+                            BLOCK_SCOPE_TRAVERSAL: {
+                                type: 'Boolean',
+                            }
+                        }
                     },
                     {
                         text: 'create scoped [name]',
@@ -78,7 +83,7 @@
                         blockType: 'command',
                         arguments: {
                             name: {
-                                type: Scratch.ArgumentType.STRING,
+                                type: 'string',
                             },
                         },
                     },
@@ -88,7 +93,7 @@
                         blockType: 'reporter',
                         arguments: {
                             name: {
-                                type: Scratch.ArgumentType.STRING,
+                                type: 'string',
                             },
                         },
                     },
@@ -98,7 +103,7 @@
                         blockType: 'Boolean',
                         arguments: {
                             name: {
-                                type: Scratch.ArgumentType.STRING,
+                                type: 'string',
                             },
                         },
                     },
@@ -108,10 +113,10 @@
                         blockType: 'command',
                         arguments: {
                             name: {
-                                type: Scratch.ArgumentType.STRING,
+                                type: 'string',
                             },
                             value: {
-                                type: Scratch.ArgumentType.STRING,
+                                type: 'string',
                             },
                         },
                     },
@@ -121,10 +126,10 @@
                         blockType: 'command',
                         arguments: {
                             name: {
-                                type: Scratch.ArgumentType.STRING,
+                                type: 'string',
                             },
                             value: {
-                                type: Scratch.ArgumentType.NUMBER,
+                                type: 'number',
                             },
                         },
                     },
@@ -147,10 +152,19 @@
         updateScope(util, scope) {
             setBlockByID(util.target, scope.id, scope);
         }
-        scope(args, util) {
+        scope({ BLOCK_SCOPE_TRAVERSAL }, util) {
             if (isInPalette(util)) return;
+            BLOCK_SCOPE_TRAVERSAL = Scratch.Cast.toBoolean(BLOCK_SCOPE_TRAVERSAL);
+            let myC = null;
+            const myParent = this.getBlock(util).parent;
+            if (myParent != null && !BLOCK_SCOPE_TRAVERSAL) myC = getOuterC(
+                util.target,
+                myParent,
+                this.scopeId,
+            );
             const me = this.getBlock(util);
             me.scopeVars = {};
+            if (myC != null && typeof myC === 'object') me.scopeVars = myC.scopeVars;
             this.setBlock(util, me);
             util.startBranch(1, false);
         }
