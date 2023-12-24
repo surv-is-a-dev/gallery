@@ -22,19 +22,25 @@
                     opcode: 'toJSON',
                     text: 'performance json',
                     blockType: 'reporter'
-                }, {
+                },
+                {
                     opcode: 'TIMINGtoJSON',
                     text: 'timing json',
                     blockType: 'reporter'
-                }, {
+                },
+                '---',
+                {
                     opcode: 'baselineTimestamp',
                     text: 'baseline monotonic clock',
                     blockType: 'reporter'
-                }, {
+                },
+                {
                     opcode: 'timeSinceBaseline',
                     text: 'timestamp since baseline',
                     blockType: 'reporter'
-                }, {
+                },
+                '---',
+                {
                     opcode: 'markInTimeline',
                     text: 'mark performance in timeline, name: [MARK_NAME]',
                     blockType: 'command',
@@ -45,11 +51,13 @@
                         }
                     }
                 },
+                '---',
                 {
                     opcode: 'getCores',
                     text: 'get number of cores',
                     blockType: 'reporter'
                 },
+                '---',
                 {
                     opcode: 'setResourceTimingBufferSize',
                     text: 'set resource timing buffer size to: [SIZE]',
@@ -85,6 +93,7 @@
                     text: 'BACK-NEXT TYPE CODE',
                     blockType: 'reporter'
                 },
+                '---',
                 {
                     opcode: 'navType',
                     text: 'navigation type',
@@ -97,6 +106,11 @@
                 },
                 {
                     blockType: 'label',
+                    text: 'Timing',
+                    hideFromPalette: true
+                },
+                {
+                    blockType: 'label',
                     text: '/!\\ EXPERIMENTAL /!\\'
                 },
                 {
@@ -104,6 +118,7 @@
                     text: 'measure web app usage',
                     blockType: 'reporter'
                 },
+                '---',
                 {
                     opcode: 'heapLimit',
                     text: 'JS heap limit',
