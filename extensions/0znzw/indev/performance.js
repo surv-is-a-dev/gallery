@@ -1,3 +1,8 @@
+/*!
+ * Created by 0znzw | v1.0
+ * Licensed Under MIT License.
+ * DO NOT REMOVE THIS COMMENT
+*/
 (function(Scratch) {
 
     if (!Scratch.extensions.unsandboxed) {
@@ -5,8 +10,8 @@
     }
 
     // todo:
-    //   allow: setting the desired size of the browser's resource timing buffer
     //   add: PerformanceMark / performance.measure
+    //   add: performance.timing
 
     class extension {
         getInfo() {
