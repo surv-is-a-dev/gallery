@@ -33,6 +33,7 @@
         const blocks = target.blocks;
         let block = blocks.getBlock(startBlockID),
             oldBlock = null;
+        if (block.parent == null) return null;
         function moveUpParentStack() {
             while (block.parent != null) {
                 oldBlock = structuredClone(block);
@@ -43,7 +44,7 @@
             }
         }
         if (targetOpcode) {
-            while (block != null && block.opcode != targetOpcode)
+            while (block != null && block.opcode != targetOpcode) 
                 moveUpParentStack();
         } else moveUpParentStack();
         return block;
