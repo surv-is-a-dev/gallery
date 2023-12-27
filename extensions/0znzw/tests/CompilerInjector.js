@@ -80,6 +80,7 @@ function anon$compilerUtility(Q3JlYXRlZCBieSAwem56dy4KaHR0cHM6Ly9zY3JhdGNoLm1pdC
     // @ts-expect-error
     vm.compiler = {
         compilerExport,
+        utilityVersion: 1.2,
         __internal__: {
             descendStackedBlock_JSG(original, node) {
                 // @ts-expect-error
@@ -89,7 +90,14 @@ function anon$compilerUtility(Q3JlYXRlZCBieSAwem56dy4KaHR0cHM6Ly9zY3JhdGNoLm1pdC
                 if (mixinNames.includes(kind)) {
                     let mixin = mixins[kind];
                     if (typeof mixin === 'function') {
-                        mixin = mixin(original.bind({ source: '' }), node);
+                        const sourceOld = this.source;
+                        this.source = '';
+                        let fakeOriginal = function(...args) {
+                            this.$patches.descendStackedBlock.apply(this, [node]);
+                            return this.source;
+                        }.bind(this);
+                        mixin = mixin(fakeOriginal, node);
+                        this.source = sourceOld;
                     }
                     this.source += `/*mixin:${kind}*/${mixin}`;
                     if (!this.source.endsWith('\n')) this.source += '\n';
@@ -240,4 +248,15 @@ else console.error('The Compiler-Utility has failed to load.');
 /**
  * Example: this will make the changeX block run alert "1" instead of its default code;
  * vm.compiler.nodeMixin.register(vm.compiler.nodeMixin.new('motion', 'changeX'), 'alert(1)');
+ */
+
+/**
+ * Example: this will make the changeX block run its original code, and alert "1";
+var mcx = vm.compiler.nodeMixin.new('motion', 'changeX');
+vm.compiler.nodeMixin.remove(mcx);
+vm.compiler.nodeMixin.register(mcx, function(original, node) {
+    const oldSource = original();
+    const newSource = `${oldSource}${oldSource.endsWith(';') ? '' : ';'}\nalert(1);\n`;
+    return newSource;
+});
  */
