@@ -80,33 +80,30 @@ function anon$compilerUtility(Q3JlYXRlZCBieSAwem56dy4KaHR0cHM6Ly9zY3JhdGNoLm1pdC
     // @ts-expect-error
     vm.compiler = {
         compilerExport,
-        utilityVersion: 1.2,
+        utilityVersion: 1.5,
         __internal__: {
             descendStackedBlock_JSG(original, node) {
                 // @ts-expect-error
                 const mixins = vm.compiler.nodeMixin.__internal__.mixins;
-                const mixinNames = Object.keys(mixins);
                 const kind = node.kind;
-                if (mixinNames.includes(kind)) {
-                    let mixin = mixins[kind];
-                    if (typeof mixin === 'function') {
-                        const oldSource = this.source;
-                        this.source = '';
-                        this.overrideSource = oldSource;
-                        let fakeOriginal = function(...args) {
-                            this.$patches.descendStackedBlock.apply(this, [node]);
-                            return this;
-                        }.bind(this);
-                        mixin = mixin(fakeOriginal, node);
-                        if (oldSource !== this.overrideSource) {
-                            this.source = this.overrideSource;
-                        } else this.source = oldSource;
-                    }
-                    this.source += `/*mixin:${kind}*/${mixin}`;
-                    if (!this.source.endsWith('\n')) this.source += '\n';
-                    return;
+                let mixin = mixins[kind];
+                if (!!!mixin && !!mixins['*']) mixin = mixins['*'];
+                if (!!!mixin) return original(node);
+                if (typeof mixin === 'function') {
+                    const oldSource = this.source;
+                    this.source = '';
+                    this.overrideSource = oldSource;
+                    let fakeOriginal = function(...args) {
+                        this.$patches.descendStackedBlock.apply(this, [node]);
+                        return this;
+                    }.bind(this);
+                    mixin = mixin(fakeOriginal, node);
+                    if (oldSource !== this.overrideSource) {
+                        this.source = this.overrideSource;
+                    } else this.source = oldSource;
                 }
-                return original(node);
+                this.source += `/*mixin:${kind}*/${mixin}`;
+                if (!this.source.endsWith('\n')) this.source += '\n';
             },
             descendInput_STG(original, block) {
                 // @ts-expect-error
@@ -121,12 +118,18 @@ function anon$compilerUtility(Q3JlYXRlZCBieSAwem56dy4KaHR0cHM6Ly9zY3JhdGNoLm1pdC
             descendStackedBlock_STG(original, block) {
                 // @ts-expect-error
                 const mixins = vm.compiler.blockMixin.__internal__.mixins;
-                const mixinNames = Object.keys(mixins);
                 const kind = block.opcode;
-                if (mixinNames.includes(kind)) {
-                    return mixins[kind];
-                }
-                return original(block);
+                const mixin = mixins[kind];
+                if (!!!mixin) return original(block);
+                if (typeof mixin === 'function') return mixin.apply(this, [block]);
+            },
+            descendStackedBlock_IRG(original, block) {
+                // @ts-expect-error
+                const mixins = vm.compiler.irBlockMixin.__internal__.mixins;
+                const kind = block.opcode;
+                const mixin = mixins[kind];
+                if (!!!mixin) return original(block);
+                if (typeof mixin === 'function') return mixin.apply(this, [block]);
             },
         },
         type: {
@@ -161,6 +164,18 @@ function anon$compilerUtility(Q3JlYXRlZCBieSAwem56dy4KaHR0cHM6Ly9zY3JhdGNoLm1pdC
             },
         },
         blockMixin: {
+            __internal__: {
+                mixins: {},
+            },
+            register(opcode, mixin) {
+                const internal = this.__internal__;
+                internal.mixins[opcode] = mixin;
+            },
+            remove(opcode) {
+                delete this.__internal__.mixins[opcode];
+            },
+        },
+        irBlockMixin: {
             __internal__: {
                 mixins: {},
             },
@@ -226,12 +241,27 @@ function anon$compilerUtility(Q3JlYXRlZCBieSAwem56dy4KaHR0cHM6Ly9zY3JhdGNoLm1pdC
         }
     };
 
+    const unpatchCst = (obj) => {
+        if (typeof obj[PATCHES_ID] !== 'object') return;
+        for (const patch in Object.keys(obj[PATCHES_ID])) {
+            const patched = obj[PATCHES_ID][patch];
+            obj[patch] = patched;
+        }
+        obj[PATCHES_ID] = undefined;
+    };
+
     // @ts-expect-error
     const JSGenerator = vm.compiler.tools.JSGenerator;
     // @ts-expect-error
     const ScriptTreeGenerator = vm.compiler.tools.ScriptTreeGenerator;
+    // @ts-expect-error
+    const IRGenerator = vm.compiler.tools.IRGenerator;
     const JSGP = JSGenerator.prototype;
     const STGP = ScriptTreeGenerator.prototype;
+    const IRGP = IRGenerator.prototype;
+
+    unpatchCst(JSGP);
+    unpatchCst(STGP);
 
     cst_patch(JSGP, {
         descendStackedBlock: internal.descendStackedBlock_JSG,
@@ -241,6 +271,10 @@ function anon$compilerUtility(Q3JlYXRlZCBieSAwem56dy4KaHR0cHM6Ly9zY3JhdGNoLm1pdC
         descendInput: internal.descendInput_STG,
         descendStackedBlock: internal.descendStackedBlock_STG,
     });
+
+    //cst_patch(IRGP, {
+    //    descendStackedBlock: internal.descendStackedBlock_IRG,
+    //});
 
     return true;
 }
@@ -273,4 +307,14 @@ vm.compiler.nodeMixin.register(mcx, function(original, node) {
     origin.overrideSource = '';
     return origin.source;
 });
+ */
+
+/** v1.4
+ * Example: this will make every block compile to "alert(1)"
+vm.compiler.nodeMixin.register('*', 'alert(1)');
+ */
+
+/** v1.5
+ * Example: this will register a block as a new compilation option; (IRGenerator)
+// PUT CODE HERE WHEN I FIGURE THIS OUT :cri:
  */
