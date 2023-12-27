@@ -122,6 +122,8 @@ function anon$compilerUtility(Q3JlYXRlZCBieSAwem56dy4KaHR0cHM6Ly9zY3JhdGNoLm1pdC
                 const mixin = mixins[kind];
                 if (!!!mixin) return original(block);
                 if (typeof mixin === 'function') return mixin.apply(this, [block]);
+                console.log(mixin);
+                return mixin;
             },
             descendStackedBlock_IRG(original, block) {
                 // @ts-expect-error
@@ -168,6 +170,7 @@ function anon$compilerUtility(Q3JlYXRlZCBieSAwem56dy4KaHR0cHM6Ly9zY3JhdGNoLm1pdC
                 mixins: {},
             },
             register(opcode, mixin) {
+                if (typeof mixin !== 'function') console.warn('Hey mixin needs to be a function or it wont register!');
                 const internal = this.__internal__;
                 internal.mixins[opcode] = mixin;
             },
@@ -316,5 +319,14 @@ vm.compiler.nodeMixin.register('*', 'alert(1)');
 
 /** v1.5
  * Example: this will register a block as a new compilation option; (IRGenerator)
-// PUT CODE HERE WHEN I FIGURE THIS OUT :cri:
+ * Extension used: javascript extension from penguinmod.
+vm.compiler.blockMixin.register('jgJavascript_javascriptStack', function(block) {
+    return {
+        kind: 'jgJavascript.javascriptStack',
+        code: this.descendInputOfBlock(block, "CODE").value
+    }
+});
+vm.compiler.nodeMixin.register('jgJavascript.javascriptStack', function(original, node) {
+    return node.code;
+});
  */
