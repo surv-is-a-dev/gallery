@@ -1,9 +1,13 @@
 /**!
- * Compiler-Utility created by 0znzw.
+ * Compiler-Utility [v1.7] created by 0znzw.
  * https://scratch.mit.edu/users/0znzw/
+ * Patch code by CST1229
+ * https://scratch.mit.edu/users/CST1229/
  * Licensed under MIT license.
  * DO NOT REMOVE THIS COMMENT
+ * Development
  */
+// prettier-ignore
 function anon$compilerUtility(Q3JlYXRlZCBieSAwem56dy4KaHR0cHM6Ly9zY3JhdGNoLm1pdC5lZHUvMHpuencvCkRPIE5PVCBSRU1PVkUgVEhJUw) {
     const hasOwn = (obj, key) => Object.prototype.hasOwnProperty.call(obj, key);
     /**
@@ -80,7 +84,7 @@ function anon$compilerUtility(Q3JlYXRlZCBieSAwem56dy4KaHR0cHM6Ly9zY3JhdGNoLm1pdC
     // @ts-expect-error
     vm.compiler = {
         compilerExport,
-        utilityVersion: 1.5,
+        utilityVersion: 1.7,
         __internal__: {
             descendStackedBlock_JSG(original, node) {
                 // @ts-expect-error
@@ -105,15 +109,26 @@ function anon$compilerUtility(Q3JlYXRlZCBieSAwem56dy4KaHR0cHM6Ly9zY3JhdGNoLm1pdC
                 this.source += `/*mixin:${kind}*/${mixin}`;
                 if (!this.source.endsWith('\n')) this.source += '\n';
             },
+            descendInput_JSG(original, node) {
+                // @ts-expect-error
+                const mixins = vm.compiler.jsInputMixin.__internal__.mixins;
+                const kind = node.kind;
+                let mixin = mixins[kind];
+                if (!!!mixin && !!mixins['*']) mixin = mixins['*'];
+                if (!!!mixin) return original(node);
+                if (typeof mixin === 'function') {
+                    mixin = mixin(original, node);
+                }
+                return mixin;
+			},
             descendInput_STG(original, block) {
                 // @ts-expect-error
                 const mixins = vm.compiler.inputMixin.__internal__.mixins;
-                const mixinNames = Object.keys(mixins);
                 const kind = block.opcode;
-                if (mixinNames.includes(kind)) {
-                    return mixins[kind];
-                }
-                return original(block);
+                const mixin = mixins[kind];
+                if (!!!mixin) return original(block);
+                if (typeof mixin === 'function') return mixin.apply(this, [block]);
+                return mixin;
             },
             descendStackedBlock_STG(original, block) {
                 // @ts-expect-error
@@ -122,7 +137,6 @@ function anon$compilerUtility(Q3JlYXRlZCBieSAwem56dy4KaHR0cHM6Ly9zY3JhdGNoLm1pdC
                 const mixin = mixins[kind];
                 if (!!!mixin) return original(block);
                 if (typeof mixin === 'function') return mixin.apply(this, [block]);
-                console.log(mixin);
                 return mixin;
             },
             descendStackedBlock_IRG(original, block) {
@@ -154,6 +168,18 @@ function anon$compilerUtility(Q3JlYXRlZCBieSAwem56dy4KaHR0cHM6Ly9zY3JhdGNoLm1pdC
             Frame: compilerExport.JSGenerator.exports.Frame,
         },
         inputMixin: {
+            __internal__: {
+                mixins: {},
+            },
+            register(opcode, mixin) {
+                const internal = this.__internal__;
+                internal.mixins[opcode] = mixin;
+            },
+            remove(opcode) {
+                delete this.__internal__.mixins[opcode];
+            },
+        },
+        jsInputMixin: {
             __internal__: {
                 mixins: {},
             },
@@ -268,6 +294,7 @@ function anon$compilerUtility(Q3JlYXRlZCBieSAwem56dy4KaHR0cHM6Ly9zY3JhdGNoLm1pdC
 
     cst_patch(JSGP, {
         descendStackedBlock: internal.descendStackedBlock_JSG,
+        descendInput: internal.descendInput_JSG,
     });
 
     cst_patch(STGP, {
@@ -278,6 +305,9 @@ function anon$compilerUtility(Q3JlYXRlZCBieSAwem56dy4KaHR0cHM6Ly9zY3JhdGNoLm1pdC
     //cst_patch(IRGP, {
     //    descendStackedBlock: internal.descendStackedBlock_IRG,
     //});
+
+    // @ts-expect-error
+    vm.constructor.prototype.compiler = vm.compiler;
 
     return true;
 }
