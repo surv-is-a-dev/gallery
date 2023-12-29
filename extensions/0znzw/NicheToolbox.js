@@ -1,5 +1,5 @@
 /**
- * Niche Toolbox extension v1.6 by 0znzw (English Version)
+ * Niche Toolbox extension v1.7 by 0znzw (English Version)
  * Majority code is by 0znzw || licensed under MIT license.
  * Do not remove this comment
  */
@@ -9,14 +9,16 @@
  *   SharkPool for helping with bug test+fixing, and for color creating the icon.
  *   ObviousAlexC for the Scratch To Canvas Cords function.
  *   IonSlayer for the print block idea.
+ *   DragoCuven for the export sprite as dataURL idea.
  *
  * Profiles:
  *   0znzw:        https://scratch.mit.edu/users/0znzw/
  *   SharkPool:    https://www.youtube.com/@SharkPool_SP/
  *   ObviousAlexC: https://scratch.mit.edu/users/pinksheep2917/
- *   IonSlayer:    https://scratch.mit.edu/users/ionslayer
+ *   IonSlayer:    https://scratch.mit.edu/users/ionslayer/
+ *   DragoCuven:   https://scratch.mit.edu/users/MARTINELPLAYZ/
  */
-    (function (Scratch) {
+(function (Scratch) {
     'use strict';
     if (!Scratch.extensions.unsandboxed) {
         throw new Error(`"Niche-Toolbox" extension must be ran unsandboxed.`);
@@ -232,7 +234,18 @@
                     arguments: {
                         URI: { type: Scratch.ArgumentType.STRING, defaultValue: '' }
                     }
-                }], menus: {
+                }, {
+                    opcode: 'DCS_spriteToDataURL',
+                    blockType: BlockType.REPORTER,
+                    text: 'export sprite [SPRITE] as dataURL',
+                    arguments: {
+                        SPRITE: {
+                            type: ArgumentType.STRING,
+                            defaultValue: 'Sprite1'
+                        }
+                    }
+                }],
+                menus: {
                     /* Dynamic Menus (sounds list etc...) */
                     soundsMenu: {
                         acceptReporters: true,
@@ -332,6 +345,16 @@
         _getSGredux() {
             //@ts-expect-error
             return ReduxStore.getState().scratchGui;
+        }
+
+        blobToBase64(blob) {
+            const reader = new FileReader();
+            reader.readAsDataURL(blob);
+            return new Promise(resolve => {
+                reader.onloadend = () => {
+                    resolve(reader.result);
+                };
+            });
         }
 
         /* Actual NicheToolbox Blocks */
@@ -467,6 +490,16 @@
             test.srcdoc=`<html><head></head><body><<img src="${url}"></img><script>setTimeout(function(){window.print()}, 500);</script></body></html>`;
             if (test.parentNode == null) document.body.appendChild(test);
             setTimeout(function(){test.remove()}, 750);
+        }
+
+        /* DragoCuven sprite2dataurl Idea */
+        async DCS_spriteToDataURL(args) {
+            const sprite = Scratch.Cast.toString(args.SPRITE);
+            const target = vm.runtime.getSpriteTargetByName(sprite);
+            if (!!!target) return '';
+            const spriteExport = await vm.exportSprite(target.id);
+            const dataURI = await this.blobToBase64(spriteExport);
+            return dataURI;
         }
     }
     Scratch.extensions.register(new NicheToolbox());
