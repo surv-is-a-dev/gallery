@@ -627,10 +627,9 @@
       }
 
       const bannerExpansion = function(iCard, isNew, isUpdated) {
-        if (isUpdated) isNew = false;
-        if (isNew) isUpdated = false;
-        isUpdated = isUpdated ?? false;
-        isNew = isNew ?? false;
+        if (!!isUpdated) isNew = false, isUpdated = true;
+        if (!!isNew) isUpdated = false, isNew = true;
+        iCard = iCard ?? '';
         if (isUpdated) isUpdated = `\n<img class="extension-news-banner" src="assets/update-banner.svg" loading="lazy" title="This extension has been updated recently."></img>`;
           else isUpdated = '';
         if (isNew) isNew = `\n<img class="extension-news-banner" src="assets/new-banner.svg" loading="lazy" title="This extension is new to the gallery!"></img>`;
@@ -844,7 +843,7 @@
         </div>
 
         <div class="extension">
-          <%- banner('0znzw/ScopeVariables', {}, `${bannerExpansion(iCard('/survs-gallery/extended_description/0znzw/ScopeVariables.html', 'Extended description.'), true)}`) %>
+          <%- banner('0znzw/ScopeVariables', {}, `${bannerExpansion(iCard('/survs-gallery/extended_description/0znzw/ScopeVariables.html', 'Extended description.'))}`) %>
           <h3>Scope Variables</h3>
           <p>Manage your variables in block like structure.</p>
           <%- credit(['Ashime', 'https://scratch.mit.edu/users/0znzw/']) %>
@@ -855,6 +854,14 @@
           <%- banner('0znzw/ErrorStop', {}, `${bannerExpansion(undefined, true)}`) %>
           <h3>Error Stop</h3>
           <p>Stop blocks from making errors and pausing your scripts.</p>
+          <%- credit(['Ashime', 'https://scratch.mit.edu/users/0znzw/']) %>
+          <%- searchTags(['advanced']) %>
+        </div>
+
+        <div class="extension">
+          <%- banner('0znzw/MoreButtons', {}, `${bannerExpansion(undefined, true)}`) %>
+          <h3>More Buttons</h3>
+          <p>Add or remove buttons to the toolbar!</p>
           <%- credit(['Ashime', 'https://scratch.mit.edu/users/0znzw/']) %>
           <%- searchTags(['advanced']) %>
         </div>
