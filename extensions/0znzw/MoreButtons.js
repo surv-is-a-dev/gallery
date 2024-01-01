@@ -302,7 +302,7 @@
             button.alt = HOVER;
             button.draggable = false;
             button.classList.add(this.greenFlag.classList[0]);
-            button.src = 'https://extensions.turbowarp.org/dango.png';
+            button.src = URL;
             button.setAttribute('data-sa-shared-space-order', '0');
             this.buttons[NAME] = button;
             this._appendChild(this.buttons[NAME]);
