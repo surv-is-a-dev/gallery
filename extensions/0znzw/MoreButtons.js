@@ -1,6 +1,6 @@
 /**!
  *
- * Created by 0znzw | v1.3
+ * Created by 0znzw | v1.4
  * DO NOT REMOVE THIS COMMENT
  *
  * Many thanks to:
@@ -41,25 +41,31 @@
         _classWrap(class_) {
             return `[class^="${class_}"]`;
         }
-        setupClasses() {
+        _getSelectors() {
             const scControlsBar = this._classWrap('sc-controls-bar');
-            this.selectors.greenFlag = (this.isPackaged ? '' : this._classWrap('green-flag_green-flag'));
-            this.selectors.allContainer = (this.isPackaged ? '' : this._classWrap('stage-header_stage-header-wrapper'));
-            this.selectors.controlContainer = (this.isPackaged ? `${scControlsBar} div:nth-child(1)` : this._classWrap('controls_controls-container'));
-            this.selectors.resizeContainer = (this.isPackaged ? `${scControlsBar} div:nth-child(2)` : this._classWrap('stage-header_stage-size-row'));
+            const selectors = {};
+            selectors.greenFlag = (this.isPackaged ? '' : this._classWrap('green-flag_green-flag'));
+            selectors.allContainer = (this.isPackaged ? '' : this._classWrap('stage-header_stage-header-wrapper'));
+            selectors.controlContainer = (this.isPackaged ? `${scControlsBar} div:nth-child(1)` : this._classWrap('controls_controls-container'));
+            selectors.resizeContainer = (this.isPackaged ? `${scControlsBar} div:nth-child(2)` : this._classWrap('stage-header_stage-size-row'));
+            return selectors;
         }
         constructor() {
             // @ts-ignore Not typed yet
             this.isPackaged = !window?.scaffolding?.vm;
-            this.selectors = {};
+            this.selectors = this._getSelectors();
             this.extensionId = '0znzwMoreButtons';
             this.buttonCount = 0;
             this.lastButton = '';
+            /** @type {HTMLElement} */
             this.greenFlag = document.querySelector(this.selectors.greenFlag);
+            /** @type {HTMLElement} */
             this.allContainer = document.querySelector(this.selectors.allContainer);
             if (!this.isPackaged) this.allContainer = this.allContainer.parentElement;
-            this.controlContainer = document.querySelector(this.controlContainer);
-            this.resizeContainer = document.querySelector(this.resizeContainer);
+            /** @type {HTMLElement} */
+            this.controlContainer = document.querySelector(this.selectors.controlContainer);
+            /** @type {HTMLElement} */
+            this.resizeContainer = document.querySelector(this.selectors.resizeContainer);
             this.controlBar = [];
             this._updateButtons();
             this.buttons = {};
@@ -172,11 +178,11 @@
                     {
                         opcode: 'setBtnTo',
                         blockType: BlockType.COMMAND,
-                        text: 'set image of button [NAME] to [SPRITEORCOSTUME] [ASSET_NAME]',
+                        text: 'set image of button [NAME] to [SPRITE_OR_COSTUME] [ASSET_NAME]',
                         arguments: {
                             NAME: { type: ArgType.STRING, defaultValue: 'close tab' },
-                            SPRITEORCOSTUME: { type: ArgType.STRING, menu: 'to' },
-                            ASSET_NAME: { type: ArgType.STRING, menu: 'spriteNcostumes' },
+                            SPRITE_OR_COSTUME: { type: ArgType.STRING, menu: 'to' },
+                            ASSET_NAME: { type: ArgType.STRING, menu: 'sprites_or_costumes' },
                         },
                     }
                 ],
@@ -185,7 +191,7 @@
                         acceptReporters: true,
                         items: '_getCostumes',
                     },
-                    spriteNcostumes: {
+                    sprites_or_costumes: {
                         acceptReporters: true,
                         items: '_getSpritesOrCostumes',
                     },
@@ -256,7 +262,7 @@
         }
         _getSpritesOrCostumes() {
             const args = getCurrentBlockArgs();
-            switch (args.SPRITEORCOSTUME) {
+            switch (args.SPRITE_OR_COSTUME) {
                 case 'costume':
                     return this._getCostumes();
                 case 'sprite':
@@ -276,8 +282,7 @@
             this._updateButtons();
         }
         _updateButtons() {
-            // @ts-ignore
-            this.controlBar = Array.from(this.controlContainer.childNodes).filter((node) => node.style.display !== 'none');
+            this.controlBar = Array.from(this.controlContainer.childNodes).filter(/** @argument {HTMLElement} node */(node) => node.style.display !== 'none');
         }
         _hasCostume(costume) {
             return this._getCostumes(true).includes(costume);
@@ -405,11 +410,9 @@
             const display = VISIBILITY.toLowerCase() === 'show' ? '' : 'none';
             switch (BAR_NAME) {
                 case 'resize':
-                    // @ts-ignore
                     this.resizeContainer.style.display = display;
                     break;
                 case 'controls':
-                    // @ts-ignore
                     this.controlContainer.style.display = display;
                     break;
                 case 'header':
@@ -417,18 +420,17 @@
                     break;
                 case 'all':
                     const containers = [this.resizeContainer, this.controlContainer];
-                    // @ts-ignore
-                    containers.forEach((container) => (container.style.display = display));
+                    containers.forEach(/** @argument {HTMLElement} container */(container) => (container.style.display = display));
                     break;
                 default:
                     break;
             }
         }
-        async setBtnTo({ NAME, SPRITEORCOSTUME, ASSET_NAME }) {
+        async setBtnTo({ NAME, SPRITE_OR_COSTUME, ASSET_NAME }) {
             NAME = Cast.toString(NAME);
             if (!this.hasBtn({ NAME })) return '';
-            SPRITEORCOSTUME = Cast.toString(SPRITEORCOSTUME);
-            switch (SPRITEORCOSTUME) {
+            SPRITE_OR_COSTUME = Cast.toString(SPRITE_OR_COSTUME);
+            switch (SPRITE_OR_COSTUME) {
                 case 'costume':
                     if (!this._getCostumes(true).includes(ASSET_NAME)) return '';
                     this._setURL(NAME, this._getCostumeURL(ASSET_NAME));
