@@ -38,14 +38,28 @@
     const BlockType = Scratch.BlockType;
     const ArgType = Scratch.ArgumentType;
     class ext {
+        _classWrap(class_) {
+            return `[class^="${class_}"]`;
+        }
+        setupClasses() {
+            const scControlsBar = this._classWrap('sc-controls-bar');
+            this.selectors.greenFlag = (this.isPackaged ? '' : this._classWrap('green-flag_green-flag'));
+            this.selectors.allContainer = (this.isPackaged ? '' : this._classWrap('stage-header_stage-header-wrapper'));
+            this.selectors.controlContainer = (this.isPackaged ? `${scControlsBar} div:nth-child(1)` : this._classWrap('controls_controls-container'));
+            this.selectors.resizeContainer = (this.isPackaged ? `${scControlsBar} div:nth-child(2)` : this._classWrap('stage-header_stage-size-row'));
+        }
         constructor() {
+            // @ts-ignore Not typed yet
+            this.isPackaged = !window?.scaffolding?.vm;
+            this.selectors = {};
             this.extensionId = '0znzwMoreButtons';
             this.buttonCount = 0;
             this.lastButton = '';
-            this.greenFlag = document.querySelector('[class^=green-flag_green-flag');
-            this.allContainer = document.querySelector('[class^=stage-header_stage-header-wrapper]').parentElement;
-            this.controlContainer = document.querySelector('[class^=controls_controls-container]');
-            this.resizeContainer = document.querySelector('[class^=stage-header_stage-size-row]');
+            this.greenFlag = document.querySelector(this.selectors.greenFlag);
+            this.allContainer = document.querySelector(this.selectors.allContainer);
+            if (!this.isPackaged) this.allContainer = this.allContainer.parentElement;
+            this.controlContainer = document.querySelector(this.controlContainer);
+            this.resizeContainer = document.querySelector(this.resizeContainer);
             this.controlBar = [];
             this._updateButtons();
             this.buttons = {};
