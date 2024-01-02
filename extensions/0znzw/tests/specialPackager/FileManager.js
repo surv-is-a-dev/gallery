@@ -1,5 +1,5 @@
 /*
-  Created by 0znzw | v2.8
+  Created by 0znzw | v2.9
   Licensed Under MIT License.
   DO NOT REMOVE THIS COMMENT!!
 */
@@ -309,7 +309,7 @@
             },
           ], menus: {
             encodings: {acceptReporters: true, items: '_getEncodings'},
-            modes: {acceptReporters: true, items: ['text', 'base64']},
+            modes: {acceptReporters: true, items: ['text', 'base64', 'dataURL']},
             file_attributes: {acceptReporters: true, items: [
               'file size', 'last access time', 'last access time (MS)',
               'creation time', 'creation time (MS)', 'inode change time',
