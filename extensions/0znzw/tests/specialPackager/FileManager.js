@@ -1,5 +1,5 @@
 /*
-  Created by 0znzw | v2.5
+  Created by 0znzw | v2.6
   Licensed Under MIT License.
   DO NOT REMOVE THIS COMMENT!!
 */
@@ -338,6 +338,7 @@
         try { pathAPI && 1 } catch { return false };
         try { shellAPI && 1 } catch { return false };
         try { CD && 1 } catch { return false };
+        try { Buffer && 1 } catch { return false };
         return true;
       }
       /* path utils */
@@ -463,15 +464,23 @@
         DATA = Scratch.Cast.toString(DATA);
         PATH = Scratch.Cast.toString(PATH);
         MODE = Scratch.Cast.toString(MODE);
+        let isBuffer = false;
         switch(MODE) {
           case 'base64':
-            DATA = Base64.decode(DATA);
+            isBuffer = true;
+            DATA = await Buffer(String(DATA), 'base64');
           default:
             DATA = DATA;
         }
-        fs.writeFile(PATH, DATA, function (err) {
+        const writeArgs = [PATH, DATA, function(err) {
           if (err) console.error(err);
-        }); 
+        }]
+        if (isBuffer) writeArgs.splice(2, 0, 'binary');
+        fs.writeFile(...writeArgs);
+        if (isBuffer) {
+          DATA.fill(0);
+          DATA = undefined;
+        }
       }
       /* end writing files */
       /* directory's */
