@@ -1,10 +1,11 @@
 /**!
  *
- * Created by 0znzw | v1.4
+ * Created by 0znzw | v1.5
  * DO NOT REMOVE THIS COMMENT
  *
  * Many thanks to:
  * CST1229 (https://scratch.mit.edu/users/CST1229/) for creating the "getCurrentBlockArgs" function.
+ * Bitter_130 for beta testing in packaged project.
  */
 (function (Scratch) {
     'use strict';
@@ -44,15 +45,15 @@
         _getSelectors() {
             const scControlsBar = this._classWrap('sc-controls-bar');
             const selectors = {};
-            selectors.greenFlag = (this.isPackaged ? '' : this._classWrap('green-flag_green-flag'));
-            selectors.allContainer = (this.isPackaged ? '' : this._classWrap('stage-header_stage-header-wrapper'));
+            selectors.greenFlag = (this.isPackaged ? this._classWrap('green-flag-button') : this._classWrap('green-flag_green-flag'));
+            selectors.allContainer = (this.isPackaged ? scControlsBar : this._classWrap('stage-header_stage-header-wrapper'));
             selectors.controlContainer = (this.isPackaged ? `${scControlsBar} div:nth-child(1)` : this._classWrap('controls_controls-container'));
             selectors.resizeContainer = (this.isPackaged ? `${scControlsBar} div:nth-child(2)` : this._classWrap('stage-header_stage-size-row'));
             return selectors;
         }
         constructor() {
             // @ts-ignore Not typed yet
-            this.isPackaged = !window?.scaffolding?.vm;
+            this.isPackaged = !!window?.scaffolding?.vm;
             this.selectors = this._getSelectors();
             this.extensionId = '0znzwMoreButtons';
             this.buttonCount = 0;
