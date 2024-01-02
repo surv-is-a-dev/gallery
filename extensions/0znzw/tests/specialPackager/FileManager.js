@@ -1,5 +1,5 @@
 /*
-  Created by 0znzw | v2.6
+  Created by 0znzw | v2.7
   Licensed Under MIT License.
   DO NOT REMOVE THIS COMMENT!!
 */
@@ -31,7 +31,7 @@
             },
             {
               blockType: Scratch.BlockType.LABEL,
-              text: 'Directorys'
+              text: 'Directory\'s'
             },
             {
               blockType: Scratch.BlockType.REPORTER,
@@ -63,7 +63,7 @@
             {
               blockType: Scratch.BlockType.COMMAND,
               opcode: 'rmDir',
-              text: 'remove directory [PATH] recursivly: [RECURSIVE]',
+              text: 'remove directory [PATH] recursively: [RECURSIVE]',
               arguments: {
                 PATH: {
                   type: Scratch.ArgumentType.STRING,
@@ -276,7 +276,7 @@
             },
             {
               blockType: Scratch.BlockType.REPORTER,
-              opcode: 'getExtensionname',
+              opcode: 'getExtName',
               text: 'get file extension from path [PATH]',
               arguments: {
                 PATH: {
@@ -287,7 +287,7 @@
             },
             {
               blockType: Scratch.BlockType.REPORTER,
-              opcode: 'getDirectoryname',
+              opcode: 'getDirName',
               text: 'get directory name from path [PATH]',
               arguments: {
                 PATH: {
@@ -330,7 +330,7 @@
       _isFile(pathItem) {
         return !!pathAPI.extname(pathItem);
       }
-      /* end utilitys */
+      /* end utility's */
       can_use_api() {
         try { fs && 1 } catch { return false };
         try { fileSystemAPI && 1 } catch { return false };
@@ -365,11 +365,11 @@
         PATH = Scratch.Cast.toString(PATH);
         return pathAPI.basename(PATH);
       }
-      getDirectoryname({ PATH }) {
+      getDirName({ PATH }) {
         PATH = Scratch.Cast.toString(PATH);
         return pathAPI.dirname(PATH);
       }
-      getExtensionname({ PATH }) {
+      getExtName({ PATH }) {
         PATH = Scratch.Cast.toString(PATH);
         return pathAPI.extname(PATH);
       }
@@ -433,10 +433,14 @@
           console.error(e);
           return '';
         }
+        const base64 = bytesArrToBase64(DATA);
         switch(MODE) {
           case 'base64':
-            return bytesArrToBase64(DATA);
+            return base64;
+          case 'dataURL':
+            return `data:application/octet-stream;base64,${base64}`;
           default:
+            base64 = undefined;
             DATA = ab2str(new Uint16Array(DATA));
             return DATA;
         }
@@ -466,11 +470,14 @@
         MODE = Scratch.Cast.toString(MODE);
         let isBuffer = false;
         switch(MODE) {
+          case 'dataURL':
+            DATA = DATA.substr(DATA.indexOf(','), Infinity);
           case 'base64':
             isBuffer = true;
             DATA = await Buffer(String(DATA), 'base64');
+            break;
           default:
-            DATA = DATA;
+            break;
         }
         const writeArgs = [PATH, DATA, function(err) {
           if (err) console.error(err);
