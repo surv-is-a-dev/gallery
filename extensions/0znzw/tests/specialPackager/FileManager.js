@@ -1,5 +1,5 @@
 /*
-  Created by 0znzw | v2.7
+  Created by 0znzw | v2.8
   Licensed Under MIT License.
   DO NOT REMOVE THIS COMMENT!!
 */
@@ -18,7 +18,7 @@
       console.error('failed to load fs')
     }
 
-    class fileReader {
+    class fileReaderExt {
       getInfo() {
         return {
           id: '0znzwFileManager',
@@ -559,5 +559,5 @@
       }
       /* end misc section */
     }
-    Scratch.extensions.register(new fileReader());
+    Scratch.extensions.register(new fileReaderExt());
   })(Scratch);
