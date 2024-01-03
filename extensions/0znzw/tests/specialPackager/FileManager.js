@@ -1,5 +1,5 @@
 /*
-  Created by 0znzw | v2.9
+  Created by 0znzw | v3
   Licensed Under MIT License.
   DO NOT REMOVE THIS COMMENT!!
 */
@@ -440,8 +440,7 @@
           case 'dataURL':
             return `data:application/octet-stream;base64,${base64}`;
           default:
-            base64 = undefined;
-            DATA = ab2str(new Uint16Array(DATA));
+            DATA = Base64.decode(base64);
             return DATA;
         }
       }
