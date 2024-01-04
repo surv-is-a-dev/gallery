@@ -151,9 +151,10 @@
                 }
                 block = this.getBlock(oldBlock.parent, thread);
                 isC = !!block.inputs?.SUBSTACK;
+                if (block?.next !== oldBlock?.parent && isC) break;
                 if (isC && oldBlock.id === block.inputs.SUBSTACK.block) break;
             }
-            if (!block?.inputs) block = oldBlock;
+            //if (!block?.inputs) block = oldBlock;
             isC = !!block?.inputs?.SUBSTACK;
             if (!isC) return undefined;
             return block;
@@ -203,7 +204,7 @@
         case0({ value }, util) {
             const thread = util.thread;
             if (this.inFlyout(thread)) return;
-            const switchBlock = this.outerC_untilOpcode(this.switchOpcode, thread);
+            const switchBlock = this.outerC_ifOpcode(this.switchOpcode, thread);
             if (!switchBlock) return;
             const switchData = this.getBlockData(switchBlock, thread);
             const switchValue = switchData?.value; if (!switchValue) return;
