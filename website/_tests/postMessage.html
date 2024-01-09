@@ -13,29 +13,46 @@
     popup.onload = () => {
       popup.postMessage({ twu: true, auth });
     }
+    window.onbeforeunload = () => {
+      popup.postMessage({ killSelf: true });
+    }
     window.addEventListener('message', function(event) {
       const obj = event.data;
       if (typeof obj !== 'object') {
-        console.warn('Received invalid data in POST-MESSAGE.');
+        console.warn('Received invalid data in POST-MESSAGE.', event);
+        return;
+      }
+      if (obj.myself) return;
+      if (obj.kill) {
+        window.close();
         return;
       }
       if (!hasConfirmed) {
         if (obj.auth !== auth) {
           alert('Authentication failed.');
-          return;
         } else {
           alert('Authenticated');
           hasConfirmed = true;
-          return;
         }
+        return;
       }
       if (!obj.url) {
         alert('Extension URL was missing, wat?');
         return;
       }
-      alert('Attempting to load url: '+obj.url);
+      const extensionShow = document.createElement('span');
+      extensionShow.textContent = `Attempting to load: ${obj.url}`;
+      extensionShow.appendChild(document.createElement('br'));
+      loadTree.appendChild(extensionShow);
+      const msg = [{ myself: true, url: obj.url }, '*'];
+      window.postMessage(...msg);
+      window.top.postMessage(...msg);
+      window.opener.postMessage(...msg);
     });
   </script>
+
+  when you are done loading stuff you can close this window
+  <div id="loadTree"></div>
 
 </body>
 </html>

@@ -385,7 +385,11 @@
       window.onmessage = (event) => {
         const obj = event.data;
         if (typeof obj !== 'object') {
-          console.warn('Received invalid data in POST-MESSAGE.');
+          console.warn('Received invalid data in POST-MESSAGE.', event);
+          return;
+        }
+        if (obj.killSelf) {
+          window.close();
           return;
         }
         if (!obj.twu) {
@@ -393,6 +397,9 @@
           return;
         };
         window.opener.postMessage({ response: true, confirm: true, ...obj });
+      }
+      window.onbeforeunload = () => {
+        window.opener.postMessage({ kill: true });
       }
       window.TWUextensionPage = true;
       function writeText(text) {

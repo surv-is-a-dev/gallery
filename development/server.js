@@ -21,7 +21,7 @@ app.use((req, res, next) => {
   res.setHeader('X-Content-Type-Options', 'nosniff');
 
   // We don't want this site to be embedded in frames.
-  //res.setHeader('X-Frame-Options', 'DENY');
+  res.setHeader('X-Frame-Options', 'DENY');
 
   // No need to leak Referer headers.
   res.setHeader('Referrer-Policy', 'no-referrer');
@@ -32,6 +32,9 @@ app.use((req, res, next) => {
 
   // Allows loading cross-origin example images and matches GitHub pages.
   res.setHeader('Access-Control-Allow-Origin', '*');
+
+  // Tbh idc
+  res.setHeader('Cross-Origin-Opener-Policy', 'unsafe-none');
 
   next();
 });
