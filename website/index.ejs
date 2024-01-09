@@ -381,6 +381,19 @@
     <% } %>
 
     <script>
+      const queryParams = new URL(document.location.href).searchParams;
+      window.onmessage = (event) => {
+        const obj = event.data;
+        if (typeof obj !== 'object') {
+          console.warn('Received invalid data in POST-MESSAGE.');
+          return;
+        }
+        if (!obj.twu) {
+          console.warn('Simple trust was not granted.');
+          return;
+        };
+        window.opener.postMessage({ response: true, confirm: true, ...obj });
+      }
       window.TWUextensionPage = true;
       function writeText(text) {
         if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -404,6 +417,11 @@
         }
       }
       document.addEventListener('click', function (e) {
+        const toPost = e.target.getAttribute('data-post');
+        if (toPost) {
+          window.opener.postMessage({ response: true, url: toPost });
+          return;
+        }
         const toCopy = e.target.getAttribute('data-copy');
         if (toCopy) {
           writeText(toCopy);
@@ -483,6 +501,15 @@
           const searchQuery = e.srcElement.value;
           search(searchQuery);
         }
+        // Funny ass thing
+        if (queryParams.has('TWunlocked')) {
+          Array.from(document.querySelectorAll('div.extension-buttons')).forEach(element => {
+            const url = element.children[0].dataset.url;
+            element.innerHTML = (`
+              <button class="open" data-post="${url}">Load extension</button>
+            `);
+          });
+        }
       }, 500);
     </script>
 
@@ -549,13 +576,13 @@
         <!-- @css-ignore -->
         <img loading="lazy" src="${imageSource}" class="${imageClasses.join(' ')}" style="${options.style ?? ''}">
         <div class="extension-buttons">
-          <button class="copy-url" data-url="${host}${extensionFile}.js">Copy Code</button>
-          <button class="copy" data-copy="${host}${extensionFile}.js">Copy URL</button>
-          ${mode === "desktop" ? (`
-            <button style="display:none" class="open" data-load="${host}${extensionFile}.js">Add Extension</button>
-          `) : (`
-            <a style="display:none" href="${getLinkToRun(`${extensionFile}.js`)}" class="open">Open Extension</a>
-          `)}
+            <button class="copy-url" data-url="${host}${extensionFile}.js">Copy Code</button>
+            <button class="copy" data-copy="${host}${extensionFile}.js">Copy URL</button>
+            ${mode === "desktop" ? (`
+              <button style="display:none" class="open" data-load="${host}${extensionFile}.js">Add Extension</button>
+            `) : (`
+              <a style="display:none" href="${getLinkToRun(`${extensionFile}.js`)}" class="open">Open Extension</a>
+            `)}
         </div>
         ${ afterHTML }
       </div>`

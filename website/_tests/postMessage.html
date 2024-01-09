@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+</head>
+
+<body>
+
+  <script>
+    let hasConfirmed = false, auth = 'r>Z9hg(XxW?E`~u6Q;F48)';
+    const popup = window.open('/survs-gallery/?TWunlocked');
+    popup.onload = () => {
+      popup.postMessage({ twu: true, auth });
+    }
+    window.addEventListener('message', function(event) {
+      const obj = event.data;
+      if (typeof obj !== 'object') {
+        console.warn('Received invalid data in POST-MESSAGE.');
+        return;
+      }
+      if (!hasConfirmed) {
+        if (obj.auth !== auth) {
+          alert('Authentication failed.');
+          return;
+        } else {
+          alert('Authenticated');
+          hasConfirmed = true;
+          return;
+        }
+      }
+      if (!obj.url) {
+        alert('Extension URL was missing, wat?');
+        return;
+      }
+      alert('Attempting to load url: '+obj.url);
+    });
+  </script>
+
+</body>
+</html>
