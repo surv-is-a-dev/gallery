@@ -3,56 +3,84 @@
 
 <head>
   <meta charset="UTF-8">
+  <style>
+    * {
+      margin: 0px;
+      padding: 0px;
+      color: white;
+      background: black;
+    }
+  </style>
 </head>
 
 <body>
 
+  
+  this is a communication frame so the gallery can load extensions into turbowarp :P
+  <div id="logs"></div>
+
   <script>
-    let hasConfirmed = false, auth = 'r>Z9hg(XxW?E`~u6Q;F48)';
+    const log = (text, color) => {
+      const ld = document.createElement('span');
+      ld.textContent = text;
+      if (color) ld.style.color = color;
+      ld.appendChild(document.createElement('br'));
+      logs.appendChild(ld);
+    }
+    let hasConfirmed = false, auth = new URL(document.location.href).searchParams.get('auth'), hasLoaded = false, died = false;
     const popup = window.open('/survs-gallery/?TWunlocked');
-    popup.onload = () => {
+    try { popup.onload = () => {
       popup.postMessage({ twu: true, auth });
+    } } catch {
+      log('Failed to set load-event (popups are most likely blocked)', '#FF0000');
     }
     window.onbeforeunload = () => {
+      died = true;
       popup.postMessage({ killSelf: true });
     }
+    setTimeout(() => {
+      if (hasLoaded) return;
+      log('Failed to load, either your wifi is slow or popups are blocked,', '#FF0000');
+      log('&nbsp; If this is the case either reload or enable popups,', '#FF0000');
+    }, 2500);
     window.addEventListener('message', function(event) {
+      if (died) return;
       const obj = event.data;
+      if (obj.loaded) {
+        log('Loaded successfully!');
+        hasLoaded = true;
+        return;
+      };
       if (typeof obj !== 'object') {
+        log('Received invalid data in POST-MESSAGE. (check the console)', '#DDDD00');
         console.warn('Received invalid data in POST-MESSAGE.', event);
         return;
       }
       if (obj.myself) return;
       if (obj.kill) {
+        died = true;
+        log('Gallery page killed.', '#DD4411');
         window.close();
         return;
       }
       if (!hasConfirmed) {
         if (obj.auth !== auth) {
-          alert('Authentication failed.');
+          log('Authentication failed.', '#FF0000');
+          popup.postMessage({ killSelf: true });
         } else {
-          alert('Authenticated');
+          log('Authenticated.', '#00FF00');
           hasConfirmed = true;
         }
         return;
       }
       if (!obj.url) {
-        alert('Extension URL was missing, wat?');
+        log('Extension URL was missing, wat?', '#FF0000');
         return;
       }
-      const extensionShow = document.createElement('span');
-      extensionShow.textContent = `Attempting to load: ${obj.url}`;
-      extensionShow.appendChild(document.createElement('br'));
-      loadTree.appendChild(extensionShow);
-      const msg = [{ myself: true, url: obj.url }, '*'];
-      window.postMessage(...msg);
-      window.top.postMessage(...msg);
-      window.opener.postMessage(...msg);
+      log('Received data: Cross-Posting message..', '#FF00FF');
+      top.postMessage({ myself: true, url: obj.url, postTo: 'twu' }, '*');
     });
   </script>
-
-  when you are done loading stuff you can close this window
-  <div id="loadTree"></div>
 
 </body>
 </html>

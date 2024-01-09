@@ -383,6 +383,7 @@
     <script>
       const queryParams = new URL(document.location.href).searchParams;
       window.onmessage = (event) => {
+        window.opener.postMessage({ loaded: true });
         const obj = event.data;
         if (typeof obj !== 'object') {
           console.warn('Received invalid data in POST-MESSAGE.', event);
@@ -395,7 +396,7 @@
         if (!obj.twu) {
           console.warn('Simple trust was not granted.');
           return;
-        };
+        }
         window.opener.postMessage({ response: true, confirm: true, ...obj });
       }
       window.onbeforeunload = () => {
