@@ -2,6 +2,12 @@
 
 For extensions that cant get on the official gallery, or dont want to. (also for me lmao)
 the "cyclic:prod" deployment is a mimic development server, dont use it.
+
+
+Please dont take any files from this gallery to put in someone elses gallery without prior permission of the creator.
+
+If they allow/disallow it just see if they have a readme file in their folder (see the extensions folder for people
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md).
