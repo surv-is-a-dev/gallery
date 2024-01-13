@@ -3,7 +3,7 @@
  * @author 0znzw https://scratch.mit.edu/users/0znzw/
  * @author CST1229 https://scratch.mit.edu/users/CST1229/
  * @author FurryR https://github.com/FurryR/
- * @version 2.0
+ * @version 2.1
  * @copyright MIT License
  * Do not remove this comment, also do not update on sharkpools gallery
  */
@@ -137,6 +137,10 @@
       warning: ['this is under development and does not always do what it is supposed to do', 'use sparingly'],
       tooltip: 'restarts the script and start specified number of blocks ahead of this block',
     },
+    runInSprite: {
+      warning: ['big scripts can crash the project as it has to clone the blocks', 'custom blocks will not transfer, and neither will sprite specific stuff'],
+      tooltip: 'allows you to run blocks in other sprites'
+    }
   };
   function modifyBlocks() {
     if (!workspace) return;
