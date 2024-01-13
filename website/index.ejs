@@ -713,7 +713,7 @@
         </div>
 
         <div class="extension">
-          <%- banner('0znzw/NicheToolbox', {}, `${bannerExpansion('', undefined, true)}`) %>
+          <%- banner('0znzw/NicheToolbox') %>
           <h3>Niche Toolbox</h3>
           <p>Some blocks for niche use cases.</p>
           <%- credit(['Ashime', 'https://scratch.mit.edu/users/0znzw/']) %>
@@ -751,18 +751,21 @@
 
         <!-- Removed -->
 
-        <div class="extension">
+        <div class="extension" style="display: none;">
           <%- banner('CST1229/inlineblocks', {}, bannerExpansion(iCard('extended_description/inlineblocks.html', 'Extended description'))) %>
           <h3>Inline Blocks</h3>
-          <p>Like custom reporters, but you code directly inside the "reporter".</p>
+          <p>(moved to Script Manager)<br>Like custom reporters, but you code directly inside the "reporter".</p>
           <%- credit([['CST1229', 'https://github.com/CST1229/'], ['LilyMakesThings', 'https://scratch.mit.edu/users/LilyMakesThings/']]) %>
         </div>
 
         <div class="extension">
-          <%- banner('0znzw/ScriptManagement') %>
+          <%- banner('0znzw/ScriptManagement', {}, `${bannerExpansion(undefined, false, true)}`) %>
           <h3>Script Manager</h3>
           <p>Manage scripts and threads, allowing for better control of your project.</p>
-          <%- credit([['Ashime', 'https://scratch.mit.edu/users/0znzw/'], ['SharkPool', 'https://github.com/SharkPool-SP/']]) %>
+          <%- credit([
+            ['Ashime', 'https://scratch.mit.edu/users/0znzw/'], ['CST1229', 'https://scratch.mit.edu/users/CST1229/'],
+            ['FurryR', 'https://github.com/FurryR/']
+          ]) %>
         </div>
 
         <div class="extension">
@@ -886,7 +889,7 @@
         </div>
 
         <div class="extension" style="display: none;"  data-nosearch="1">
-          <%- banner('0znzw/ErrorStop', {}, `${bannerExpansion(undefined, true)}`) %>
+          <%- banner('0znzw/ErrorStop') %>
           <h3>Error Stop</h3>
           <p>Stop blocks from making errors and pausing your scripts.</p>
           <%- credit(['Ashime', 'https://scratch.mit.edu/users/0znzw/']) %>
@@ -894,9 +897,9 @@
         </div>
 
         <div class="extension">
-          <%- banner('0znzw/MoreButtons', {}, `${bannerExpansion(undefined, true)}`) %>
+          <%- banner('0znzw/MoreButtons') %>
           <h3>More Buttons</h3>
-          <p>Add or remove buttons to the toolbar!</p>
+          <p>Add or remove buttons to the toolbar! (packager broken)</p>
           <%- credit(['Ashime', 'https://scratch.mit.edu/users/0znzw/']) %>
           <%- searchTags(['advanced']) %>
         </div>
