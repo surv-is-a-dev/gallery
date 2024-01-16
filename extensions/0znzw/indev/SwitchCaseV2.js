@@ -30,6 +30,7 @@
                 quaternary: '#CF8B17'
             }
             this.switchOpcode = this.opcode('switch0');
+            this.caseOpcode = this.opcode('case0');
             this.blocks = [{
                 blockType: Scratch.BlockType.REPORTER,
                 opcode: 'switchValue',
@@ -109,20 +110,23 @@
 
         /* Block & Thread management */
         inFlyout(thread) {
-            return !thread.target.blocks.getBlock(thread.peekStack());
+            return !thread.blockContainer.getBlock(thread.peekStack());
         }
         opcode(opcode) {
             return `${this.extId}_${opcode}`;
         }
         getBlock(id, thread) {
-            return thread.target.blocks.getBlock(id);
+            return thread.blockContainer.getBlock(id);
         }
         setBlock(id, thread, json) {
-            thread.target.blocks._blocks[id] = json;
+            thread.blockContainer._blocks[id] = json;
         }
         getBlockData(block, thread) {
             if (!thread?.id) return -1;
             return block[thread?.id] ?? -2;
+        }
+        getDataViaId(id, thread) {
+            return this.getBlockData(this.getBlock(id, thread), thread);
         }
         updateBlockData(block, thread, data, $delete) {
             if (!thread?.id) return;
@@ -137,50 +141,39 @@
             this.setBlock(block.id, thread, block);
         }
 
-        /* C Block Utilities */
-        /* todo: figure out what the fuck is going on here, and why its returning the C above it */
-        outerC(StartBlockId, thread) {
-            let block = this.getBlock(StartBlockId, thread), oldBlock = null, isC = false;
-            if (!block?.parent) return undefined;
-            block = this.getBlock(block.parent, thread);
-            while (!!block?.parent && !isC) {
-                oldBlock = block;
-                if (!oldBlock?.parent) {
-                    block = oldBlock;
-                    break;
+        /** Switch Sharing */
+        shareSwitch(thread, switchId) {
+            const switchSubstack = thread.blockContainer.getBranch(thread.peekStack());
+            let block = this.getBlock(switchSubstack, thread), blocks = [];
+            blocks.push(block);
+            while (!!block?.next) {
+                if (!!block?.next) {
+                    block = this.getBlock(block.next, thread);
+                    blocks.push(block);
                 }
-                block = this.getBlock(oldBlock.parent, thread);
-                isC = !!block.inputs?.SUBSTACK;
-                if (block?.next !== oldBlock?.parent && isC) break;
-                if (isC && oldBlock.id === block.inputs.SUBSTACK.block) break;
+            };
+            blocks.forEach(block => {
+                if (!block || block.opcode === this.switchOpcode) return;
+                this.updateBlockData(block, thread, { switchId });
+            });
+        }
+        ascendUntilSwitch(thread) {
+            let block = this.getBlock(thread.peekStack(), thread);
+            while (!block?.[thread.id]?.['switchId']) {
+                block = this.getBlock(block.parent, thread);
             }
-            //if (!block?.inputs) block = oldBlock;
-            isC = !!block?.inputs?.SUBSTACK;
-            if (!isC) return undefined;
+            if (block) block = this.getBlock(block[thread.id].switchId, thread);
             return block;
-        }
-        outerC_untilOpcode(opcode, thread, StartBlockId) {
-            let block = this.getBlock(StartBlockId ?? thread.peekStack(), thread);
-            while (block) {
-                block = this.outerC(block?.id, thread);
-                if (block?.opcode === opcode) return block;
-            }
-            return undefined;
-        }
-        outerC_ifOpcode(opcode, thread, StartBlockId) {
-            const block = this.getBlock(StartBlockId ?? thread.peekStack(), thread), outerC = this.outerC(block.id, thread);
-            console.log(block, outerC)
-            return (outerC?.opcode === opcode ? outerC : false);
         }
 
         /* Utilities     ^^^^ */
         /* Actual blocks vvvv */
 
         /* Built in to JS */
-        async switch0({ value }, util) {
+        switch0({ value }, util) {
             const thread = util.thread, myId = thread.peekStack();
             if (this.inFlyout(thread)) return;
-            thread.id = this.stirSoup(20);
+            thread.id = 'e';this.stirSoup(20);
             const block = this.getBlock(myId, thread), self = {
                 value,
                 broke: false,
@@ -188,7 +181,9 @@
                     bool: false,
                     value: null
                 },
-                doNext: false
+                doNext: false,
+                falling: false,
+                switchId: myId
             }
             this.updateBlockData(block, thread, self);
             thread.onRetire = (newThread) => {
@@ -197,15 +192,17 @@
                 runtime.removeListener('THREAD_RETIRED', thread.onRetire);
                 this.updateBlockData(block, thread, {}, true);
             }
+            this.shareSwitch(thread, myId);
             util.startBranch(1, false);
             // @ts-expect-error Not typed yet & custom event
             runtime.addListener('THREAD_RETIRED', thread.onRetire);
         }
         case0({ value }, util) {
-            const thread = util.thread;
+            const thread = util.thread, self = this.getDataViaId(thread.peekStack(), thread);
             if (this.inFlyout(thread)) return;
-            const switchBlock = this.outerC_ifOpcode(this.switchOpcode, thread);
+            const switchBlock = this.getBlock(self.switchId, thread);
             if (!switchBlock) return;
+            this.shareSwitch(thread, self.switchId);
             const switchData = this.getBlockData(switchBlock, thread);
             const switchValue = switchData?.value; if (!switchValue) return;
             if (switchData.broke) return;
@@ -219,36 +216,38 @@
                 didSpecialMove = true;
                 switchData.doNext = false;
             }
-            if (!didSpecialMove && switchValue !== value) return;
+            if (!didSpecialMove && switchValue !== value && !switchData.falling) return;
             util.startBranch(1, false);
+            switchData.falling = true;
             return;
         }
         default0(_, util) {
-            const thread = util.thread;
+            const thread = util.thread, self = this.getDataViaId(thread.peekStack(), thread);
             if (this.inFlyout(thread)) return;
-            const switchBlock = this.outerC_untilOpcode(this.switchOpcode, thread); if (!switchBlock) return;
+            const switchBlock = this.getBlock(self.switchId, thread); if (!switchBlock) return;
+            this.shareSwitch(thread, self.switchId);
             const switchBroke = this.getBlockData(switchBlock, thread)?.broke; if (switchBroke) return;
             util.startBranch(1, false);
         }
         break0(_, util) {
-            const thread = util.thread;
+            const thread = util.thread, self = this.getDataViaId(thread.peekStack(), thread);
             if (this.inFlyout(thread)) return;
-            const switchBlock = this.outerC_untilOpcode(this.switchOpcode, thread); if (!switchBlock) return;
-            this.updateBlockData(switchBlock, thread, { broke: true });
+            const switchBlock = this.getBlock(self.switchId, thread); if (!switchBlock) return;
+            this.updateBlockData(switchBlock, thread, { broke: true, falling: false });
         }
 
         /* Not in JS */
         switchValue(_, util) {
-            const thread = util.thread;
+            const thread = util.thread;;
             if (this.inFlyout(thread)) return '';
-            const switchBlock = this.outerC_untilOpcode(this.switchOpcode, thread); if (!switchBlock) return '';
+            const switchBlock = this.ascendUntilSwitch(thread); if (!switchBlock) return '';
             const switchValue = this.getBlockData(switchBlock, thread)?.value; if (!switchValue) return '';
             return switchValue;
         }
         skip2case({ value }, util) {
-            const thread = util.thread;
+            const thread = util.thread;;
             if (this.inFlyout(thread)) return;
-            const switchBlock = this.outerC_untilOpcode(this.switchOpcode, thread);
+            const switchBlock = this.ascendUntilSwitch(thread);
             if (!switchBlock) return;
             this.updateBlockData(switchBlock, thread, { skippingCase: {
                 bool: true,
@@ -257,9 +256,9 @@
             return;
         }
         skip2default(_, util) {
-            const thread = util.thread;
+            const thread = util.thread;;
             if (this.inFlyout(thread)) return;
-            const switchBlock = this.outerC_untilOpcode(this.switchOpcode, thread);
+            const switchBlock = this.ascendUntilSwitch(thread);
             if (!switchBlock) return;
             this.updateBlockData(switchBlock, thread, { skippingCase: {
                 bool: true,
@@ -268,9 +267,9 @@
             return;
         }
         runNextCase(_, util) {
-            const thread = util.thread;
+            const thread = util.thread;;
             if (this.inFlyout(thread)) return;
-            const switchBlock = this.outerC_untilOpcode(this.switchOpcode, thread);
+            const switchBlock = this.ascendUntilSwitch(thread);
             if (!switchBlock) return;
             this.updateBlockData(switchBlock, thread, { doNext: true });
             return;
