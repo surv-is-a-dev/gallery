@@ -4,5 +4,8 @@ node_modules
 # Final built website
 build
 
-#vscode
+# vscode
 .vscode
+
+# error logs
+false
