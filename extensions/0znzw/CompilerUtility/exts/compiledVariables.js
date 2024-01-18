@@ -1,14 +1,15 @@
-/**!
- * Compiler-Utility [v1.8] created by 0znzw.
- * https://scratch.mit.edu/users/0znzw/
- * Patch code by CST1229
- * https://scratch.mit.edu/users/CST1229/
- * Licensed under MIT license.
- * DO NOT REMOVE THIS COMMENT
- * Development
- */
-// prettier-ignore
-function anon$compilerUtility(Q3JlYXRlZCBieSAwem56dy4KaHR0cHM6Ly9zY3JhdGNoLm1pdC5lZHUvMHpuencvCkRPIE5PVCBSRU1PVkUgVEhJUw) {
+(function (Scratch) {
+    /**!
+     * Compiler-Utility [v1.8] created by 0znzw.
+     * https://scratch.mit.edu/users/0znzw/
+     * Patch code by CST1229
+     * https://scratch.mit.edu/users/CST1229/
+     * Licensed under MIT license.
+     * DO NOT REMOVE THIS COMMENT
+     * Development
+     */
+    // prettier-ignore
+    function anon$compilerUtility(Q3JlYXRlZCBieSAwem56dy4KaHR0cHM6Ly9zY3JhdGNoLm1pdC5lZHUvMHpuencvCkRPIE5PVCBSRU1PVkUgVEhJUw) {
     const hasOwn = (obj, key) => Object.prototype.hasOwnProperty.call(obj, key);
     /**
      * @type {VM}
@@ -225,7 +226,7 @@ function anon$compilerUtility(Q3JlYXRlZCBieSAwem56dy4KaHR0cHM6Ly9zY3JhdGNoLm1pdC
     }
     function checkTW() {
         // @ts-expect-error Not typed yet.
-        const exports = vm.exports, apis = exports?.guaranteed_to_break_and_you_will_not_receive_support();
+        const exports = vm.exports, apis = exports?.guaranteed_to_break_and_you_will_not_receive_support?.();
         const missing = messages.missing_tw, missing_else = messages.missing_else, errorStack = [];
         if (!apis) {
             console.warn('Unable to find guaranteed_to_break_and_you_will_not_receive_support');
@@ -342,7 +343,7 @@ function anon$compilerUtility(Q3JlYXRlZCBieSAwem56dy4KaHR0cHM6Ly9zY3JhdGNoLm1pdC
                 if (!!!mixin && !!mixins['*']) mixin = mixins['*'];
                 if (!!!mixin) return original(node);
                 if (typeof mixin === 'function') {
-                    mixin = mixin(original, node);
+                    mixin = mixin.apply(this, [original, node]);
                 }
                 return mixin;
 			},
@@ -540,23 +541,23 @@ function anon$compilerUtility(Q3JlYXRlZCBieSAwem56dy4KaHR0cHM6Ly9zY3JhdGNoLm1pdC
 
     return true;
 }
-// @ts-expect-error
-window.anon$compilerUtilityImported = anon$compilerUtility({});
-if (anon$compilerUtilityImported) console.log('Compiler utility loaded successfully.\nUse vm.compiler to access it.');
-else console.error('The Compiler-Utility has failed to load.');
+    // @ts-expect-error
+    if (!window?.anon$compilerUtilityImported) window.anon$compilerUtilityImported = anon$compilerUtility({});
+    if (anon$compilerUtilityImported) console.log('Compiler utility loaded successfully.\nUse vm.compiler to access it.');
+    else console.error('The Compiler-Utility has failed to load.');
 
-/** WARNING
- * Turbowarp may or may not support some API's.
- * Also this may be outdated and not work anymore.
- * Use at your own risk
- */
+    /** WARNING
+     * Turbowarp may or may not support some API's.
+     * Also this may be outdated and not work anymore.
+     * Use at your own risk
+     */
 
-/** v1.0
- * Example: this will make the changeX block run alert "1" instead of its default code;
- * vm.compiler.nodeMixin.register(vm.compiler.nodeMixin.new('motion', 'changeX'), 'alert(1)');
- */
+    /** v1.0
+     * Example: this will make the changeX block run alert "1" instead of its default code;
+     * vm.compiler.nodeMixin.register(vm.compiler.nodeMixin.new('motion', 'changeX'), 'alert(1)');
+     */
 
-/** v1.2
+    /** v1.2
  * Example: this will make the changeX block run its original code, and alert "1";
 var mcx = vm.compiler.nodeMixin.new('motion', 'changeX');
 vm.compiler.nodeMixin.remove(mcx);
@@ -567,7 +568,7 @@ vm.compiler.nodeMixin.register(mcx, function(original, node) {
 });
  */
 
-/** v1.3
+    /** v1.3
  * Example: this will make the changeX block remove all compiled code before it (none of the blocks before it will run);
 var mcx = vm.compiler.nodeMixin.new('motion', 'changeX');
 vm.compiler.nodeMixin.remove(mcx);
@@ -578,12 +579,12 @@ vm.compiler.nodeMixin.register(mcx, function(original, node) {
 });
  */
 
-/** v1.4
+    /** v1.4
  * Example: this will make every block compile to "alert(1)"
 vm.compiler.nodeMixin.register('*', 'alert(1)');
  */
 
-/** v1.5
+    /** v1.5
  * Example: this will register a block as a new compilation option; (IRGenerator)
  * Extension used: javascript extension from penguinmod.
 vm.compiler.blockMixin.register('jgJavascript_javascriptStack', function(block) {
@@ -596,3 +597,174 @@ vm.compiler.nodeMixin.register('jgJavascript.javascriptStack', function(original
     return node.code;
 });
  */
+    // https://github.com/TurboWarp/scratch-vm/blob/b90d1bc7efd6340566bd061cbf465a5de1e86f79/src/util/uid.js#L4
+    /**
+     * Legal characters for the unique ID.
+     * Should be all on a US keyboard.  No XML special characters or control codes.
+     * Removed $ due to issue 251.
+     * @private
+     */
+    const soup_ = '!#%()*+,-./:;=?@[]^_`{|}~' + 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+    /**
+     * Generate a unique ID, from Blockly.  This should be globally unique.
+     * 87 characters ^ 20 length > 128 bits (better than a UUID).
+     * @return {string} A globally unique ID string.
+     */
+    const uid = function () {
+        const length = 20;
+        const soupLength = soup_.length;
+        const id = [];
+        for (let i = 0; i < length; i++) {
+            id[i] = soup_.charAt(Math.random() * soupLength);
+        }
+        return id.join('');
+    };
+    const vm = Scratch.vm;
+    const winId = uid();
+    class e {
+        getInfo() {
+            return {
+                id: '0znzwCompiledVariables',
+                name: 'Compiled Variables',
+                blocks: [
+                    {
+                        blockType: Scratch.BlockType.COMMAND,
+                        opcode: 'set',
+                        text: 'set [X] to [Y]',
+                        arguments: {
+                            X: {
+                                type: Scratch.ArgumentType.STRING,
+                                defaultValue: 'variable'
+                            },
+                            Y: {
+                                type: Scratch.ArgumentType.STRING,
+                                defaultValue: '"stuff"'
+                            },
+                        },
+                    },
+                    {
+                        blockType: Scratch.BlockType.REPORTER,
+                        opcode: 'get',
+                        text: 'get [X]',
+                        arguments: {
+                            X: {
+                                type: Scratch.ArgumentType.STRING,
+                                defaultValue: 'variable'
+                            },
+                        },
+                    },
+                    {
+                        blockType: Scratch.BlockType.REPORTER,
+                        opcode: 'fn',
+                        text: 'Function([X])',
+                        arguments: {
+                            X: {
+                                type: Scratch.ArgumentType.STRING,
+                            },
+                        },
+                    },
+                    {
+                        blockType: Scratch.BlockType.REPORTER,
+                        opcode: 'ts',
+                        text: '[X].toString',
+                        arguments: {
+                            X: {
+                                type: null,
+                            },
+                        },
+                    },
+                    {
+                        blockType: Scratch.BlockType.REPORTER,
+                        opcode: 'at',
+                        text: '[X].[Y]',
+                        arguments: {
+                            X: {
+                                type: null,
+                            },
+                            Y: {
+                                type: Scratch.ArgumentType.STRING,
+                            },
+                        },
+                    },
+                    {
+                        blockType: Scratch.BlockType.REPORTER,
+                        opcode: 'ex',
+                        text: '[X]([Y])',
+                        arguments: {
+                            X: {
+                                type: null,
+                            },
+                            Y: {
+                                type: null,
+                            },
+                        },
+                    },
+                ],
+                menus: {},
+            };
+        }
+        set({ X, Y }) {
+            window[`$${winId}_${X}`] = Y;
+        }
+        get({ X }) {
+            return window[`$${winId}_${X}`];
+        }
+        fn({ X }) {
+            return Function(X);
+        }
+        ts({ X }) {
+            return X.toString();
+        }
+        at({ X, Y }) {
+            return X[Y];
+        }
+        ex({ X, Y }) {
+            return X(...Y);
+        }
+    }
+    function sanitizeForEmbed(wrap, string) {
+        return string.replaceAll('\\', '\\\\').replaceAll(wrap, `\\${wrap}`);
+    }
+    if (anon$compilerUtilityImported) {
+        // @ts-ignore
+        vm.compiler.blockMixin.register('0znzwCompiledVariables_set', function (block) {
+            console.log(this.descendInputOfBlock(block, 'Y'));
+            return {
+                kind: '0znzwCompiledVariables.set',
+                code: `window['$${winId}_${this.descendInputOfBlock(block, 'X').value}'] = ${this.descendInputOfBlock(block, 'Y').value};`,
+            };
+        });
+        // @ts-ignore
+        vm.compiler.nodeMixin.register('0znzwCompiledVariables.set', function (original, node) {
+            return node.code;
+        });
+        // @ts-ignore
+        vm.compiler.blockMixin.register('0znzwCompiledVariables_get', function (block) {
+            return {
+                kind: '0znzwCompiledVariables.get',
+                value: `runtime.visualReport("${block.id}", "uh fuck off, use me in something");`,
+            };
+        });
+        // @ts-ignore
+        vm.compiler.nodeMixin.register('0znzwCompiledVariables.get', function (original, node) {
+            return node.value;
+        });
+        // @ts-ignore
+        vm.compiler.inputMixin.register('0znzwCompiledVariables_get', function (block) {
+            return {
+                kind: '0znzwCompiledVariables.get',
+                value: `window['$${winId}_${this.descendInputOfBlock(block, 'X').value}']`
+            }
+        });
+        // @ts-ignore
+        vm.compiler.jsInputMixin.register('0znzwCompiledVariables.get', function (original, node) {
+            // @ts-ignore
+            const TypedInput = vm.compiler.inputs.Typed;
+            // @ts-ignore
+            const TYPE_UNKNOWN = vm.compiler.type.UNKNOWN;
+            return new TypedInput(node.value, TYPE_UNKNOWN);
+        });
+    }
+    Scratch.extensions.register(new e);
+})(Scratch);

@@ -3,6 +3,7 @@
     const vm = Scratch.vm;
     const runtime = vm.runtime;
     const sequencer = runtime.sequencer;
+    const toClean = [];
 
     // @ts-ignore Not typed yet.
     runtime._events['THREAD_RETIRED'] = [];
@@ -160,6 +161,7 @@
         ascendUntilSwitch(thread) {
             let block = this.getBlock(thread.peekStack(), thread);
             while (!block?.[thread.id]?.['switchId']) {
+                if (!block) return;
                 block = this.getBlock(block.parent, thread);
             }
             if (block) block = this.getBlock(block[thread.id].switchId, thread);
@@ -174,6 +176,8 @@
             const thread = util.thread, myId = thread.peekStack();
             if (this.inFlyout(thread)) return;
             thread.id = 'e';this.stirSoup(20);
+            if (!toClean?.[thread.id]) toClean[thread.id] = [];
+            toClean[thread.id].push(myId);
             const block = this.getBlock(myId, thread), self = {
                 value,
                 broke: false,
@@ -186,16 +190,8 @@
                 switchId: myId
             }
             this.updateBlockData(block, thread, self);
-            thread.onRetire = (newThread) => {
-                if (newThread?.id !== thread.id) return;
-                // @ts-expect-error Custom event
-                runtime.removeListener('THREAD_RETIRED', thread.onRetire);
-                this.updateBlockData(block, thread, {}, true);
-            }
             this.shareSwitch(thread, myId);
             util.startBranch(1, false);
-            // @ts-expect-error Not typed yet & custom event
-            runtime.addListener('THREAD_RETIRED', thread.onRetire);
         }
         case0({ value }, util) {
             const thread = util.thread, self = this.getDataViaId(thread.peekStack(), thread);
@@ -275,5 +271,13 @@
             return;
         }
     }
+    // @ts-expect-error Not typed yet & custom event
+    runtime.addListener('THREAD_RETIRED', function(thread) {
+        if (!thread?.id) return;
+        if (!Array.isArray(toClean[thread.id])) return;
+        for (const blockId of toClean[thread.id]) {
+            delete thread.blockContainer.getNlock(blockId)[thread.id];
+        }
+    });
     Scratch.extensions.register(new SwitchCaseV2);
 })(Scratch);

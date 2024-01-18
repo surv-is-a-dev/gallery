@@ -1,5 +1,5 @@
 /**!
- * Compiler-Utility [v1.8] created by 0znzw.
+ * Compiler-Utility [v1.9] created by 0znzw.
  * https://scratch.mit.edu/users/0znzw/
  * Patch code by CST1229
  * https://scratch.mit.edu/users/CST1229/
@@ -225,7 +225,7 @@ function anon$compilerUtility(Q3JlYXRlZCBieSAwem56dy4KaHR0cHM6Ly9zY3JhdGNoLm1pdC
     }
     function checkTW() {
         // @ts-expect-error Not typed yet.
-        const exports = vm.exports, apis = exports?.guaranteed_to_break_and_you_will_not_receive_support();
+        const exports = vm.exports, apis = exports?.guaranteed_to_break_and_you_will_not_receive_support?.();
         const missing = messages.missing_tw, missing_else = messages.missing_else, errorStack = [];
         if (!apis) {
             console.warn('Unable to find guaranteed_to_break_and_you_will_not_receive_support');
@@ -309,7 +309,7 @@ function anon$compilerUtility(Q3JlYXRlZCBieSAwem56dy4KaHR0cHM6Ly9zY3JhdGNoLm1pdC
     // @ts-expect-error
     vm.compiler = {
         compilerExport,
-        utilityVersion: 1.8,
+        utilityVersion: 1.9,
         __internal__: {
             descendStackedBlock_JSG(original, node) {
                 // @ts-expect-error
@@ -326,7 +326,7 @@ function anon$compilerUtility(Q3JlYXRlZCBieSAwem56dy4KaHR0cHM6Ly9zY3JhdGNoLm1pdC
                         this.$patches.descendStackedBlock.apply(this, [node]);
                         return this;
                     }.bind(this);
-                    mixin = mixin(fakeOriginal, node);
+                    mixin = mixin.apply(this, [fakeOriginal, node]);
                     if (oldSource !== this.overrideSource) {
                         this.source = this.overrideSource;
                     } else this.source = oldSource;
@@ -342,10 +342,10 @@ function anon$compilerUtility(Q3JlYXRlZCBieSAwem56dy4KaHR0cHM6Ly9zY3JhdGNoLm1pdC
                 if (!!!mixin && !!mixins['*']) mixin = mixins['*'];
                 if (!!!mixin) return original(node);
                 if (typeof mixin === 'function') {
-                    mixin = mixin(original, node);
+                    mixin = mixin.apply(this, [original, node]);
                 }
                 return mixin;
-			},
+            },
             descendInput_STG(original, block) {
                 // @ts-expect-error
                 const mixins = vm.compiler.inputMixin.__internal__.mixins;
@@ -541,7 +541,7 @@ function anon$compilerUtility(Q3JlYXRlZCBieSAwem56dy4KaHR0cHM6Ly9zY3JhdGNoLm1pdC
     return true;
 }
 // @ts-expect-error
-window.anon$compilerUtilityImported = anon$compilerUtility({});
+if (!window?.anon$compilerUtilityImported) window.anon$compilerUtilityImported = anon$compilerUtility({});
 if (anon$compilerUtilityImported) console.log('Compiler utility loaded successfully.\nUse vm.compiler to access it.');
 else console.error('The Compiler-Utility has failed to load.');
 
@@ -565,7 +565,7 @@ vm.compiler.nodeMixin.register(mcx, function(original, node) {
     const newSource = `${oldSource}${oldSource.endsWith(';') ? '' : ';'}\nalert(1);\n`;
     return newSource;
 });
- */
+    */
 
 /** v1.3
  * Example: this will make the changeX block remove all compiled code before it (none of the blocks before it will run);
@@ -576,12 +576,12 @@ vm.compiler.nodeMixin.register(mcx, function(original, node) {
     origin.overrideSource = '';
     return origin.source;
 });
- */
+    */
 
 /** v1.4
  * Example: this will make every block compile to "alert(1)"
 vm.compiler.nodeMixin.register('*', 'alert(1)');
- */
+    */
 
 /** v1.5
  * Example: this will register a block as a new compilation option; (IRGenerator)
@@ -595,4 +595,4 @@ vm.compiler.blockMixin.register('jgJavascript_javascriptStack', function(block) 
 vm.compiler.nodeMixin.register('jgJavascript.javascriptStack', function(original, node) {
     return node.code;
 });
- */
+    */
