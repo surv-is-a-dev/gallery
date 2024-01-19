@@ -309,7 +309,7 @@
       if (extensionFile.endsWith('.js')) {
         return `Do not add .js when calling banner(): ${extensionFile}`;
       }
-      const imageSource = extensionImages[extensionFile] ? `0znzw/tests/images/${extensionImages[extensionFile]}` : 'images/unknown.svg';
+      const imageSource = extensionImages[extensionFile] ? `/survs-gallery/0znzw/tests/images/${extensionImages[extensionFile]}` : '/survs-gallery/images/unknown.svg';
       const imageClasses = ["extension-image"];
       if (options.invertDark) imageClasses.push("invert-dark");
       return `
