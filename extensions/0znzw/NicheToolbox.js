@@ -404,7 +404,7 @@
         SGR_isEmbedded() {
             return (this._getSGredux()?.mode?.isEmbedded ?? false);
         }
-        SGR_isFullscren() {
+        SGR_isFullscreen() {
             return (this._getSGredux()?.mode?.isFullScren ?? false);
         }
         SGR_isPlayerOnly() {
