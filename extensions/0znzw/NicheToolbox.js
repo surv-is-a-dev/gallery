@@ -396,6 +396,10 @@
             updateLayerOrder();
         }
 
+        NT_projectEdited() {
+            return PROJECT_CHANGED;
+        }
+
         /* ScratchGUIredux.js */
         SGR_isEmbedded() {
             return (this._getSGredux()?.mode?.isEmbedded ?? false);
