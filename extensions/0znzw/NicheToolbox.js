@@ -1,5 +1,5 @@
 /**
- * Niche Toolbox extension v1.8 by 0znzw (English Version)
+ * Niche Toolbox extension v1.9 by 0znzw (English Version)
  * Majority code is by 0znzw || licensed under MIT license.
  * Do not remove this comment
  */
@@ -84,6 +84,12 @@
         //@ts-expect-error
         vm.renderer.setLayerGroupOrdering(vm.renderer.StageLayering.LAYER_GROUPS);
     }
+
+    let PROJECT_CHANGED = false, ON_PROJECT_CHANGED = function () {
+        vm.off('PROJECT_CHANGED', ON_PROJECT_CHANGED);
+        PROJECT_CHANGED = true;
+    };
+    vm.on('PROJECT_CHANGED', ON_PROJECT_CHANGED);
 
     class NicheToolbox {
         constructor() {
@@ -231,6 +237,10 @@
                     opcode: 'SP_isPackaged',
                     blockType: Scratch.BlockType.BOOLEAN,
                     text: 'is packaged?'
+                }, {
+                    opcode: 'NT_projectEdited',
+                    blockType: Scratch.BlockType.BOOLEAN,
+                    text: 'project has been edited?'
                 }, {
                     blockType: Scratch.BlockType.COMMAND,
                     opcode: 'ISP_print_',
