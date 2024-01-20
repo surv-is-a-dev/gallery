@@ -1,5 +1,5 @@
 /**
- * Niche Toolbox extension v1.7 by 0znzw (English Version)
+ * Niche Toolbox extension v1.8 by 0znzw (English Version)
  * Majority code is by 0znzw || licensed under MIT license.
  * Do not remove this comment
  */
