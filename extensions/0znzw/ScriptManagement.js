@@ -457,6 +457,15 @@
         return [{ text: '', value: 0 }]; //this should never happen but it's a failsafe
       }
     }
+    stirSoup(idLength) {
+      // https://github.com/TurboWarp/scratch-vm/blob/develop/src/util/uid.js
+      const soup = '!#%()*+,-./:;=?@[]^_`{|}~ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      const id = [];
+      for (let i = 0; i < idLength; i++) {
+          id[i] = soup.charAt(Math.random() * soup.length);
+      }
+      return id.join('');
+  }
     deleteScriptViaThreadID(args, util) {
       let block = monitoredThreads[args.ID].topBlock;
       //@ts-ignore Yes it does bitch
@@ -573,19 +582,7 @@
       }
       return myThread;
     }
-    /**
-     * Get active block id
-     * https://github.com/FurryR/lpp-scratch/blob/main/src/main.js#L4624
-     * @param {object} args Block arguments.
-     * @param {any} thread Thread.
-     * @returns {any} Block instance.
-     * This has been modified alot to be fit for my uses
-     */
-    getActiveBlockInstance(args, thread) {
-      if (thread.isCompiled) return thread.peekStack();
-      return thread.blockContainer._cache._executeCached[thread.peekStack()]?._ops?.find((/** @type {{ _argValues: unknown; }} */ v) => args === v._argValues).id;
-    }
-    /* Thanks CST1229 and FurryR */
+    /* Thanks CST1229 */
     setGlobalStateThread(thread, sequencer) {
       if (!thread.isCompiled) return;
       const oldGenerator = thread.generator;
@@ -593,12 +590,22 @@
       sequencer.stepThread(thread);
       thread.generator = oldGenerator;
     }
+    /**/
+    hackMyId(util) {
+      const thread = util.thread, blocks = thread.blockContainer, stack = thread.peekStack();;
+      if (thread.isCompiled) return stack;
+      
+      const reporterId = stack;
+      console.log(reporterId);
+      return null;
+    }
     inline(_, util) {
       const thread = util.thread,
         Thread = thread.constructor,
         sequencer = util.sequencer;
-      const myId = this.getActiveBlockInstance(_, thread);
-      const isOg = myId === thread.peekStack();
+      const myId = this.hackMyId(util);
+      console.log(myId);
+      if (!myId) return '';
       const blocks = thread.blockContainer;
       const substack = blocks.getBranch(myId);
       if (!substack) return '';
@@ -618,7 +625,7 @@
       // @ts-ignore Not typed at all
       if (inlineThread.status === Thread.STATUS_DONE || hasOwn(inlineThread, 'inlineReturn')) {
         const returnValue = inlineThread.inlineReturn;
-        if (!thread.isCompiled && isOg) setTimeout(() => runtime.visualReport(myId, returnValue), 0);
+        if (!thread.isCompiled) setTimeout(() => runtime.visualReport(myId, returnValue), 0);
         return returnValue ?? '';
       }
       return new Promise((resolve) => {
@@ -628,7 +635,7 @@
             runtime.off('AFTER_EXECUTE', afterExecute);
             const returnValue = inlineThread.inlineReturn;
             console.log(thread.isCompiled);
-            if (!thread.isCompiled && isOg) setTimeout(() => runtime.visualReport(myId, returnValue), 0);
+            if (!thread.isCompiled) setTimeout(() => runtime.visualReport(myId, returnValue), 0);
             resolve(returnValue ?? '');
           }
         });
