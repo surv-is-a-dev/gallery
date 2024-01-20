@@ -344,7 +344,7 @@
 
         _getSGredux() {
             //@ts-expect-error
-            return ReduxStore.getState().scratchGui;
+            return ReduxStore?.getState?.()?.scratchGui;
         }
 
         blobToBase64(blob) {
@@ -384,16 +384,16 @@
 
         /* ScratchGUIredux.js */
         SGR_isEmbedded() {
-            try { return this._getSGredux().mode.isEmbedded; } catch { return false };
+            return (this._getSGredux()?.mode?.isEmbedded ?? false);
         }
-        SGR_isFullscreen() {
-            try { return this._getSGredux().mode.isFullScreen; } catch { return false };
+        SGR_isFullscren() {
+            return (this._getSGredux()?.mode?.isFullScren ?? false);
         }
         SGR_isPlayerOnly() {
-            try { return this._getSGredux().mode.isPlayerOnly; } catch { return false };
+            return (this._getSGredux()?.mode?.isPlayerOnly ?? false);
         }
         SGR_hasEverEnteredEditor() {
-            try { return this._getSGredux().mode.hasEverEnteredEditor; } catch { return false };
+            return (this._getSGredux()?.mode?.hasEverEnteredEditor ?? false);
         }
 
         /* shovelutils+.js */
