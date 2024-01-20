@@ -228,6 +228,10 @@
                     blockType: Scratch.BlockType.BOOLEAN,
                     text: 'has the user ever opened the editor?'
                 }, {
+                    opcode: 'SP_isPackaged',
+                    blockType: Scratch.BlockType.BOOLEAN,
+                    text: 'is packaged?'
+                }, {
                     blockType: Scratch.BlockType.COMMAND,
                     opcode: 'ISP_print_',
                     text: 'attempt to print image from url: [URI]',
@@ -394,6 +398,12 @@
         }
         SGR_hasEverEnteredEditor() {
             return (this._getSGredux()?.mode?.hasEverEnteredEditor ?? false);
+        }
+
+        /* Sensing+.js */
+        SP_isPackaged() {
+            // @ts-expect-error
+            return (!window.ReduxStore?.getState && !!window.scaffolding?.runtime);
         }
 
         /* shovelutils+.js */
