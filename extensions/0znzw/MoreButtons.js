@@ -1,6 +1,6 @@
 /**!
  *
- * Created by 0znzw | v1.5
+ * Created by 0znzw | v1.6
  * DO NOT REMOVE THIS COMMENT
  *
  * Many thanks to:
@@ -14,6 +14,7 @@
         // @ts-ignore Not typed yet.
         const ScratchBlocks = window.ScratchBlocks;
         if (!ScratchBlocks) return {};
+        // @ts-ignore Type fuck-up
         const source = ScratchBlocks.selected;
         if (!source) return {};
 
@@ -35,6 +36,7 @@
     }
     const vm = Scratch.vm;
     const runtime = vm.runtime;
+    const renderer = runtime.renderer;
     const Cast = Scratch.Cast;
     const BlockType = Scratch.BlockType;
     const ArgType = Scratch.ArgumentType;
@@ -269,7 +271,7 @@
                 case 'sprite':
                     return this._getSprites();
                 case 'url':
-                    return ['put join block here to type.']
+                    return ['put join block here to type.'];
                 default:
                     return [''];
             }
@@ -293,13 +295,22 @@
                 callback(name, this.buttons[name]);
             });
         }
-        _snapshotStage(args, util) {
+        _snapshotStage() {
             // https://extensions.turbowarp.org/Lily/LooksPlus.js
             return new Promise((resolve) => {
                 Scratch.vm.runtime.renderer.requestSnapshot((uri) => {
                     resolve(uri);
                 });
             });
+        }
+        _getSpriteWithEffects(sprite) {
+            // @ts-ignore Not typed yet
+            const imageData = vm.runtime.renderer.extractDrawableScreenSpace(sprite.drawableID).imageData;
+            var canvas = document.createElement('canvas');
+            canvas.width = imageData.width;
+            canvas.height = imageData.height;
+            canvas.getContext('2d').putImageData(imageData, 0, 0);
+            return canvas.toDataURL('image/png');
         }
         _setURL(name, URL) {
             this.buttons[name].src = URL;
@@ -400,6 +411,7 @@
                     this._doAll((NAME) => {
                         this.removeBtn({ NAME });
                     });
+                    break;
                 default:
                     break;
             }
@@ -420,6 +432,8 @@
                     this.allContainer.style.display = display;
                     break;
                 case 'all':
+                    // BRO I DONT GIVE A SHIT, JUST SHUT THE FUCK UP 😭
+                    // eslint-disable-next-line
                     const containers = [this.resizeContainer, this.controlContainer];
                     containers.forEach(/** @argument {HTMLElement} container */(container) => (container.style.display = display));
                     break;
@@ -439,10 +453,15 @@
                 case 'sprite':
                     if (ASSET_NAME === '_stage_') {
                         this._setURL(NAME, await this._snapshotStage());
-                    } else alert('W.I.P');
+                    } else if (ASSET_NAME === '_myself_') {
+                        this._setURL(NAME, this._getSpriteWithEffects(vm.editingTarget));
+                    } else {
+                        const target = runtime.getSpriteTargetByName(ASSET_NAME);
+                        if (target) this._setURL(NAME, this._getSpriteWithEffects(target));
+                    }
                     break;
                 case 'url':
-                        this._setURL(NAME, ASSET_NAME);
+                    this._setURL(NAME, ASSET_NAME);
                     break;
                 default:
                     break;

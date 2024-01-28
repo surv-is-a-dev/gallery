@@ -516,13 +516,13 @@
     }
     storeInThread(args, util) {
       let thread = util.thread;
-      if (!thread.hasOwnProperty('customStorage')) thread.customStorage = {};
+      if (!hasOwn(thread, 'customStorage')) thread.customStorage = {};
       thread.customStorage[args.key] = args.value;
     }
     getStoreInThread(args, util) {
       let thread = util.thread;
-      if (!thread.hasOwnProperty('customStorage')) thread.customStorage = {};
-      if (!thread.customStorage.hasOwnProperty(args.key)) return null;
+      if (!hasOwn(thread, 'customStorage')) thread.customStorage = {};
+      if (!hasOwn(thread.customStorage, args.key)) return null;
       return thread.customStorage[args.key];
     }
     getBlocksInThread(args) {
@@ -591,20 +591,14 @@
       thread.generator = oldGenerator;
     }
     /**/
-    hackMyId(util) {
-      const thread = util.thread, blocks = thread.blockContainer, stack = thread.peekStack();;
-      if (thread.isCompiled) return stack;
-      
-      const reporterId = stack;
-      console.log(reporterId);
-      return null;
+    myId(util) {
+      return (util.thread.isCompiled ? util.thread.peekStack() : util.thread.peekStackFrame().op.id);
     }
     inline(_, util) {
       const thread = util.thread,
         Thread = thread.constructor,
         sequencer = util.sequencer;
-      const myId = this.hackMyId(util);
-      console.log(myId);
+      const myId = this.myId(util);
       if (!myId) return '';
       const blocks = thread.blockContainer;
       const substack = blocks.getBranch(myId);

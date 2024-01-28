@@ -247,6 +247,9 @@
                         runtime.off('AFTER_EXECUTE', afterExecute);
                         // @ts-ignore
                         const returnValue = hatThread.returnValue;
+                        if (blockInfo?.branchCount > 0) {
+                            util.startBranch(Scratch.Cast.toNumber(returnValue), false);
+                        }
                         resolve(returnValue ?? '');
                     }
                 });
@@ -390,6 +393,23 @@
                 type: Scratch.ArgumentType.COLOR
             }
         },
+        // @ts-ignore Outdated types
+    }, !runtime.extensionStorage?.mbp);
+
+    createBlock({
+        color1: '#623431',
+        color2: '#623431',
+        color3: '#623431',
+        color4: '#623431',
+        blockType: Scratch.BlockType.COMMAND,
+        opcode: 'yas',
+        text: 'execute branch [A1]',
+        arguments: {
+            A1: {
+                type: Scratch.ArgumentType.NUMBER,
+            }
+        },
+        branchCount: 5
         // @ts-ignore Outdated types
     }, !runtime.extensionStorage?.mbp);
 
