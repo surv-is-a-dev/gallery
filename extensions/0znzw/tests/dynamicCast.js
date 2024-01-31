@@ -49,11 +49,14 @@
       return this.getAllBlocks().filter((block) => block.type == type);
     };
 
-    vm.runtime.addListener('BLOCK_DRAG_UPDATE', () => {
+    function fixCast() {
       workspace.getBlocksByType('lmsCast_toType').forEach((block) => {
         block.renderAsInputCheck(ScratchBlocks.OUTPUT_SHAPE_ROUND);
       });
-    });
+    }
+
+    vm.runtime.addListener('BLOCK_DRAG_UPDATE', fixCast);
+    vm.on('workspaceUpdate', fixCast);
   }
 
   class CastUtil {
