@@ -1,5 +1,5 @@
 /**
- * Niche Toolbox extension v2.1 by 0znzw (English Version)
+ * Niche Toolbox extension v2.2 by 0znzw (English Version)
  * Majority code is by 0znzw || licensed under MIT license.
  * Do not remove this comment
  */
@@ -220,6 +220,13 @@
                         LAYER_ORDER: { defaultValue: this.LAYER_TYPES, type: Scratch.ArgumentType.STRING }
                     }
                 }, {
+                    opcode: 'NT_unclampedFPS',
+                    blockType: Scratch.BlockType.COMMAND,
+                    text: 'set FPS to [FPS] (unclamped)',
+                    arguments: {
+                        FPS: { defaultValue: '300', type: Scratch.ArgumentType.NUMBER }
+                    }
+                }, {
                     opcode: 'SGR_isPlayerOnly',
                     blockType: Scratch.BlockType.BOOLEAN,
                     text: 'user is not in the editor?'
@@ -427,6 +434,11 @@
 
         NT_projectEdited() {
             return PROJECT_CHANGED;
+        }
+
+        NT_unclampedFPS(args) {
+            runtime.frameLoop.framerate = Scratch.Cast.toNumber(args.FPS);
+            runtime.frameLoop._restart();
         }
 
         /* ScratchGUIredux.js */
