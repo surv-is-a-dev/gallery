@@ -1,3 +1,13 @@
+// Name: Variables Extended
+// ID: 0znzwVarsExtended
+// Description: Better variable control.
+// By: 0znzw <https://scratch.mit.edu/users/0znzw/>
+
+// *************
+// Additional meta
+// License: MIT
+// Version: 1.1
+// *************
 (function(Scratch) {
     'use strict';
     const vm = Scratch.vm, runtime = vm.runtime;
@@ -16,6 +26,8 @@
         // @ts-expect-error
         return (getVariable(target, name) ?? getVariable(runtime._stageTarget, name));
     }
+
+    // I assume you dont want this?
     /* eslint-disable */
     vm.on('EXTENSION_ADDED', tryUseScratchBlocks);
     vm.on('BLOCKSINFO_UPDATE', tryUseScratchBlocks);
@@ -314,7 +326,9 @@
             NAME = Scratch.Cast.toString(NAME);
             const sprite = this._getTargetFromMenu(Scratch.Cast.toString(SPRITE_NAME), util);
             if (!sprite) return;
-            const VALUE = (Scratch.Cast.toNumber(getVariable(sprite, NAME).value) + Scratch.Cast.toNumber(AMOUNT));
+            const variable = getVariable(sprite, NAME);
+            if (!variable) return;
+            const VALUE = (Scratch.Cast.toNumber(variable.value) + Scratch.Cast.toNumber(AMOUNT));
             this.setVar({ SPRITE_NAME, NAME, VALUE }, util);
         }
         varIsVisible({ NAME }, util) {

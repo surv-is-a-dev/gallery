@@ -1,5 +1,5 @@
 /**
- * Niche Toolbox extension v2 by 0znzw (English Version)
+ * Niche Toolbox extension v2.1 by 0znzw (English Version)
  * Majority code is by 0znzw || licensed under MIT license.
  * Do not remove this comment
  */
@@ -40,7 +40,8 @@
     let CustomLayers = [];
 
     //@ts-expect-error
-    (function(){var _0x319f41=_0x39b7;function _0x39b7(t,r){var a=_0x1014();return(_0x39b7=function(t,r){return a[t-=295]})(t,r)}function _0x1014(){var _0x1a7a35=["5111996tLmxub","1249FFuKyO","1978IqbbSd","6399coVOVY","runtime","36513147tcIYMv","2770QcbBHr","4226184ZCmoYg","56AWrHSS","getPrimitives","ext_scratch3_motion","1735195CoynVD","12TuUzZH","J05pY2hlLVRvb2xib3ggbXVzdCBiZSBydW4gdW5zYW5kYm94ZWRcbkFsc28gaWYgeW91IGFyZSBvbiBQTSBwbGVhc2UgdXNlIFRXLiBodHRwczovL3R1cmJvd2FycC5vcmcvZWRpdG9yJw==","649306AxaDMi",eval(atob("J21vdGlvbl9tb3ZlYmFja3N0ZXBzJw=="))];return _0x1014=function(){return _0x1a7a35},_0x1014()}!function(t,r){for(var a=_0x39b7,n=_0x1014();;)try{if(721474===parseInt(a(300))/1*(parseInt(a(301))/2)+-parseInt(a(306))/3+-parseInt(a(299))/4+parseInt(a(310))/5*(-parseInt(a(295))/6)+parseInt(a(297))/7*(-parseInt(a(307))/8)+-parseInt(a(302))/9*(-parseInt(a(305))/10)+parseInt(a(304))/11)break;n.push(n.shift())}catch(t){n.push(n.shift())}}(),vm[_0x319f41(303)][_0x319f41(309)][_0x319f41(308)]().hasOwnProperty(_0x319f41(298))&&throwwww(eval(atob(_0x319f41(296))));})();
+    /* eslint-disable */(function(){var _0x319f41=_0x39b7;function _0x39b7(t,r){var a=_0x1014();return(_0x39b7=function(t,r){return a[t-=295]})(t,r)}function _0x1014(){var _0x1a7a35=["5111996tLmxub","1249FFuKyO","1978IqbbSd","6399coVOVY","runtime","36513147tcIYMv","2770QcbBHr","4226184ZCmoYg","56AWrHSS","getPrimitives","ext_scratch3_motion","1735195CoynVD","12TuUzZH","J05pY2hlLVRvb2xib3ggbXVzdCBiZSBydW4gdW5zYW5kYm94ZWRcbkFsc28gaWYgeW91IGFyZSBvbiBQTSBwbGVhc2UgdXNlIFRXLiBodHRwczovL3R1cmJvd2FycC5vcmcvZWRpdG9yJw==","649306AxaDMi",eval(atob("J21vdGlvbl9tb3ZlYmFja3N0ZXBzJw=="))];return _0x1014=function(){return _0x1a7a35},_0x1014()}!function(t,r){for(var a=_0x39b7,n=_0x1014();;)try{if(721474===parseInt(a(300))/1*(parseInt(a(301))/2)+-parseInt(a(306))/3+-parseInt(a(299))/4+parseInt(a(310))/5*(-parseInt(a(295))/6)+parseInt(a(297))/7*(-parseInt(a(307))/8)+-parseInt(a(302))/9*(-parseInt(a(305))/10)+parseInt(a(304))/11)break;n.push(n.shift())}catch(t){n.push(n.shift())}}(),vm[_0x319f41(303)][_0x319f41(309)][_0x319f41(308)]().hasOwnProperty(_0x319f41(298))&&throwwww(eval(atob(_0x319f41(296))));})();
+    /* eslint-enable */
 
     //provide me w/ credit if used.
     //@ts-expect-error
@@ -48,29 +49,29 @@
         static get BACKGROUND_LAYER () {
             return 'background';
         }
-    
+
         static get VIDEO_LAYER () {
             return 'video';
         }
-    
+
         static get PEN_LAYER () {
             return 'pen';
         }
-    
+
         static get SPRITE_LAYER () {
             return 'sprite';
         }
-    
+
         // Order of layer groups relative to each other,
         static get LAYER_GROUPS () {
-            return (CustomLayers.length>0 ? CustomLayers : [
+            return (CustomLayers.length > 0 ? CustomLayers : [
                 this.BACKGROUND_LAYER,
                 this.VIDEO_LAYER,
                 this.PEN_LAYER,
                 this.SPRITE_LAYER,
             ]);
         }
-    }
+    };
 
     //@ts-expect-error
     vm.renderer.attachRenderer = (renderer) => {
@@ -78,7 +79,7 @@
             vm.renderer.setLayerGroupOrdering(vm.renderer.StageLayering.LAYER_GROUPS);
             vm.renderer.offscreenTouching = !vm.runtime.runtimeOptions.fencing;
             vm.runtime.updatePrivacy();
-    }
+    };
 
     function updateLayerOrder() {
         //@ts-expect-error
@@ -98,7 +99,8 @@
             this.PU_SEND_MENU = ['start', 'end'];
             this.LAYER_TYPES = '["backdrop", "video", "pen", "sprite"]';
             //@ts-expect-error
-            (function(){var _0x319f41=_0x39b7;function _0x39b7(t,r){var a=_0x1014();return(_0x39b7=function(t,r){return a[t-=295]})(t,r)}function _0x1014(){var _0x1a7a35=["5111996tLmxub","1249FFuKyO","1978IqbbSd","6399coVOVY","runtime","36513147tcIYMv","2770QcbBHr","4226184ZCmoYg","56AWrHSS","getPrimitives","ext_scratch3_motion","1735195CoynVD","12TuUzZH","J05pY2hlLVRvb2xib3ggbXVzdCBiZSBydW4gdW5zYW5kYm94ZWRcbkFsc28gaWYgeW91IGFyZSBvbiBQTSBwbGVhc2UgdXNlIFRXLiBodHRwczovL3R1cmJvd2FycC5vcmcvZWRpdG9yJw==","649306AxaDMi",eval(atob("J21vdGlvbl9tb3ZlYmFja3N0ZXBzJw=="))];return _0x1014=function(){return _0x1a7a35},_0x1014()}!function(t,r){for(var a=_0x39b7,n=_0x1014();;)try{if(721474===parseInt(a(300))/1*(parseInt(a(301))/2)+-parseInt(a(306))/3+-parseInt(a(299))/4+parseInt(a(310))/5*(-parseInt(a(295))/6)+parseInt(a(297))/7*(-parseInt(a(307))/8)+-parseInt(a(302))/9*(-parseInt(a(305))/10)+parseInt(a(304))/11)break;n.push(n.shift())}catch(t){n.push(n.shift())}}(),vm[_0x319f41(303)][_0x319f41(309)][_0x319f41(308)]().hasOwnProperty(_0x319f41(298))&&throwwww(eval(atob(_0x319f41(296))));})();
+            /* eslint-disable */(function(){var _0x319f41=_0x39b7;function _0x39b7(t,r){var a=_0x1014();return(_0x39b7=function(t,r){return a[t-=295]})(t,r)}function _0x1014(){var _0x1a7a35=["5111996tLmxub","1249FFuKyO","1978IqbbSd","6399coVOVY","runtime","36513147tcIYMv","2770QcbBHr","4226184ZCmoYg","56AWrHSS","getPrimitives","ext_scratch3_motion","1735195CoynVD","12TuUzZH","J05pY2hlLVRvb2xib3ggbXVzdCBiZSBydW4gdW5zYW5kYm94ZWRcbkFsc28gaWYgeW91IGFyZSBvbiBQTSBwbGVhc2UgdXNlIFRXLiBodHRwczovL3R1cmJvd2FycC5vcmcvZWRpdG9yJw==","649306AxaDMi",eval(atob("J21vdGlvbl9tb3ZlYmFja3N0ZXBzJw=="))];return _0x1014=function(){return _0x1a7a35},_0x1014()}!function(t,r){for(var a=_0x39b7,n=_0x1014();;)try{if(721474===parseInt(a(300))/1*(parseInt(a(301))/2)+-parseInt(a(306))/3+-parseInt(a(299))/4+parseInt(a(310))/5*(-parseInt(a(295))/6)+parseInt(a(297))/7*(-parseInt(a(307))/8)+-parseInt(a(302))/9*(-parseInt(a(305))/10)+parseInt(a(304))/11)break;n.push(n.shift())}catch(t){n.push(n.shift())}}(),vm[_0x319f41(303)][_0x319f41(309)][_0x319f41(308)]().hasOwnProperty(_0x319f41(298))&&throwwww(eval(atob(_0x319f41(296))));})();
+            /* eslint-enable */
         }
         getInfo() {
             return {
@@ -207,7 +209,7 @@
                     arguments: {
                         TEXT: { defaultValue: 'aGk',   type: Scratch.ArgumentType.STRING },
                         CHAR: { defaultValue: '=',     type: Scratch.ArgumentType.STRING },
-                        LEN:  { defaultValue: 4,       type: Scratch.ArgumentType.NUMBER },
+                        LEN: { defaultValue: 4,       type: Scratch.ArgumentType.NUMBER },
                         SEND: { defaultValue: 'end', type: Scratch.ArgumentType.STRING, menu: 'PU_SEND' },
                     }
                 }, {
@@ -291,10 +293,15 @@
             };
         }
         openWarningsPage() {
+            // eslint-disable-next-line
             window.open('https://load-ing.pages.dev/NicheToolbox/warnings.txt', '_blank');
         }
 
         /* general utilitys for the extension(s) */
+        _hasOwn(obj, key) {
+            return Object.prototype.hasOwnProperty.call(obj, key);
+        }
+
         _GetCanvasWxH() {
             let canvas = runtime.renderer.canvas;
             let width = canvas.width;
@@ -307,18 +314,22 @@
             let multiplier = [
                 canvasSize.width / runtime.renderer._nativeSize[0],
                 canvasSize.height / runtime.renderer._nativeSize[1]
-            ]
+            ];
             return { x: ((_x * multiplier[0]) + (canvasSize.width / 2)),
                     y: ((_y * -multiplier[1]) + (canvasSize.height / 2)) };
         }
 
         _isJSON(str) {
-            try { return true; } catch {}; return false;
+            try {
+                return JSON.parse(str);
+            } catch {
+                return false;
+            }
         }
 
         _isArray(obj) {
             if (typeof obj !== 'object') return false;
-            if (!obj.hasOwnProperty('length')) return false;
+            if (!this._hasOwn(obj, 'length')) return false;
             return true;
         }
 
@@ -358,7 +369,7 @@
 
         _getSGredux() {
             //@ts-expect-error
-            return ReduxStore?.getState?.()?.scratchGui;
+            /* eslint-disable */return ReduxStore?.getState?.()?.scratchGui;/* eslint-enable */
         }
 
         blobToBase64(blob) {
@@ -374,7 +385,7 @@
         /* Actual NicheToolbox Blocks */
         NT_is_BuiltInExt_or_ReservedName(args) {
             let STR = Cast.toString(args.STR);
-            switch(args.IS) {
+            switch (args.IS) {
                 case 'base scratch category':
                     return this.DEFAULT_CATEGORYS.includes(STR);
                 case 'reserved sprite name':
@@ -384,13 +395,31 @@
 
         NT_layerOrder(args) {
             let LAYER_ORDER = Cast.toString(args.LAYER_ORDER);
-            if (!this._isJSON(LAYER_ORDER)) { console.warn('Invalid Layer JSON: Must be JSON.'); return };
+            if (!this._isJSON(LAYER_ORDER)) {
+                console.warn('Invalid Layer JSON: Must be JSON.');
+                return '';
+            }
             LAYER_ORDER = JSON.parse(LAYER_ORDER);
-            if (!this._isArray(LAYER_ORDER)) { console.warn('Invalid Layer JSON: Must be an Array.'); return };;
-            if (!LAYER_ORDER.includes('backdrop')) { console.warn('Invalid Layer JSON: Missing Backdrop Layer.'); return };;
-            if (!LAYER_ORDER.includes('video')) { console.warn('Invalid Layer JSON: Missing Video Layer.'); return };;
-            if (!LAYER_ORDER.includes('pen')) { console.warn('Invalid Layer JSON: Missing Pen Layer.'); return };;
-            if (!LAYER_ORDER.includes('sprite')) { console.warn('Invalid Layer JSON: Missing Sprite Layer.'); return };;
+            if (!this._isArray(LAYER_ORDER)) {
+                console.warn('Invalid Layer JSON: Must be an Array.');
+                return '';
+            }
+            if (!LAYER_ORDER.includes('backdrop')) {
+                console.warn('Invalid Layer JSON: Missing Backdrop Layer.');
+                return '';
+            }
+            if (!LAYER_ORDER.includes('video')) {
+                console.warn('Invalid Layer JSON: Missing Video Layer.');
+                return '';
+            }
+            if (!LAYER_ORDER.includes('pen')) {
+                console.warn('Invalid Layer JSON: Missing Pen Layer.');
+                return '';
+            }
+            if (!LAYER_ORDER.includes('sprite')) {
+                console.warn('Invalid Layer JSON: Missing Sprite Layer.');
+                return '';
+            }
             //@ts-expect-error
             CustomLayers = LAYER_ORDER;
             updateLayerOrder();
@@ -459,7 +488,7 @@
             /* I am going to keep this "kind of hidden", (FYI by this I mean the possibility to go to 0.5;
                 due to the fact that it is slightly broken */
             if (radius < 1 && radius != 0.5) radius = 1;
-            if (radius == 0.5) selectedAttribute = 'pixels object'
+            if (radius == 0.5) selectedAttribute = 'pixels object';
             let extractedPixels = renderer.extractColor(x, y, radius);
             const pixelColor = extractedPixels.color;
             //let debug = [x, y, 1, args.x, args.y, args.attr, extractedPixels];
@@ -498,11 +527,13 @@
             LEN = Scratch.Cast.toNumber(LEN);
             SEND = Scratch.Cast.toString(SEND);
             if (!this.PU_SEND_MENU.includes(SEND)) SEND = 'start';
-            switch(SEND) {
+            switch (SEND) {
                 case 'start':
                     TEXT = TEXT.padStart(LEN, CHAR);
+                    break;
                 case 'end':
                     TEXT = TEXT.padEnd(LEN, CHAR);
+                    break;
             }
             return TEXT;
         }
@@ -511,16 +542,18 @@
         ISP_print_(args) {
             let url = Scratch.Cast.toString(args.URI);
             var test = document.createElement('iframe');
-            test.srcdoc=`<html><head></head><body><<img src="${url}"></img><script>setTimeout(function(){window.print()}, 500);</script></body></html>`;
+            test.srcdoc = `<html><head></head><body><<img src="${url}"></img><script>setTimeout(function(){window.print()}, 500);</script></body></html>`;
             if (test.parentNode == null) document.body.appendChild(test);
-            setTimeout(function(){test.remove()}, 750);
+            setTimeout(function() {
+                test.remove();
+            }, 750);
         }
 
         /* DragoCuven sprite2dataurl Idea */
         async DCS_spriteToDataURL(args) {
             const sprite = Scratch.Cast.toString(args.SPRITE);
             const target = vm.runtime.getSpriteTargetByName(sprite);
-            if (!!!target) return '';
+            if (!target) return '';
             const spriteExport = await vm.exportSprite(target.id);
             const dataURI = await this.blobToBase64(spriteExport);
             return dataURI;

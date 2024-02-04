@@ -9,6 +9,8 @@
 (function (Scratch) {
     'use strict';
 
+    window.Scratch = Scratch;
+
     const hasOwn = function (object, key) {
         return Object.prototype.hasOwnProperty.call(object, key);
     };
@@ -41,6 +43,18 @@
         hatMap = {},
         shadowClone = [],
         noMod = [];
+
+        const defTargetStore = {
+            hats: []
+        }
+
+    vm.runtime.on('targetWasCreated', (target) => {
+        target.extensionStorage.mbp = structuredClone(defTargetStore);
+    });
+    runtime.targets.forEach(target => {
+        if (!target.isOriginal) return;
+        target.extensionStorage.mbp = structuredClone(defTargetStore);
+    })
 
     vm.on('EXTENSION_ADDED', tryUseScratchBlocks);
     vm.on('BLOCKSINFO_UPDATE', tryUseScratchBlocks);
@@ -196,25 +210,17 @@
         runtime.on('BLOCK_DRAG_END', modifyBlocks);
     }
 
+    function getHat(blockInfo) {
+        const target = runtime.targets.find(target => target.extensionStorage.mbp.hats.includes(blockInfo.hatOpcode));
+        const id = Object.values(target.blocks._blocks).find(block => block.opcode === blockInfo.hatOpcode)?.id;
+        return {target, id};
+    }
+
     class Extension {
         constructor() {
             this.getInfo_ = {
                 id: extensionId,
                 name: 'mbp',
-                blocks: [
-                    {
-                        opcode: 'return0',
-                        blockType: Scratch.BlockType.COMMAND,
-                        isTerminal: true,
-                        text: 'return [A1]',
-                        arguments: {
-                            A1: {
-                                type: Scratch.ArgumentType.STRING,
-                            },
-                        },
-                    },
-                    ...myBlocks,
-                ],
                 menus: {},
             };
         }
@@ -229,16 +235,19 @@
         add arguments
          */
         baseBlock(args, util, blockInfo) {
-            const hatTarget = runtime.getTargetById(blockInfo.hatTarget);
+            const hat = getHat(blockInfo);
+            const hatTarget = hat.target;
+            const hatId = hat.id;
             const thread = util.thread,
                 target = util.target;
             /**
              * @type {Object}
              */
             const Thread = thread.constructor;
-            const hatThread = Utils.spoofWarp(Thread, thread, blockInfo.hatId, hatTarget);
+            const hatThread = Utils.spoofWarp(Thread, thread, hatId, hatTarget);
             // @ts-ignore
             hatThread.spawnArgs = args;
+            console.log(args);
             runtime.threads.push(hatThread);
             return new Promise((resolve) => {
                 runtime.on('AFTER_EXECUTE', function afterExecute() {
@@ -255,26 +264,56 @@
                 });
             });
         }
-        baseArgument(args, util, blockInfo) {
+        get0(args, util, blockInfo) {
             const rtn = blockInfo.blockType === 'reporter' ? '' : false;
             const thread = util.thread;
             if (!hasOwn(thread, 'mbp_id')) return rtn;
             //if (hasOwn(thread.hatArgs, blockInfo.text)) return thread.hatArgs[blockInfo.text];
             if (!hasOwn(thread, 'spawnArgs')) return rtn;
-            if (hasOwn(thread.spawnArgs, blockInfo.text)) return thread.spawnArgs[blockInfo.text];
-            return rtn;
+            return thread.spawnArgs[args.A1] ?? rtn;
         }
         return0(args, util) {
             runtime._stopThread(util.thread);
             util.thread.returnValue = args.A1;
             return new Promise((resolve) => {
-                
+                resolve();
             });
         }
         getInfo() {
-            return this.getInfo_;
+            const i = this.getInfo_;
+            i.blocks = [
+                {
+                    opcode: 'return0',
+                    blockType: Scratch.BlockType.COMMAND,
+                    isTerminal: true,
+                    text: 'return [A1]',
+                    arguments: {
+                        A1: {
+                            type: Scratch.ArgumentType.STRING,
+                        },
+                    },
+                },
+                {
+                    opcode: 'get0',
+                    blockType: Scratch.BlockType.REPORTER,
+                    text: 'argument [A1]',
+                    arguments: {
+                        A1: {
+                            type: Scratch.ArgumentType.STRING,
+                        },
+                    },
+                },
+                ...myBlocks
+            ]
+            return i;
         }
     }
+
+            // @ts-ignore Outdated types
+            if (!runtime.extensionStorage?.mbp) runtime.extensionStorage.mbp = {
+                blocks: [],
+                loading: false
+            }; else runtime.extensionStorage.mbp.loading = true;
 
     const blockArgs = [];
     /**
@@ -289,39 +328,19 @@
             xmlHatOpcode = `${extensionId}_${hatOpcode}`,
             xmlArgOpcode = `${extensionId}_${argOpcode}`;
         const target = vm.editingTarget;
+        const store = target.extensionStorage.mbp;
         //data.hideFromPalette = true;
         data.func = 'baseBlock';
         data.arguments = data.arguments ?? {};
+        data.hatOpcode = xmlHatOpcode;
         const hat = {};
         hat.hideFromPalette = true;
         hat.blockType = Scratch.BlockType.HAT;
         hat.id = Utils.stirSoup(20);
-        for (const arg of Object.keys(data.arguments)) {
-            const argData = data.arguments[arg];
-            const xmlArgId = `${xmlArgOpcode}_${arg}`,
-                argId = `${argOpcode}_${arg}`;
-            Extension.prototype[argId] = function () {};
-            const blockArg = {
-                xmlArgId,
-                func: 'baseArgument',
-                opcode: argId,
-                text: arg,
-                blockType: argData.type === 'Boolean' ? 'Boolean' : 'reporter',
-                arguments: {},
-                hideFromPalette: true,
-                hatId: hat?.id,
-                target: target?.id
-            };
-            if (data.color1) blockArg.color1 = data.color1;
-            if (genHats) blockArgs.push(blockArg);
-            myBlocks.push(blockArg);
-        }
-        data.hatId = hat.id;
         hat.opcode = hatOpcode;
         noMod.push(xmlHatOpcode);
-        data.hatTarget = target.id;
         hat.func = 'baseHat';
-        hat.text = data.text;
+        hat.text = data.hatText;
         if (data.extensions) hat.extensions = data.extensions;
         if (data.color1) hat.color1 = data.color1;
         if (data.color2) hat.color2 = data.color2;
@@ -346,111 +365,27 @@
             target.blocks._addScript(hat.id);
         }
         myBlocks.push(data);
-        hat.arguments = data.arguments;
         myBlocks.push(hat);
         Extension.prototype[hatOpcode] = function () {};
         Extension.prototype[baseOpcode] = function () {};
-        Extension.prototype[argOpcode] = function () {};
+        store.hats.push(xmlHatOpcode);
+        runtime.extensionStorage.mbp.blocks.push(data);
+        runtime.extensionStorage.mbp.blocks.push(hat);
         vm.emitWorkspaceUpdate();
         vm.refreshWorkspace();
+        runtime.extensionManager.refreshBlocks();
     }
 
-    createBlock({
-        color1: '#FFBB33',
-        color2: '#FFBB33',
-        color3: '#FFBB33',
-        color4: '#FFBB33',
-        blockType: Scratch.BlockType.COMMAND,
-        opcode: 'block',
-        text: 'command block [A1] [A2]',
-        arguments: {
-            A1: {
-                type: Scratch.ArgumentType.STRING,
-            },
-            A2: {
-                type: Scratch.ArgumentType.BOOLEAN,
-            },
-        },
-        // @ts-ignore Outdated types
-    }, !runtime.extensionStorage?.mbp);
+    if (runtime.extensionStorage?.mbp.blocks) { for (const block of runtime.extensionStorage.mbp.blocks) {
+        createBlock(block, false);
+    }}
 
-    createBlock({
-        color1: '#62D718',
-        color2: '#62D718',
-        color3: '#62D718',
-        color4: '#62D718',
-        blockType: Scratch.BlockType.BOOLEAN,
-        opcode: 'blockJr',
-        text: 'reporter block jr [B1] [B2] [A1]',
-        arguments: {
-            B1: {
-                type: Scratch.ArgumentType.STRING,
-            },
-            B2: {
-                type: Scratch.ArgumentType.BOOLEAN,
-            },
-            A1: {
-                type: Scratch.ArgumentType.COLOR
-            }
-        },
-        // @ts-ignore Outdated types
-    }, !runtime.extensionStorage?.mbp);
-
-    createBlock({
-        color1: '#623431',
-        color2: '#623431',
-        color3: '#623431',
-        color4: '#623431',
-        blockType: Scratch.BlockType.COMMAND,
-        opcode: 'yas',
-        text: 'execute branch [A1]',
-        arguments: {
-            A1: {
-                type: Scratch.ArgumentType.NUMBER,
-            }
-        },
-        branchCount: 5
-        // @ts-ignore Outdated types
-    }, !runtime.extensionStorage?.mbp);
-
-    // @ts-ignore Outdated types
-    runtime.extensionStorage.mbp = true;
+    window.cc = createBlock;
 
     // @ts-ignore Outdated types
     Scratch.extensions.register(new Extension());
 
     vm.once('EXTENSION_ADDED', () => {
         vm.refreshWorkspace();
-        for (const blockArg of blockArgs) {
-            const wsArg = {
-                id: Utils.stirSoup(20),
-                opcode: blockArg.xmlArgId,
-                inputs: {},
-                fields: {},
-                next: null,
-                topLevel: false,
-                parent: blockArg.hatId,
-                shadow: true,
-            };
-            shadowClone.push(blockArg.xmlArgId);
-            const blocks = runtime.getTargetById(blockArg.target).blocks;
-            // @ts-ignore
-            blocks.createBlock(wsArg);
-            blocks.getBlock(blockArg.hatId).inputs[blockArg.text] = {
-                name: blockArg.text,
-                block: wsArg.id,
-                shadow: wsArg.id
-            };
-        }
-        vm.emitWorkspaceUpdate();
-        vm.refreshWorkspace();
-
-        // @ts-ignore Outdated types
-        const store = runtime.extensionStorage;
-        store.$0znzwMbp = {
-            hatMap,
-            myBlocks
-        };
-        const mStore = store.$0znzwMbp;
-    });
+    })
 })(Scratch);
