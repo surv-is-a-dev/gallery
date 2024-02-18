@@ -8,9 +8,8 @@
  * Development
  */
 // prettier-ignore
-(function(){
-    'use strict';
-    function anon$compilerUtility(Q3JlYXRlZCBieSAwem56dy4KaHR0cHM6Ly9zY3JhdGNoLm1pdC5lZHUvMHpuencvCkRPIE5PVCBSRU1PVkUgVEhJUw) {
+/* eslint-disable */
+function anon$compilerUtility(Q3JlYXRlZCBieSAwem56dy4KaHR0cHM6Ly9zY3JhdGNoLm1pdC5lZHUvMHpuencvCkRPIE5PVCBSRU1PVkUgVEhJUw) {
     const hasOwn = (obj, key) => Object.prototype.hasOwnProperty.call(obj, key);
     /**
      * @type {VM}
@@ -253,6 +252,11 @@
         console.debug('Copying ScriptTreeGenerator to IRGenerator exports for compatibility.');
         IRGenerator.exports = IRGenerator.exports ?? {};
         IRGenerator.exports.ScriptTreeGenerator = ScriptTreeGenerator;
+        console.debug('Copying Inputs to JSGenerator exports for compatibility.');
+        JSGenerator.exports = JSGenerator.exports ?? {};
+        JSGenerator.exports.Frame = Frame;
+        JSGenerator.exports.ConstantInput = ConstantInput;
+        JSGenerator.exports.TypedInput = TypedInput;
         // @ts-expect-error
         exports.Compiler = {
             _: 'TURBOWARP_LIMITED',
@@ -308,7 +312,7 @@
         return true;
     }
     if (!checkCompilerExports()) return false;
-    vm.enableDebug();
+    if (opts.enableDebug) vm.enableDebug();
     // @ts-expect-error
     const compilerExport = vm.exports.Compiler;
     // @ts-expect-error
@@ -567,21 +571,18 @@
 // @ts-expect-error
 if (!window?.anon$compilerUtilityImported) window.anon$compilerUtilityImported = anon$compilerUtility({});
 // @ts-expect-error
-if (window?.anon$compilerUtilityImported) console.log('Compiler utility loaded successfully.\nUse vm.compiler to access it.');
-else console.error('The Compiler-Utility has failed to load.');
-})();
-
+if (window?.anon$compilerUtilityImported) console.log("Compiler utility loaded successfully.\nUse vm.compiler to access it.");
+else console.error("The Compiler-Utility has failed to load.");
+/* eslint-enable */
 /** WARNING
- * Turbowarp may or may not support some API's.
- * Also this may be outdated and not work anymore.
- * Use at your own risk
- */
-
+* Turbowarp may or may not support some API's.
+* Also this may be outdated and not work anymore.
+* Use at your own risk
+*/
 /** v1.0
- * Example: this will make the changeX block run alert "1" instead of its default code;
- * vm.compiler.nodeMixin.register(vm.compiler.nodeMixin.new('motion', 'changeX'), 'alert(1)');
- */
-
+* Example: this will make the changeX block run alert "1" instead of its default code;
+* vm.compiler.nodeMixin.register(vm.compiler.nodeMixin.new('motion', 'changeX'), 'alert(1)');
+*/
 /** v1.2
  * Example: this will make the changeX block run its original code, and alert "1";
 var mcx = vm.compiler.nodeMixin.new('motion', 'changeX');
@@ -592,7 +593,6 @@ vm.compiler.nodeMixin.register(mcx, function(original, node) {
     return newSource;
 });
     */
-
 /** v1.3
  * Example: this will make the changeX block remove all compiled code before it (none of the blocks before it will run);
 var mcx = vm.compiler.nodeMixin.new('motion', 'changeX');
@@ -603,12 +603,10 @@ vm.compiler.nodeMixin.register(mcx, function(original, node) {
     return origin.source;
 });
     */
-
 /** v1.4
  * Example: this will make every block compile to "alert(1)"
 vm.compiler.nodeMixin.register('*', 'alert(1)');
     */
-
 /** v1.5
  * Example: this will register a block as a new compilation option; (IRGenerator)
  * Extension used: javascript extension from penguinmod.
