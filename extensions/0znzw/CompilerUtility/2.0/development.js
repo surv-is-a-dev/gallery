@@ -314,7 +314,7 @@
     // @ts-expect-error
     vm.compiler = {
         compilerExport,
-        utilityVersion: 1.9,
+        utilityVersion: 2.0,
         __internal__: {
             descendStackedBlock_JSG(original, node) {
                 // @ts-expect-error
@@ -391,6 +391,25 @@
             IRGenerator: compilerExport.IRGenerator,
             compileThread: compilerExport?.compileThread,
             ScriptTreeGenerator: compilerExport.IRGenerator.exports.ScriptTreeGenerator,
+            VariablePool: class VariablePool {
+                // https://github.com/TurboWarp/scratch-vm/blob/develop/src/compiler/variable-pool.js
+                /**
+                 * @param {string} prefix The prefix at the start of the variable name.
+                 */
+                constructor (prefix) {
+                    if (prefix.trim().length === 0) {
+                        throw new Error('prefix cannot be empty');
+                    }
+                    this.prefix = prefix;
+                    /**
+                     * @private
+                     */
+                    this.count = 0;
+                }
+                next () {
+                    return `${this.prefix}${this.count++}`;
+                }
+            }
         },
         inputs: {
             Typed: compilerExport.JSGenerator.exports.TypedInput,
