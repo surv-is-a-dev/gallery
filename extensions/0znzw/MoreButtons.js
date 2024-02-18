@@ -196,6 +196,7 @@
                     },
                     sprites_or_costumes: {
                         acceptReporters: true,
+                        acceptText: true,
                         items: '_getSpritesOrCostumes',
                     },
                     visibility: {
