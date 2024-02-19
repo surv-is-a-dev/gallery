@@ -320,8 +320,7 @@ var get$compilerUtility = (function() {
             utilityVersion: 2.0,
             __internal__: {
                 descendStackedBlock_JSG(original, node) {
-                    // @ts-expect-error
-                    const mixins = vm.compiler.nodeMixin.__internal__.mixins;
+                    const mixins = Compiler.nodeMixin.__internal__.mixins;
                     const kind = node.kind;
                     let mixin = mixins[kind];
                     if (!mixin && !!mixins['*']) mixin = mixins['*'];
@@ -343,8 +342,7 @@ var get$compilerUtility = (function() {
                     if (!this.source.endsWith('\n')) this.source += '\n';
                 },
                 descendInput_JSG(original, node) {
-                    // @ts-expect-error
-                    const mixins = vm.compiler.jsInputMixin.__internal__.mixins;
+                    const mixins = Compiler.jsInputMixin.__internal__.mixins;
                     const kind = node.kind;
                     let mixin = mixins[kind];
                     if (!mixin && !!mixins['*']) mixin = mixins['*'];
@@ -355,8 +353,7 @@ var get$compilerUtility = (function() {
                     return mixin;
                 },
                 descendInput_STG(original, block) {
-                    // @ts-expect-error
-                    const mixins = vm.compiler.inputMixin.__internal__.mixins;
+                    const mixins = Compiler.inputMixin.__internal__.mixins;
                     const kind = block.opcode;
                     const mixin = mixins[kind];
                     if (!mixin) return original(block);
@@ -364,8 +361,7 @@ var get$compilerUtility = (function() {
                     return mixin;
                 },
                 descendStackedBlock_STG(original, block) {
-                    // @ts-expect-error
-                    const mixins = vm.compiler.blockMixin.__internal__.mixins;
+                    const mixins = Compiler.blockMixin.__internal__.mixins;
                     const kind = block.opcode;
                     const mixin = mixins[kind];
                     if (!mixin) return original(block);
@@ -373,8 +369,7 @@ var get$compilerUtility = (function() {
                     return mixin;
                 },
                 descendStackedBlock_IRG(original, block) {
-                    // @ts-expect-error
-                    const mixins = vm.compiler.irBlockMixin.__internal__.mixins;
+                    const mixins = Compiler.irBlockMixin.__internal__.mixins;
                     const kind = block.opcode;
                     const mixin = mixins[kind];
                     if (!mixin) return original(block);
@@ -571,10 +566,10 @@ var get$compilerUtility = (function() {
         };
     }
     return anon$compilerUtility;
-    })();
-    /* eslint-enable */
-    /** WARNING
-     * Turbowarp may or may not support some API's.
-     * Also this may be outdated and not work anymore.
-     * Use at your own risk
-     */
+})();
+/* eslint-enable */
+/** WARNING
+ * Turbowarp may or may not support some API's.
+ * Also this may be outdated and not work anymore.
+ * Use at your own risk
+ */
