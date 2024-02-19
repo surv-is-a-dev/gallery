@@ -5,7 +5,7 @@
  * https://scratch.mit.edu/users/CST1229/
  * Licensed under MIT license.
  * DO NOT REMOVE THIS COMMENT
- * Development
+ * Production
  */
 // just uh set the output to a variable :D
 // prettier-ignore
