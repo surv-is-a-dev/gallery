@@ -272,7 +272,7 @@ var get$compilerUtility = (function() {
         }
         function checkCompilerExports() {
             if (!hasOwn(vm.exports, 'Compiler') || !opts.vmExpose) {
-                if (checkTW()) return;
+                if (checkTW()) return true;
                 const missing = messages.missing_else, exports = vm.exports, errorStack = [];
                 // @ts-expect-error
                 const IRGenerator = exports?.IRGenerator;
@@ -317,7 +317,7 @@ var get$compilerUtility = (function() {
         if (opts.enableDebug) vm.enableDebug();
         const Compiler = {
             compilerExport,
-            utilityVersion: 2.0,
+            utilityVersion: 2.1,
             __internal__: {
                 descendStackedBlock_JSG(original, node) {
                     const mixins = Compiler.nodeMixin.__internal__.mixins;
