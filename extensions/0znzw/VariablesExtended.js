@@ -5,7 +5,7 @@
 
 // *************
 // Additional meta
-// License: MIT
+// License: LGPLv3
 // Version: 1.1
 // *************
 (function(Scratch) {
