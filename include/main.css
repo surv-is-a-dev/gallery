@@ -1,0 +1,336 @@
+:root {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color-scheme: light dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    color: #eee;
+    background: #111;
+  }
+  a {
+    color: #56b2ff;
+  }
+  a:visited {
+    color: #f192ff;
+  }
+  a:active {
+    color: red;
+  }
+  .invert-dark {
+    filter: invert(100%);
+  }
+}
+
+h1 {
+  margin: 16px 0;
+}
+h2, h3, p {
+  margin: 8px 0;
+}
+
+.section {
+  max-width: 928px;
+  margin: 24px auto;
+}
+
+.header h1 {
+  font-size: 2.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: normal;
+  text-align: center;
+}
+.header .head-image {
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+  margin: 0 8px 0 0;
+}
+@media (max-width: 750px) {
+  .header h1 {
+    flex-direction: column;
+  }
+  .header .head-image {
+    margin: 0 0 8px 0;
+  }
+}
+
+.infobox, .development-tools {
+  padding: 8px;
+  margin: 8px 0;
+  border-radius: 8px;
+  background: rgba(0, 195, 255, 0.245);
+  border: 1px solid rgba(0, 187, 255, 0.604);
+}
+.infobox-warning {
+  background-color: rgba(255, 0, 0, 0.245);
+  border-color: rgba(255, 0, 0, 0.446);
+}
+.infobox-title {
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.development-tools {
+  background-color: rgba(200, 0, 255, 0.245);
+  border-color: rgba(234, 0, 255, 0.604);
+}
+.development-tools h2 {
+  font-size: 1em;
+}
+
+.extensions {
+  display: -ms-grid;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  margin: 16px -4px;
+}
+
+/* thanks nexuskitten for letting me use this 💖 */
+.extension-boxing-outer {
+  width: 100px;
+  height: fit-content;
+}
+.extension-boxing-inner {
+  text-align: left;
+  font-size: 10px;
+  line-height: 60%;
+}
+.extended-box {
+  float: left;
+}
+.credit-box {
+  float: right;
+}
+.extension-tags {
+  margin-left: 10px;
+  width: 100px;
+  height: 40px;
+}
+.extension-tag-icon {
+  vertical-align: middle;
+  margin-right: 4px;
+}
+.extension-news-banner {
+  position: absolute;
+  right: 0;
+  top: 0;
+  aspect-ratio: 1/1;
+  width: 25%;
+  height: auto;
+}
+/* end block */
+
+.i-card-wrapper {
+  opacity: 0;
+  transition: opacity .15s;
+}
+
+.i-card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 2%;
+}
+
+.search-outer {
+  position: relative;
+  height: 100%;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  margin: 0px 0.75rem 0px 0px;
+  background: #404040;
+  border-radius: 4px;
+  border-width: 2%;
+  border-style: solid;
+  border-color: #2c2c2c;
+  display: flexbox;
+  display: -ms-flexbox;
+  display: -webkit-flexbox;
+}
+
+.search-outer * {
+  display: inline-block;
+  padding-block: 1px;
+  padding-inline: 2px;
+}
+
+.search-input {
+  background-color: #1e1e1e;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 4px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #404040;
+  color: #ffffff;
+  height: 100%;
+  writing-mode: horizontal-tb !important;
+}
+
+.search-tag {
+  padding-left: 1%;
+  padding-right: 1%;
+  margin-left: 1.5%;
+  border-radius: 6px;
+  border-width: 10%;
+  border-style: solid;
+  color: white;
+  user-select: none;
+}
+
+.search-tag * {
+  pointer-events: none;
+}
+
+.search-tag[data-active="1"] {
+  border-color: #272727;
+  background-color: #454545
+}
+
+.search-tag[data-active="0"] {
+  border-color: #1e1e1e;
+  background-color: #2a2a2a
+}
+
+.extension-search-tags {
+  display: none;
+}
+
+@media (max-width: 218px) {
+  .toSmall-box {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    display: block;
+    z-index: 32767;
+    width: 100vw;
+    height: 100vh;
+    background: #000000;
+    color: #FFFFFF;
+  }
+  * {
+    scrollbar-width: 0px;
+    overflow: hidden;
+  }
+}
+@media (min-width: 218px) {
+  .toSmall-box {
+    display: none;
+  }
+}
+@media (max-width: 944px) {
+  .extensions {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 650px) {
+  .extensions {
+    grid-template-columns: 1fr;
+  }
+}
+
+.extension {
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  margin: 4px;
+  overflow: hidden;
+  padding: 8px;
+}
+@media (prefers-color-scheme: dark) {
+  .extension {
+    border-color: #333;
+  }
+}
+.extension h3 {
+  font-size: 1.5em;
+}
+.extension-banner {
+  position: relative;
+  margin: -8px -8px 0 -8px;
+}
+.extension-image {
+  display: block;
+  width: 100%;
+  /* TODO: see if there's another way to do this that works in older browsers too */
+  aspect-ratio: 2 / 1;
+}
+
+.extension-buttons {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  gap: 0.5rem;
+  opacity: 0;
+  transition: opacity .15s;
+  background: rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+}
+.extension:hover .extension-buttons, .extension:focus-within .extension-buttons {
+  opacity: 1;
+}
+.extension:hover .i-card-wrapper, .extension:focus-within .i-card-wrapper {
+  opacity: 0.9;
+}
+.extension:hover .extension-buttons {
+  backdrop-filter: blur(0.6px);
+}
+.extension-buttons > * {
+  padding: 8px;
+  background-color: #4c97ff;
+  border-radius: 8px;
+  border: none;
+  font: inherit;
+  cursor: pointer;
+  color: white;
+  text-decoration: none;
+  pointer-events: auto;
+  transition: filter 0.15s;
+  filter: drop-shadow(0px 1px 3px #00000075);
+}
+.extension-buttons > *:hover {
+  filter: drop-shadow(0px 1px 7px black);
+  z-index: 1;
+}
+.extension-buttons *:active {
+  filter: brightness(0.85) drop-shadow(0px 1px 2px #00000075);
+}
+.extension-buttons *:disabled {
+  opacity: 0.5;
+}
+.extension-buttons .copy {
+  margin: 0 8px 0 0;
+}
+.extension-buttons .open {
+  background-color: #ff4c4c;
+  color: white;
+}
+.extension-buttons .copy-url {
+  margin: 0 8px 0 0;
+  background-color: #FFAB19;
+  color: white;
+}
+.extension-buttons :disabled {
+  opacity: 0.5;
+}
+
+footer {
+  opacity: 0.8;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 16px;
+}
+footer p {
+  margin: 0 0 8px 0;
+}

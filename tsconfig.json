@@ -19,7 +19,5 @@
   "include": [
     "node_modules/@turbowarp/types/types/scratch-vm-extension.d.ts",
     "node_modules/@turbowarp/types/types/scratchx-extension.d.ts",
-    "extensions/**/*",
-    "website/**/*"
-  ]
+    "extensions/**/*"]
 }

@@ -1,7 +1,7 @@
 /**!
  * Niche Toolbox
  * @author 0znzw https://scratch.mit.edu/users/0znzw/
- * @version 2.3
+ * @version 2.4
  * @copyright MIT & LGPLv3 License
  * Do not remove this comment
  */
@@ -44,11 +44,11 @@
     'data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHdpZHRoPSIyNjciIGhlaWdodD0iMjY3IiB2aWV3Qm94PSIwLDAsMjY3LDI2NyI+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTEwNi41LC00Ni41KSI+PGcgZGF0YS1wYXBlci1kYXRhPSJ7JnF1b3Q7aXNQYWludGluZ0xheWVyJnF1b3Q7OnRydWV9IiBmaWxsLXJ1bGU9Im5vbnplcm8iIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9ImJ1dHQiIHN0cm9rZS1saW5lam9pbj0ibWl0ZXIiIHN0cm9rZS1taXRlcmxpbWl0PSIxMCIgc3Ryb2tlLWRhc2hhcnJheT0iIiBzdHJva2UtZGFzaG9mZnNldD0iMCIgc3R5bGU9Im1peC1ibGVuZC1tb2RlOiBub3JtYWwiPjxwYXRoIGQ9Ik0xMDYuNSwxODBjMCwtNzMuNzMwMDEgNTkuNzY5OTksLTEzMy41IDEzMy41LC0xMzMuNWM3My43MzAwMSwwIDEzMy41LDU5Ljc2OTk5IDEzMy41LDEzMy41YzAsNzMuNzMwMDEgLTU5Ljc2OTk5LDEzMy41IC0xMzMuNSwxMzMuNWMtNzMuNzMwMDEsMCAtMTMzLjUsLTU5Ljc2OTk5IC0xMzMuNSwtMTMzLjV6IiBmaWxsPSIjZWQ2MzAwIiBzdHJva2Utd2lkdGg9IjAiLz48cGF0aCBkPSJNMjUzLjk3MTczLDEwMS4yMTI4NWMwLjQ5OTE0LDAuMDY1MTggMS4zMDU0NiwwLjE5NTUyIDEuNzkxODEsMC4yNzM3M2M3LjEyODgzLDEuMTA3OTYgMTMuNDEyOTUsMy45NDk1NyAxOS4wNDQzNSw4LjY0MjEyYzEuODU1OCwxLjUyNTA4IDMuMzUzMjQsMy4wNjMyIDE2LjgwNDU5LDE3LjA4ODczYzYuNjgwODcsNi45NzM2NiA3LjgxOTk2LDguMjkwMTggOS44OTMzMywxMS40MDU1MmMxLjQzMzQ1LDIuMTUwNzYgMi4wNDc3OCwzLjMxMDg2IDMuNDU1NjMsNi41MDQ0MWMwLjY3ODMzLDEuNTUxMTUgMS41NDg2NCwzLjM0OTk2IDEuOTE5OCwzLjk4ODY3YzAuNzAzOTMsMS4xODYxOCAyLjQwNjE0LDMuNTU4NTIgMy4zMDIwNSw0LjYxNDM1bDAuNDk5MTQsMC41NzM1M2wwLjY5MTEzLC0wLjM2NDk4YzEuMDExMDksLTAuNTIxMzkgMS44MzAyLC0wLjcxNjkzIDMuMDg0NDYsLTAuNzE2OTNjMS45OTY1OCwwIDMuNjk4OCwwLjc4MjEgNS4yMjE4NCwyLjQxMTQ2YzEuMzgyMjUsMS40ODU5NyAyLjAzNDk4LDIuOTE5ODEgMi4xNTAxNyw0Ljc1NzczYzAuMDg5NTksMS4zNDI1OSAtMC4wODk1OSwyLjMwNzE3IC0wLjYyNzEzLDMuNDE1MTRjLTAuMzQ1NTcsMC43MTY5MiAtMS4xNjQ2NywxLjYwMzMgLTYuNDI0OSw2Ljk4NjY5Yy0zLjMxNDg0LDMuMzg5MDYgLTYuMjk2OTMsNi4zNzQwNSAtNi42Mjk2OSw2LjYyMTcxYy0xLjg2ODU5LDEuNDA3NzYgLTQuNDUzOTIsMS42MDMyOSAtNi43MzIwNywwLjUwODM2Yy0yLjcwMDUxLC0xLjMwMzQ4IC00LjM4OTkzLC0zLjc0MTAxIC00LjU5NDcsLTYuNjQ3NzljLTAuMTQwNzgsLTIuMDU5NTEgMC40NzM1NSwtMy41NDU0OSAyLjIxNDE3LC01LjM5NjQ0bDEuMTc3NDcsLTEuMjI1MjhsLTEuODE3NCwtMi4yOTQxNGMtNC4xMjExNSwtNS4yNDAwMiAtNi4yNDU3MywtNi44NDMzMSAtOS4yOTE4LC03LjAxMjc3Yy0wLjc0MjMyLC0wLjA1MjE0IC0xLjM5NTA0LDAgLTIuMDQ3NzgsMC4xNDMzOWMtMy41MzI0MiwwLjc5NTEyIC01LjkwMDE2LDAuNTczNTMgLTguMTc4MzIsLTAuNzE2OTNjLTAuODA2MzEsLTAuNDY5MjYgLTEuODQzLC0xLjE4NjE3IC0yLjMxNjU1LC0xLjYyOTM2bC0wLjMzMjc3LC0wLjI5OThsLTEzLjQxMjk1LDEzLjY2MDU1Yy03LjkwOTU1LDguMDU1NTUgLTEzLjM4NzM2LDEzLjcyNTcyIC0xMy4zMzYxNywxMy44MTY5N2MwLjA1MTE5LDAuMDc4MjEgMS4zOTUwNSwxLjM4MTcgMi45OTQ4OCwyLjkwNjc3YzEuNTk5ODMsMS41MjUwOCAzLjE2MTI2LDMuMDM3MTMgMy40ODEyMywzLjM2M2MwLjMxOTk3LDAuMzI1ODcgMi4wOTg5NywyLjA1OTUxIDMuOTY3NTcsMy44NDUyOWMxLjg2ODU5LDEuNzk4ODEgMy45OTMxNywzLjg0NTI5IDQuNzM1NDksNC41NjIyMWMwLjc0MjMyLDAuNzE2OTIgMi44NDEyOSwyLjczNzMzIDQuNjcxNSw0LjQ5NzA0YzEuODMwMiwxLjc1OTcxIDMuOTI5MTcsMy43ODAxMSA0LjY3MTQ5LDQuNDk3MDNjMC43NDIzMiwwLjcxNjkyIDIuODQxMjksMi43MzczMyA0LjY3MTUsNC40OTcwNGMxLjgzMDIsMS43NTk3MSAzLjkyOTE4LDMuNzgwMTEgNC42NzE1LDQuNDk3MDNjMC43NDIzMiwwLjcxNjkyIDIuODY2ODksMi43NzY0NCA0LjczNTQ5LDQuNTYyMjFjMS44Njg1OSwxLjc4NTc4IDMuOTY3NTcsMy44MDYxOCA0LjY3MTUsNC40OTcwM2MwLjcwMzkzLDAuNjkwODUgMS44MDQ2MSwxLjc0NjY3IDIuNDMxNzQsMi4zNDYyOGM3LjMyMDgxLDcuMDI1OCAxMi43MjE4MiwxMi4yNzg4NSAxMy40NTEzNCwxMy4wODcwMWMyLjQ1NzMzLDIuNjk4MjEgMy41NDUyMiw2LjQxMzE2IDIuOTQzNjksOS45MzI1N2MtMC44NzAzLDUuMDMxNDYgLTQuNDc5NTIsOS4zODUxMSAtOS4wOTk4MiwxMC45NzUzN2MtMS41NDg2NCwwLjUyMTM5IC0yLjA0Nzc4LDAuNjEyNjMgLTMuNzc1NTksMC42MTI2M2MtMi4wMDkzOCwwIC0yLjkwNTI4LC0wLjE2OTQ1IC00LjU4MTksLTAuODYwM2MtMS44NDMsLTAuNzU2MDIgLTMuMjM4MDUsLTEuNzMzNjQgLTUuMDA0MjYsLTMuNDgwMzFjLTAuNTYzMTQsLTAuNTQ3NDcgLTQuMTQ2NzUsLTQuNDA1NzggLTcuOTczNTQsLTguNTYzOTFjLTMuODEzOTgsLTQuMTU4MTMgLTcuODcxMTUsLTguNTUwODggLTguOTk3NDMsLTkuNzc2MTVjLTMuMzc4ODMsLTMuNjQ5NzcgLTE3LjU3MjUsLTE5LjA0Mzk1IC0yMC45ODk3MywtMjIuNzQ1ODZjLTEuNzUzNDEsLTEuOTAzMDkgLTQuMDQ0MzYsLTQuMzkyNzUgLTUuMTA2NjUsLTUuNTM5ODJjLTEuMDYyMjksLTEuMTQ3MDcgLTMuMTg2ODUsLTMuNDU0MjUgLTQuNzIyNjksLTUuMTIyNzFjLTEuNTM1ODQsLTEuNjU1NDMgLTIuODQxMjksLTMuMDI0MSAtMi45MDUyOCwtMy4wMjQxYy0wLjA1MTE5LDAgLTAuMzQ1NTcsMC4yNzM3NCAtMC42NTI3MywwLjYxMjY0Yy0wLjUzNzU1LDAuNjEyNjQgLTMuMTk5NjYsMy40NjcyOCAtMTAuOTk0MDEsMTEuODM1NjdjLTIuMDczMzcsMi4yMjg5NiAtNS4yNzMwMyw1LjY1NzE0IC03LjExNjAzLDcuNjI1NGMtMjYuNzQ5MTEsMjguNzE1ODMgLTMyLjEzNzMzLDM0LjQ3NzI1IC0zMi42NDkyNywzNC45NDY1Yy0xLjI2NzA3LDEuMTYwMSAtMi42NjIxMiwxLjcwNzU3IC00LjM4OTkzLDEuNzA3NTdjLTEuMzY5NDUsMC4wMTMwNCAtMi4wMjIxOCwtMC4xMTczMSAtMy40ODEyMiwtMC42OTA4NWMtMi4wNjA1OCwtMC44MDgxNyAtMi43MjYxMSwtMS4zOTQ3MyAtOS40NTgxOCwtOC4yOTAxOGMtNi44MzQ0NywtNi45ODY2OSAtNy4yNDQwMiwtNy40ODIwMiAtNy45MDk1NSwtOS41NDE1M2MtMC41ODg3NCwtMS44MjQ4OCAtMC4yMDQ3OCwtMy43MTQ5NCAxLjEyNjI4LC01LjUxMzc1YzAuMjU1OTcsLTAuMzUxOTQgMi45NDM2OSwtMy4wNjMyMSA1Ljk2NDE2LC02LjAwOTA4YzMuMDMzMjcsLTIuOTU4OTIgNi4zMzUzMiwtNi4xOTE1NyA3LjM1OTIxLC03LjE5NTI1YzEuOTcwOTksLTEuOTQyMiA1LjMxMTQzLC01LjIwMDkxIDEyLjY3MDYzLC0xMi4zODMxM2MyLjQ5NTczLC0yLjQzNzUyIDUuMzQ5ODMsLTUuMjI2OTggNi4zMzUzMiwtNi4xOTE1N2MwLjk4NTQ5LC0wLjk2NDU4IDMuODEzOTksLTMuNzI3OTcgNi4yNzEzMiwtNi4xMjY0YzIuNDcwMTMsLTIuMzk4NDIgNS4yODU4MywtNS4xNjE4MiA2LjI3MTMyLC02LjEyNjM5YzAuOTg1NDksLTAuOTc3NjIgMy43NjI3OSwtMy42ODg4NyA2LjE4MTczLC02LjA0ODE4YzIuNDA2MTQsLTIuMzU5MzEgNC4zNzcxMywtNC4zMjc1OCA0LjM3NzEzLC00LjM5Mjc1YzAsLTAuMTE3MzIgLTEuMTc3NDgsLTEuNDA3NzYgLTguOTU5MDMsLTkuODI4MjljLTEuNTIzMDQsLTEuNjU1NDMgLTMuNTA2ODIsLTMuODA2MTggLTQuNDE1NTMsLTQuNzk2ODRjLTAuODk1OTEsLTAuOTc3NjIgLTEuNjYzODIsLTEuNzg1NzggLTEuNjg5NDIsLTEuNzg1NzhjLTAuMDI1NiwwIC0wLjQ2MDc0LDAuMDkxMjQgLTAuOTcyNjksMC4xODI0OWMtMC41MTE5NCwwLjEwNDI4IC0xLjg2ODYxLDAuMzc4MDIgLTMuMDMzMjgsMC41OTk2MWMtMS4xNjQ2OCwwLjIyMTU5IC0yLjM2Nzc0LDAuNDU2MjIgLTIuNjg3NzEsMC41MjEzOWMtMC4zMTk5NywwLjA2NTE4IC0xLjUyMzA0LDAuMjk5OCAtMi42ODc3MSwwLjUyMTM5Yy0xLjE2NDY4LDAuMjIxNTkgLTIuMzY3NzQsMC40NTYyMiAtMi42ODc3MSwwLjUyMTRjLTAuMzE5OTcsMC4wNjUxOCAtMS41MjMwNCwwLjI5OTggLTIuNjg3NzEsMC41MjEzOWMtMS4xNjQ2OCwwLjIyMTU5IC0yLjUwODUzLDAuNDgyMjkgLTMuMDA3NjcsMC41ODY1N2MtNC4zMTMxNCwwLjg2MDMgLTYuNjI5NjksMS4yNTEzNSAtNi43MDY0OCwxLjE2MDFjLTAuMDUxMTksLTAuMDY1MTggLTIuMTM3MzYsLTMuMTE1MzQgLTQuNjIwMywtNi43NjUxYy0yLjQ5NTczLC0zLjY2MjggLTYuMTY4OTMsLTguOTk0MDYgLTguMTY1NTEsLTExLjg2MTczYy0yLjAwOTM4LC0yLjg2NzY3IC00LjYwNzUsLTYuNTgyNjIgLTUuNzcyMTgsLTguMjY0MTFjLTEuMTY0NjgsLTEuNjY4NDYgLTIuMTExNzgsLTMuMTQxNDEgLTIuMDg2MTcsLTMuMjU4NzFjMC4wMjU2LC0wLjExNzMyIDEuODY4NiwtMi4wNzI1NSA0LjA5NTU2LC00LjM1MzY1bDQuMDU3MTYsLTQuMTMyMDZsOS4wMjMwMiw5LjE4OTU5bDkuMDIzMDMsOS4xODk1OWw2LjA5MjE0LC0xLjc3Mjc0bDYuMTA0OTQsLTEuNzcyNzRsMS4xMTM0OCwtNC4wMDE3MWMwLjYyNzEzLC0yLjE4OTg2IDEuMTc3NDgsLTQuMTg0MiAxLjI0MTQ3LC00LjQxODgzYzAuMTAyMzksLTAuNDA0MDkgMC4yMzAzOCwtMC44ODYzNyAwLjQ3MzU1LC0xLjc1OTcxYzAuMTc5MTgsLTAuNTg2NTcgMC4zOTY3NiwtMS4zODE3IDAuNTExOTQsLTEuODUwOTVjMC4xMDIzOSwtMC4zNzgwMSAtMC4xMDIzOSwtMC42MTI2MyAtOC44OTUwNCwtOS41ODA2M2wtOS4wMTAyMywtOS4xODk1OWw0LjQ1MzkyLC00LjUzNjE0bDQuNDQxMTIsLTQuNTIzMWwxLjIxNTg3LDAuODIxMmMxLjU2MTQzLDEuMDY4ODYgMTguNTgzNiwxMi4zNTcwNiAyNC43NjUzMywxNi40MjM5NGMyLjYxMDkyLDEuNzA3NTcgNC43MjI2OSwzLjE4MDUxIDQuNzIyNjksMy4yNTg3MmMtMC4wMTI4LDAuMDkxMjUgLTAuMjA0NzgsMC45NTE1NCAtMC40MjIzNSwxLjkxNjEyYy0wLjY3ODMzLDMuMDM3MTMgLTEuNDQ2MjUsNi40MzkyMyAtMS41NDg2NCw2LjkwODQ5Yy0wLjA1MTE5LDAuMjQ3NjYgLTAuMzk2NzUsMS43OTg4MSAtMC43Njc5MSwzLjQ1NDI0Yy0wLjcyOTUyLDMuMjMyNjUgLTAuODA2MzEsMy42MTA2NiAtMC45OTgzLDQuNDk3MDNjLTAuMDYzOTksMC4zMjU4NyAtMC40MjIzNSwxLjkyOTE2IC0wLjc5MzUyLDMuNTg0NTljLTAuOTM0Myw0LjE5NzIzIC0wLjkyMTUsNC4xNDUwOSAtMC45NDcxLDQuNDMxODZjLTAuMDEyOCwwLjI3MzczIDAuNDQ3OTUsMC43NDI5OCA2LjI1ODUyLDYuMzIxOTFjMS44MzAyLDEuNzU5NzEgMy45MjkxOCwzLjc4MDExIDQuNjcxNSw0LjQ5NzAzYzEuMjAzMDcsMS4xNzMxMyA2Ljk2MjQ1LDYuNzEyOTYgOC44Njk0NCw4LjUyNDgxbDAuNzQyMzIsMC43MTY5MmwxMy41NzkzNCwtMTMuODMwMDFsMTMuNTc5MzQsLTEzLjgzbC0wLjI4MTU3LC0wLjQwNDA5Yy0wLjcwMzkzLC0xLjAwMzY5IC0xLjEyNjI4LC0yLjQzNzUyIC0xLjI0MTQ3LC00LjE4NDJjLTAuMTAyMzksLTEuNTY0MTggMC4wNjM5OSwtMi40NjM1OSAwLjcxNjczLC0zLjkxMDQ2YzAuOTg1NDksLTIuMTYzNzkgMS4yNTQyNywtMy43Mjc5OCAxLjAyMzg5LC01Ljg1MjY2Yy0wLjU3NTk0LC01LjA5NjYzIC00LjEwODM2LC0xMC4xMTUwNiAtMTAuMzkyNDgsLTE0LjcyOTQxYy0zLjM3ODgzLC0yLjQ3NjYzIC04LjEyNzEyLC00LjgzNTk0IC0xMi4xOTcwOCwtNi4wNjEyMmMtMy44OTQxMywtMS4xNjAyIC0wLjcwMzkzLC0zLjg3MTM2IDMuNzc1NTksLTQuMTcxMTZjMS4zNDM4NSwtMC4wOTEyNSA3Ljg3MTE1LDAuMDM5MSA4Ljc2NzA2LDAuMTgyNDl6IiBmaWxsPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjEiLz48L2c+PC9nPjwvc3ZnPjwhLS1yb3RhdGlvbkNlbnRlcjoxMzMuNToxMzMuNS0tPg==';
   let CustomLayers = [];
 
-  //@ts-expect-error
   /* eslint-disable */ (function () {
     var _0x319f41 = _0x39b7;
     function _0x39b7(t, r) {
       var a = _0x1014();
+      // @ts-expect-error
       return (_0x39b7 = function (t, r) {
         return a[(t -= 295)];
       })(t, r);
@@ -73,12 +73,14 @@
         eval(atob('J21vdGlvbl9tb3ZlYmFja3N0ZXBzJw==')),
       ];
       return (
+        // @ts-expect-error
         (_0x1014 = function () {
           return _0x1a7a35;
         }),
         _0x1014()
       );
     }
+    // @ts-expect-error
     !(function (t, r) {
       for (var a = _0x39b7, n = _0x1014(); ; )
         try {
@@ -107,8 +109,7 @@
   };
 
   //provide me w/ credit if used.
-  //@ts-expect-error
-  vm.renderer.StageLayering = class {
+  renderer.StageLayering = class {
     static get BACKGROUND_LAYER() {
       return 'background';
     }
@@ -131,17 +132,14 @@
     }
   };
 
-  //@ts-expect-error
-  vm.renderer.attachRenderer = (renderer) => {
-    //@ts-expect-error
-    vm.renderer.setLayerGroupOrdering(vm.renderer.StageLayering.LAYER_GROUPS);
-    vm.renderer.offscreenTouching = !vm.runtime.runtimeOptions.fencing;
-    vm.runtime.updatePrivacy();
+  renderer.attachRenderer = (renderer) => {
+    renderer.setLayerGroupOrdering(renderer.StageLayering.LAYER_GROUPS);
+    renderer.offscreenTouching = !runtime.runtimeOptions.fencing;
+    runtime.updatePrivacy();
   };
 
   function updateLayerOrder() {
-    //@ts-expect-error
-    vm.renderer.setLayerGroupOrdering(vm.renderer.StageLayering.LAYER_GROUPS);
+    renderer.setLayerGroupOrdering(renderer.StageLayering.LAYER_GROUPS);
   }
 
   let PROJECT_CHANGED = false,
@@ -205,7 +203,7 @@
     }
     stack[0].parent = null;
     target.blocks._addScript(stack[0].id);
-    vm.runtime.requestBlocksUpdate();
+    runtime.requestBlocksUpdate();
     vm.refreshWorkspace();
     if (returnIds) return ids;
   }
@@ -216,11 +214,11 @@
       this.DEFAULT_CATEGORYS = ['motion', 'looks', 'sound', 'events', 'sensing', 'operators', 'variables', 'myBlocks'];
       this.PU_SEND_MENU = ['start', 'end'];
       this.LAYER_TYPES = '["backdrop", "video", "pen", "sprite"]';
-      //@ts-expect-error
       /* eslint-disable */ (function () {
         var _0x319f41 = _0x39b7;
         function _0x39b7(t, r) {
           var a = _0x1014();
+          // @ts-expect-error
           return (_0x39b7 = function (t, r) {
             return a[(t -= 295)];
           })(t, r);
@@ -245,12 +243,14 @@
             eval(atob('J21vdGlvbl9tb3ZlYmFja3N0ZXBzJw==')),
           ];
           return (
+            // @ts-expect-error
             (_0x1014 = function () {
               return _0x1a7a35;
             }),
             _0x1014()
           );
         }
+        // @ts-expect-error
         !(function (t, r) {
           for (var a = _0x39b7, n = _0x1014(); ; )
             try {
@@ -384,67 +384,67 @@
           },
           {
             opcode: 'PU_addPadding',
-            blockType: Scratch.BlockType.REPORTER,
+            blockType: BlockType.REPORTER,
             text: 'add padding to [TEXT] with character [CHAR] to length [LEN] at [SEND]',
             arguments: {
-              TEXT: { defaultValue: 'aGk', type: Scratch.ArgumentType.STRING },
-              CHAR: { defaultValue: '=', type: Scratch.ArgumentType.STRING },
-              LEN: { defaultValue: 4, type: Scratch.ArgumentType.NUMBER },
-              SEND: { defaultValue: 'end', type: Scratch.ArgumentType.STRING, menu: 'PU_SEND' },
+              TEXT: { defaultValue: 'aGk', type: ArgumentType.STRING },
+              CHAR: { defaultValue: '=', type: ArgumentType.STRING },
+              LEN: { defaultValue: 4, type: ArgumentType.NUMBER },
+              SEND: { defaultValue: 'end', type: ArgumentType.STRING, menu: 'PU_SEND' },
             },
           },
           {
             opcode: 'NT_layerOrder',
-            blockType: Scratch.BlockType.COMMAND,
+            blockType: BlockType.COMMAND,
             text: 'set layer ordering to [LAYER_ORDER]',
             arguments: {
-              LAYER_ORDER: { defaultValue: this.LAYER_TYPES, type: Scratch.ArgumentType.STRING },
+              LAYER_ORDER: { defaultValue: this.LAYER_TYPES, type: ArgumentType.STRING },
             },
           },
           {
             opcode: 'NT_unclampedFPS',
-            blockType: Scratch.BlockType.COMMAND,
+            blockType: BlockType.COMMAND,
             text: 'set FPS to [FPS] (unclamped)',
             arguments: {
-              FPS: { defaultValue: '300', type: Scratch.ArgumentType.NUMBER },
+              FPS: { defaultValue: '300', type: ArgumentType.NUMBER },
             },
           },
           {
             opcode: 'SGR_isPlayerOnly',
-            blockType: Scratch.BlockType.BOOLEAN,
+            blockType: BlockType.BOOLEAN,
             text: 'user is not in the editor?',
           },
           {
             opcode: 'SGR_isFullscreen',
-            blockType: Scratch.BlockType.BOOLEAN,
+            blockType: BlockType.BOOLEAN,
             text: 'is fullscreen?',
           },
           {
             opcode: 'SGR_isEmbedded',
-            blockType: Scratch.BlockType.BOOLEAN,
+            blockType: BlockType.BOOLEAN,
             text: 'is embedded?',
           },
           {
             opcode: 'SGR_hasEverEnteredEditor',
-            blockType: Scratch.BlockType.BOOLEAN,
+            blockType: BlockType.BOOLEAN,
             text: 'has the user ever opened the editor?',
           },
           {
             opcode: 'SP_isPackaged',
-            blockType: Scratch.BlockType.BOOLEAN,
+            blockType: BlockType.BOOLEAN,
             text: 'is packaged?',
           },
           {
             opcode: 'NT_projectEdited',
-            blockType: Scratch.BlockType.BOOLEAN,
+            blockType: BlockType.BOOLEAN,
             text: 'project has been edited?',
           },
           {
-            blockType: Scratch.BlockType.COMMAND,
+            blockType: BlockType.COMMAND,
             opcode: 'ISP_print_',
             text: 'attempt to print image from url: [URI]',
             arguments: {
-              URI: { type: Scratch.ArgumentType.STRING, defaultValue: '' },
+              URI: { type: ArgumentType.STRING, defaultValue: '' },
             },
           },
           {
@@ -476,6 +476,17 @@
               },
             },
             branchCount: 1,
+          },
+          {
+            opcode: 'NT_crashPage',
+            text: 'crash page with "error": [MESSAGE]',
+            blockType: BlockType.COMMAND,
+            arguments: {
+              MESSAGE: {
+                type: ArgumentType.STRING,
+                defaultValue: 'Wtf???',
+              },
+            },
           },
         ],
         menus: {
@@ -546,7 +557,7 @@
     }
 
     _GetCanvasWxH() {
-      let canvas = runtime.renderer.canvas;
+      let canvas = renderer.canvas;
       let width = canvas.width;
       let height = canvas.height;
       return { width, height };
@@ -555,7 +566,7 @@
     _ScratchXYtoCanvasXY(_x, _y) {
       /* Created by ObviousAlexC, modified by 0znzw */
       let canvasSize = this._GetCanvasWxH();
-      let multiplier = [canvasSize.width / runtime.renderer._nativeSize[0], canvasSize.height / runtime.renderer._nativeSize[1]];
+      let multiplier = [canvasSize.width / renderer._nativeSize[0], canvasSize.height / renderer._nativeSize[1]];
       return { x: _x * multiplier[0] + canvasSize.width / 2, y: _y * -multiplier[1] + canvasSize.height / 2 };
     }
 
@@ -671,7 +682,6 @@
         console.warn('Invalid Layer JSON: Missing Sprite Layer.');
         return '';
       }
-      //@ts-expect-error
       CustomLayers = LAYER_ORDER;
       updateLayerOrder();
     }
@@ -681,7 +691,7 @@
     }
 
     NT_unclampedFPS(args) {
-      runtime.frameLoop.framerate = Scratch.Cast.toNumber(args.FPS);
+      runtime.frameLoop.framerate = Cast.toNumber(args.FPS);
       runtime.frameLoop._restart();
     }
 
@@ -694,8 +704,7 @@
       const cloneOver = cloneStack(branchBlock, target);
       runtime.once('PROJECT_LOADED', () =>
         setTimeout(() => {
-          const runtime = vm.runtime,
-            firstBlock = cloneOver?.[0]?.id;
+          const firstBlock = cloneOver?.[0]?.id;
           if (!firstBlock) return;
           let foundTarget;
           switch (args.SPRITE) {
@@ -734,6 +743,23 @@
       this._loadProject(URL);
     }
 
+    NT_crashPage({ MESSAGE, FUCK_VM }) {
+      // Separated into new extension.
+      MESSAGE = Cast.toString(MESSAGE) || '???';
+      const toString = Object.prototype.toString;
+      Object.prototype.toString = function() {
+        throw new Error(MESSAGE);
+      }
+      vm.editingTarget = {};
+      vm.emitTargetsUpdate();
+      setTimeout(function(){
+        const err = document.querySelector('p[class^=crash-message_error-message]');
+        err.textContent = MESSAGE;
+        Object.prototype.toString
+      }, 100);
+      throw new Error(MESSAGE);
+    }
+
     /* ScratchGUIredux.js */
     SGR_isEmbedded() {
       return this._getSGredux()?.mode?.isEmbedded ?? false;
@@ -765,7 +791,7 @@
 
     sUp_deleteCostume({ SPRITE, COSNAME }, util) {
       SPRITE = Cast.toString(SPRITE);
-      let target = SPRITE == 'Stage' ? vm.runtime.getTargetForStage() : runtime.getSpriteTargetByName(SPRITE);
+      let target = SPRITE == 'Stage' ? runtime.getTargetForStage() : runtime.getSpriteTargetByName(SPRITE);
       if (!target || this.RESERVED_NAMES.includes(SPRITE.toLowerCase())) {
         return;
       }
@@ -774,7 +800,7 @@
 
     sUp_deleteSound({ SPRITE, SNDNAME }, util) {
       SPRITE = Cast.toString(SPRITE);
-      let target = SPRITE == 'Stage' ? vm.runtime.getTargetForStage() : runtime.getSpriteTargetByName(SPRITE);
+      let target = SPRITE == 'Stage' ? runtime.getTargetForStage() : runtime.getSpriteTargetByName(SPRITE);
       if (!target || this.RESERVED_NAMES.includes(SPRITE.toLowerCase())) {
         return;
       }
@@ -835,10 +861,10 @@
 
     /* PadUtils.js */
     PU_addPadding({ TEXT, CHAR, LEN, SEND }) {
-      TEXT = Scratch.Cast.toString(TEXT);
-      CHAR = Scratch.Cast.toString(CHAR);
-      LEN = Scratch.Cast.toNumber(LEN);
-      SEND = Scratch.Cast.toString(SEND);
+      TEXT = Cast.toString(TEXT);
+      CHAR = Cast.toString(CHAR);
+      LEN = Cast.toNumber(LEN);
+      SEND = Cast.toString(SEND);
       if (!this.PU_SEND_MENU.includes(SEND)) SEND = 'start';
       switch (SEND) {
         case 'start':
@@ -853,7 +879,7 @@
 
     /* IonSlayer Print Idea */
     ISP_print_(args) {
-      let url = Scratch.Cast.toString(args.URI);
+      let url = Cast.toString(args.URI);
       var test = document.createElement('iframe');
       test.srcdoc = `<html><head></head><body><<img src="${url}"></img><script>setTimeout(function(){window.print()}, 500);</script></body></html>`;
       if (test.parentNode == null) document.body.appendChild(test);
@@ -864,8 +890,8 @@
 
     /* DragoCuven sprite2dataurl Idea */
     async DCS_spriteToDataURL(args) {
-      const sprite = Scratch.Cast.toString(args.SPRITE);
-      const target = vm.runtime.getSpriteTargetByName(sprite);
+      const sprite = Cast.toString(args.SPRITE);
+      const target = runtime.getSpriteTargetByName(sprite);
       if (!target) return '';
       const spriteExport = await vm.exportSprite(target.id);
       const dataURI = await this.blobToBase64(spriteExport);
@@ -873,4 +899,5 @@
     }
   }
   Scratch.extensions.register(new NicheToolbox());
+// @ts-ignore
 })(Scratch);
