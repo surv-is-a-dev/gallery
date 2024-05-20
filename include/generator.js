@@ -3,7 +3,7 @@ console.clear();
 GeneratorLoaded(new (function Generator() {
   const SITE = {
     dev_host: 'localhost:9000',
-    isDev: true,
+    isDev: (document.location.hostname.startsWith('localhost')), // Assume its dev IF we are using localhost
     host: document.location.hostname, // if you want to manually specify this go ahead
     // Use this if your hosting on a subdomain
     subdomain: 'gallery',
