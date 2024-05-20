@@ -21,6 +21,7 @@
 
   // Thanks CST1229
   const shadowColors = {caught: '#891900'};
+  // @ts-ignore
   if (Scratch?.gui) Scratch.gui.getBlockly().then(ScratchBlocks => {
     const sbuisar = ScratchBlocks.scratchBlocksUtils.isShadowArgumentReporter;
     const bspssc = ScratchBlocks.BlockSvg.prototype.setShadowColour;
@@ -86,6 +87,7 @@
   const prims = runtime._primitives;
   runtime._primitives = new Proxy(prims, {
     get(target, prop, reciver) {
+      // @ts-ignore
       const tprop = target[prop];
       if (typeof tprop == 'function') return function(...all) {
         const args = all[0], util = all[1], { thread } = util;
@@ -127,6 +129,7 @@
           },
           branchCount: 2,
         }, {
+          // @ts-ignore
           blockType: Scratch.BlockType.XML,
           xml: `${xml.attemptBlock}`,
         }, {
@@ -233,6 +236,7 @@
   }
   // Custom functions for "compiler"
   function sanitizeForEmbed(wrap, string) {
+    // @ts-ignore
     return String(string).replaceAll(wrap, `\\${wrap}`).replace(/\//, '\\');
   }
   function descendTillSource(input, san) {
@@ -246,6 +250,7 @@
   }
 
   // TurboWarp and CST's exports support.
+  // @ts-ignore
   const iwnafhwtb = exports?.i_will_not_ask_for_help_when_these_break;
   let JSG, STG, IRG;
   if (iwnafhwtb) {
@@ -254,8 +259,10 @@
     STG = temp.ScriptTreeGenerator;
     IRG = temp.IRGenerator;
   } else {
+    // @ts-ignore
     IRG = exports?.IRGenerator;
     if (IRG) {
+      // @ts-ignore
       JSG = exports.JSGenerator;
       STG = IRG.exports.ScriptTreeGenerator;
     } else {
@@ -345,5 +352,6 @@
     });
   }
 
+  // @ts-ignore
   Scratch.extensions.register(new extension());
 })(Scratch);

@@ -32,6 +32,7 @@
         text: 'is right click menu disabled?'
       }]
     })}
+    // @ts-ignore
     isDisabled() { return(!document.oncontextmenu(fakeEvent)) }
     enable() { document.oncontextmenu = enable; }
     disable() { document.oncontextmenu = disable; }

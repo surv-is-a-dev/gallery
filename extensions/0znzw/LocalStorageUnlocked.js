@@ -1,3 +1,10 @@
+/**!
+ * Local Storage
+ * @author GarboMuffin https://scratch.mit.edu/users/GarboMuffin/
+ * @version 1.0
+ * @copyright MIT
+ * Do not remove this comment
+ */
 (function (Scratch) {
     'use strict';
 

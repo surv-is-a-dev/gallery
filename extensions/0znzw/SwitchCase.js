@@ -211,7 +211,6 @@
 
     brokenUpdate() {  showBroken = !showBroken;
                       brokenText = (!showBroken ? 'Hide Broken' : 'Show Broken');
-                      //@ts-expect-error
                       vm.extensionManager.refreshBlocks();
                     }
 

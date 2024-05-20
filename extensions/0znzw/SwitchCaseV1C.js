@@ -1,3 +1,10 @@
+/**!
+ * Switch Case Compiled
+ * @author 0znzw https://scratch.mit.edu/users/0znzw/
+ * @version 1.0
+ * @copyright MIT & LGPLv3 License
+ * Do not remove this comment
+ */
 (function(Scratch) {
   'use strict';
   if (!Scratch.extensions.unsandboxed) {
@@ -171,9 +178,10 @@
     }
   }
 
+  // @ts-ignore
   const JSG = vm.exports.i_will_not_ask_for_help_when_these_break().JSGenerator;
-  const STG =
-    vm.exports.i_will_not_ask_for_help_when_these_break().ScriptTreeGenerator;
+  // @ts-ignore
+  const STG = vm.exports.i_will_not_ask_for_help_when_these_break().ScriptTreeGenerator;
   const JSGP = JSG.prototype;
   const STGP = STG.prototype;
 
@@ -220,6 +228,7 @@
         case '0zSwCc.switch':
           const case1_ = descendTillSource.call(this, node.case, caseSanitize);
           const oldSrc1 = this.source ?? '';
+          // @ts-ignore
           this.descendStack(node.code, new Frame(false, node.type));
           const stackSrc1 = this.source.substring(oldSrc1.length);
           this.source = oldSrc1;
@@ -228,6 +237,7 @@
         case '0zSwCc.case':
           const case2_ = descendTillSource.call(this, node.case, caseSanitize);
           const oldSrc2 = this.source ?? '';
+          // @ts-ignore
           this.descendStack(node.code, new Frame(false, node.type));
           const stackSrc2 = this.source.substring(oldSrc2.length);
           this.source = oldSrc2;
@@ -235,6 +245,7 @@
           return;
         case '0zSwCc.default':
           const oldSrc3 = this.source ?? '';
+          // @ts-ignore
           this.descendStack(node.code, new Frame(false, node.type));
           const stackSrc3 = this.source.substring(oldSrc3.length);
           this.source = oldSrc3;

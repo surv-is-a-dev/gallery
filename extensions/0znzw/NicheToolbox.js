@@ -625,7 +625,7 @@
 
     _getSGredux() {
       //@ts-expect-error
-      /* eslint-disable */ return ReduxStore?.getState?.()?.scratchGui; /* eslint-enable */
+      /* eslint-disable */ return window?.ReduxStore?.getState?.()?.scratchGui; /* eslint-enable */
     }
 
     blobToBase64(blob) {
@@ -777,7 +777,7 @@
     /* Sensing+.js */
     SP_isPackaged() {
       // @ts-expect-error
-      return !window.ReduxStore?.getState && !!window.scaffolding?.runtime;
+      return !window.ReduxStore?.getState && !!window.scaffolding?.vm;
     }
 
     /* shovelutils+.js */

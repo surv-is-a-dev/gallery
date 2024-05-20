@@ -13,6 +13,7 @@
     }
 
     function redux() {
+      // @ts-ignore
         return ReduxStore.getState();
     }
 

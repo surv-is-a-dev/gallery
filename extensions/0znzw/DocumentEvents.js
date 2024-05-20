@@ -96,5 +96,6 @@
     document.addEventListener('offline', (event) => {
       runtime.startHats('DocumentEvents0znzw_whenOffline');
     });
+    // @ts-ignore
     Scratch.extensions.register(new extension());
   })(Scratch);

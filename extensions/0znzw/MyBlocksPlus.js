@@ -49,10 +49,12 @@
         }
 
     vm.runtime.on('targetWasCreated', (target) => {
-        target.extensionStorage.mbp = structuredClone(defTargetStore);
+      // @ts-ignore  
+      target.extensionStorage.mbp = structuredClone(defTargetStore);
     });
     runtime.targets.forEach(target => {
         if (!target.isOriginal) return;
+        // @ts-ignore
         target.extensionStorage.mbp = structuredClone(defTargetStore);
     })
 
@@ -211,6 +213,7 @@
     }
 
     function getHat(blockInfo) {
+      // @ts-ignore
         const target = runtime.targets.find(target => target.extensionStorage.mbp.hats.includes(blockInfo.hatOpcode));
         const id = Object.values(target.blocks._blocks).find(block => block.opcode === blockInfo.hatOpcode)?.id;
         return {target, id};
@@ -313,6 +316,7 @@
             if (!runtime.extensionStorage?.mbp) runtime.extensionStorage.mbp = {
                 blocks: [],
                 loading: false
+                // @ts-ignore
             }; else runtime.extensionStorage.mbp.loading = true;
 
     const blockArgs = [];
@@ -328,6 +332,7 @@
             xmlHatOpcode = `${extensionId}_${hatOpcode}`,
             xmlArgOpcode = `${extensionId}_${argOpcode}`;
         const target = vm.editingTarget;
+        // @ts-ignore
         const store = target.extensionStorage.mbp;
         //data.hideFromPalette = true;
         data.func = 'baseBlock';
@@ -369,17 +374,21 @@
         Extension.prototype[hatOpcode] = function () {};
         Extension.prototype[baseOpcode] = function () {};
         store.hats.push(xmlHatOpcode);
+        // @ts-ignore
         runtime.extensionStorage.mbp.blocks.push(data);
+        // @ts-ignore
         runtime.extensionStorage.mbp.blocks.push(hat);
         vm.emitWorkspaceUpdate();
         vm.refreshWorkspace();
         runtime.extensionManager.refreshBlocks();
     }
 
+    // @ts-ignore
     if (runtime.extensionStorage?.mbp.blocks) { for (const block of runtime.extensionStorage.mbp.blocks) {
         createBlock(block, false);
     }}
 
+    // @ts-ignore
     window.cc = createBlock;
 
     // @ts-ignore Outdated types

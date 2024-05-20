@@ -16,6 +16,7 @@
   /* I will add online fetching later for auto mime updates */
   let mimeDB = localMimeDB, mimeTypes = Object.keys(mimeDB), customMimeTypes = [];
 
+  // @ts-ignore
   localMimeDB = '';
   /* find me a mime check regex to validate if a string is a valid mime and I will use it */
   let lookupError = '', latestJSON = {};

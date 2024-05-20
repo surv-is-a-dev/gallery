@@ -1,11 +1,10 @@
 /**!
  * Query Parameters
  * @author 0znzw https://scratch.mit.edu/users/0znzw/
- * @version 1.0
+ * @version 2.0
  * @copyright MIT & LGPLv3 License
  * Do not remove this comment
  * Made this before the one on turbowarp, just this is V2.
- * Made in an hour.
  */
 (function(Scratch) {
   'use strict';
@@ -183,5 +182,6 @@
     Scratch.redirect(pullRwqUri);
   }
 }
+// @ts-ignore
   Scratch.extensions.register(new QueryParams());
 })(Scratch);

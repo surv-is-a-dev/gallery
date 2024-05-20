@@ -1,7 +1,9 @@
-/*!
- * VERSION 9.0
- * Originally created by https://scratch.mit.edu/users/0znzw/ | Licenced Under the MIT License
- * DO NOT REMOVE THIS COMMENT
+/**!
+ * 0tils
+ * @author 0znzw https://scratch.mit.edu/users/0znzw/
+ * @version 9.0
+ * @copyright MIT License
+ * Do not remove this comment
  */
 (function(Scratch) {
   'use strict';
