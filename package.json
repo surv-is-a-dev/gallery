@@ -1,29 +1,22 @@
 {
-  "name": "@turbowarp/extensions",
+  "name": "@ashimee/survs-gallery",
   "version": "0.0.1",
-  "description": "Unsandboxed extensions for TurboWarp",
+  "description": "survs-gallery",
   "scripts": {
-    "start": "node development/server.js",
-    "dev": "node development/server.js",
-    "build": "node development/build-production.js",
-    "validate": "node development/validate.js",
     "lint": "eslint development extensions --max-warnings=0",
     "fix": "npm run lint -- --fix"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TurboWarp/extensions.git"
+    "url": "git+https://github.com/AshimeeAlt/survs-gallery.git"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/TurboWarp/extensions/issues"
+    "url": "https://github.com/AshimeeAlt/survs-gallery/issues"
   },
-  "homepage": "https://github.com/TurboWarp/extensions#readme",
+  "homepage": "https://github.com/AshimeeAlt/survs-gallery#readme",
   "dependencies": {
-    "@turbowarp/types": "git+https://github.com/TurboWarp/types-tw.git#tw",
-    "chokidar": "^3.6.0",
-    "ejs": "^3.1.9",
-    "express": "^4.18.2"
+    "@turbowarp/types": "git+https://github.com/TurboWarp/types-tw.git#tw"
   },
   "devDependencies": {
     "eslint": "^8.56.0"
