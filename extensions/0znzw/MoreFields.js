@@ -1,5 +1,5 @@
 /*!
- * Created by 0znzw | v1.2
+ * Created by 0znzw | v1.3
  * Licensed Under MIT & LGPLv3 License.
  * DO NOT REMOVE THIS COMMENT
  */
