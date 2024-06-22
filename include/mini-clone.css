@@ -3,26 +3,24 @@
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   color-scheme: light dark;
 }
-@media (prefers-color-scheme: dark) {
-  :root {
-    color: #eee;
-    background: #111;
-  }
-  a {
-    color: #56b2ff;
-  }
-  a:visited {
-    color: #f192ff;
-  }
-  a:active {
-    color: red;
-  }
-  .invert-dark {
-    filter: invert(100%);
-  }
-  .change-log {
-    border-color: #aaaaaa;
-  }
+:root.darkMode {
+  color: #eee;
+  background: #111;
+}
+:root.darkMode a {
+  color: #56b2ff;
+}
+:root.darkMode a:visited {
+  color: #f192ff;
+}
+:root.darkMode a:active {
+  color: red;
+}
+:root.darkMode .invert-dark {
+  filter: invert(100%);
+}
+:root.darkMode .change-log {
+  border-color: #aaaaaa;
 }
 
 h1 {
@@ -47,4 +45,23 @@ footer p {
 .section {
   max-width: 928px;
   margin: 24px auto;
+}
+
+.themeButton {
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 32767;
+  padding-top: 2rem;
+  padding-right: 2rem;
+}
+.themeButton > img {
+  fill: black;
+  stroke: black;
+  color: black;
+}
+:root.darkMode .themeButton > img {
+  fill: white;
+  stroke: white;
+  color: white;
 }
