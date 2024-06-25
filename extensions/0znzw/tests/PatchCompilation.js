@@ -18,7 +18,7 @@
     const { vm } = Scratch;
     const { runtime } = vm;
     Scratch.BlockType.INLINE = Symbol('Patches.BlockType.INLINE');
-    // Scratch.gui.getBlockly patch, Ashimee
+    // Scratch.gui.getBlockly patch, 0znzw
     Scratch.gui = undefined;
     delete Scratch.gui;
     (function () {
@@ -78,7 +78,7 @@
           },
         };
     })();
-    // Patch compilation done by Ashime
+    // Patch compilation done by 0znzw
     const returnData = {
       duplicateOnDrag: [],
       // ADM by CST1229
@@ -192,9 +192,9 @@
     !(function (t, o) {
       /**
        * Tooltip Utility
-       * @author Ashime https://scratch.mit.edu/users/0znzw/
+       * @author 0znzw https://scratch.mit.edu/users/0znzw/
        * Please do not remove this comment
-       * https://raw.githubusercontent.com/Ashimee/survs-gallery/main/extensions/0znzw/TooltipUtil/1.0/production.js
+       * https://raw.githubusercontent.com/yuri-kiss/survs-gallery/main/extensions/0znzw/TooltipUtil/1.0/production.js
        */ const e = t.vm,
         n = e.runtime,
         r = {};

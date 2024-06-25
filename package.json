@@ -1,5 +1,5 @@
 {
-  "name": "@ashimee/survs-gallery",
+  "name": "@yuri-kiss/survs-gallery",
   "version": "0.0.1",
   "description": "survs-gallery",
   "scripts": {
@@ -8,13 +8,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AshimeeAlt/survs-gallery.git"
+    "url": "git+https://github.com/yuri-kiss/survs-gallery.git"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/AshimeeAlt/survs-gallery/issues"
+    "url": "https://github.com/yuri-kiss/survs-gallery/issues"
   },
-  "homepage": "https://github.com/AshimeeAlt/survs-gallery#readme",
+  "homepage": "https://github.com/yuri-kiss/survs-gallery#readme",
   "dependencies": {
     "@turbowarp/types": "git+https://github.com/TurboWarp/types-tw.git#tw"
   },

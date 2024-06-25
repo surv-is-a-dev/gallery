@@ -2,7 +2,7 @@
 
 All images in this folder are licensed under the [GNU General Public License version 3](../licenses/GPL-3.0.txt). Please see the below list for additional attribution information.
 ## Placeholder.svg
- - Created by [Placeholder](#) in https://github.com/Ashimee/survs-gallery/issues/1#issuecomment-1
+ - Created by [Placeholder](#) in https://github.com/yuri-kiss/survs-gallery/issues/1#issuecomment-1
 
 ## 0znzw/NicheToolbox.svg
  - Created by [@SharkPool](https://www.youtube.com/c/SharkPoolthe1)

@@ -82,10 +82,10 @@
   </svg><!--rotationCenter:26:47-->`;
 
           if (
-            !g.querySelector('svg#ashime') &&
+            !g.querySelector('svg#0znzw') &&
             block.opcode === 'pmBlock0znzw_test'
           )
-            g.innerHTML = `<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="92" height="92" viewBox="0,0,92,92" id="ashime">
+            g.innerHTML = `<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="92" height="92" viewBox="0,0,92,92" id="0znzw">
   <image href="https://corsproxy.io/?https://cdn.discordapp.com/avatars/1124880299302592643/de911c4365c9e90483a94282efd2acf8.webp?size=128" height="92" width="92" />
   </svg><!--rotationCenter:0:0-->`;
 

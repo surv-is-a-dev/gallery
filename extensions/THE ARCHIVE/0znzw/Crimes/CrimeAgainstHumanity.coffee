@@ -1,6 +1,6 @@
 ### eslint-disable ###
 ###
-Ashime made an extension in coffeescript
+0znzw made an extension in coffeescript
 ###
 ((Scratch) ->
   ArgumentType = Scratch.ArgumentType

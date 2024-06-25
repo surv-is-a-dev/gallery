@@ -1,7 +1,7 @@
 (function() {
   /* eslint-disable */
   /*
-  Ashime made an extension in coffeescript
+  0znzw made an extension in coffeescript
   */
   (function(Scratch) {
     var ArgumentType, BlockType, Cast, Extension;
