@@ -28,7 +28,7 @@
       logs.appendChild(ld);
     }
     let hasConfirmed = false, auth = new URL(document.location.href).searchParams.get('auth'), hasLoaded = false, died = false;
-    const popup = window.open('/survs-gallery/?TWunlocked');
+    const popup = window.open('/gallery/?TWunlocked');
     try { popup.onload = () => {
       popup.postMessage({ twu: true, auth });
     } } catch {

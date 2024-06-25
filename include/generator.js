@@ -9,7 +9,7 @@ GeneratorLoaded(new (function Generator() {
     subdomain: 'gallery',
     isSub: false,
     // Otherwise this will be the path of where the site is hosted
-    path: '/survs-gallery/',
+    path: '/gallery/',
     dev_path: '/',
   };
   this.host = function() {

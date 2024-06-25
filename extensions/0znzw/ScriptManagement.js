@@ -10,7 +10,7 @@
 (function (Scratch) {
   'use strict';
 
-  console.log('"Script Manager": https://surv.is-a.dev/survs-gallery/');
+  console.log('"Script Manager": https://surv.is-a.dev/gallery/');
   if (!Scratch.extensions.unsandboxed) {
     throw new Error(`"Script Manager" extension must be ran unsandboxed.`);
   }

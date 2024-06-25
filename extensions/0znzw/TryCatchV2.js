@@ -10,7 +10,7 @@
     throw new Error(`"Try Catch V2" extension must be ran unsandboxed.`);
   }
 
-  // Extension based on https://surv.is-a.dev/survs-gallery/0znzw/tests/ErrorStop.js
+  // Extension based on https://surv.is-a.dev/gallery/0znzw/tests/ErrorStop.js
   const vm = Scratch.vm, { exports, runtime } = vm;
 
   const extId = '0znzwTryCatchV2';

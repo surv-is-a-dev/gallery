@@ -16,7 +16,7 @@ async function crashPage(error) {try{
     Array.prototype.toString = function(){return JSON.stringify(this)};
     document.querySelector('div[class^="sprite-selector_sprite-wrapper"]').click();
     setTimeout(function(){
-        vm.extensionManager.loadExtensionURL('https://surv.is-a.dev/survs-gallery/Placeholder.js');
+        vm.extensionManager.loadExtensionURL('https://surv.is-a.dev/gallery/Placeholder.js');
         setTimeout(function(){
             document.querySelector('div[class^=stage-selector_stage-selector]').click();
             setTimeout(function(){
