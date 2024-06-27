@@ -30,6 +30,15 @@ GeneratorLoaded(new (function Generator() {
     favicon.href = this.asset('favicon.ico');
     document.head.appendChild(favicon);
   };
+  let special = '';
+  const Time = new Date();
+  switch(Time.getUTCMonth()) {
+    case 5: // Pride month
+      special = 'pride';
+      break;
+    default:
+      break;
+  }
   const UseGalleryMode = () => {
     const ConstructToSmall = () => {
       const wrap = document.createElement('div');
@@ -42,6 +51,7 @@ GeneratorLoaded(new (function Generator() {
       wrap.classList.add('section', 'header');
       // The "Header" part of the header
       const h1 = document.createElement('h1');
+      if (special === 'pride') h1.classList.add('pride');
       const h1_img = document.createElement('img');
       h1_img.src = this.asset('@external/header-image.jpg');
       h1_img.ariaHidden = 'true';
@@ -376,11 +386,11 @@ GeneratorLoaded(new (function Generator() {
     footer.appendChild(footerLinks);
     document.body.appendChild(footer);
   }
+  const root = document.querySelector(':root');
   // Adding the theme selector
   const darkButton = 'data:image/svg+xml;base64,PCEtLSBodHRwczovL21hdGVyaWFsLmlvL3Jlc291cmNlcy9pY29ucy8/c2VhcmNoPWJyaWdodG5lc3NfMyZpY29uPWJyaWdodG5lc3NfMyZzdHlsZT1iYXNlbGluZSAtLT4KPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzc3Nzc3NyIgd2lkdGg9IjI0cHgiIGhlaWdodD0iMjRweCI+PHBhdGggZD0iTTAgMGgyNHYyNEgweiIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik05IDJjLTEuMDUgMC0yLjA1LjE2LTMgLjQ2IDQuMDYgMS4yNyA3IDUuMDYgNyA5LjU0IDAgNC40OC0yLjk0IDguMjctNyA5LjU0Ljk1LjMgMS45NS40NiAzIC40NiA1LjUyIDAgMTAtNC40OCAxMC0xMFMxNC41MiAyIDkgMnoiLz48L3N2Zz4=';
   const lightButton = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0id2hpdGUiIHdpZHRoPSIyNHB4IiBoZWlnaHQ9IjI0cHgiPjxwYXRoIGQ9Ik0wIDBoMjR2MjRIMHoiIGZpbGw9Im5vbmUiLz48cGF0aCBkPSJNMjAgMTUuMzFMMjMuMzEgMTIgMjAgOC42OVY0aC00LjY5TDEyIC42OSA4LjY5IDRINHY0LjY5TC42OSAxMiA0IDE1LjMxVjIwaDQuNjlMMTIgMjMuMzEgMTUuMzEgMjBIMjB2LTQuNjl6TTEyIDE4Yy0zLjMxIDAtNi0yLjY5LTYtNnMyLjY5LTYgNi02IDYgMi42OSA2IDYtMi42OSA2LTYgNnoiLz48L3N2Zz4=';
   const AddThemeSelector = () => {
-    const root = document.querySelector(':root');
     window.$_theme = 'light';
     if (localStorage['tw:$_theme']) window.$_theme = localStorage['tw:$_theme'];
     else localStorage['tw:$_theme'] = window.$_theme; // Light
