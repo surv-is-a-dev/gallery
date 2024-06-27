@@ -367,6 +367,7 @@ GeneratorLoaded(new (function Generator() {
   this.addFooterLinks = (...links) => {
     this.$footerLinks = links;
   }
+  // If you dont mind uh send me thigh highs hehehe
   this.setUsage = (usage) => {
     if (usage === 'gallery') UseGalleryMode();
     // Footer :P
