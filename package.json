@@ -19,7 +19,7 @@
     "@turbowarp/types": "git+https://github.com/TurboWarp/types-tw.git#tw"
   },
   "devDependencies": {
-    "eslint": "^9.5.0"
+    "eslint": "^9.6.0"
   },
   "private": true
 }
