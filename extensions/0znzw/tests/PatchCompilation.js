@@ -194,7 +194,7 @@
        * Tooltip Utility
        * @author 0znzw https://scratch.mit.edu/users/0znzw/
        * Please do not remove this comment
-       * https://raw.githubusercontent.com/yuri-kiss/gallery/main/extensions/0znzw/TooltipUtil/1.0/production.js
+       * https://raw.githubusercontent.com/surv-is-a-dev/gallery/main/extensions/0znzw/TooltipUtil/1.0/production.js
        */ const e = t.vm,
         n = e.runtime,
         r = {};
