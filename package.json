@@ -1,5 +1,5 @@
 {
-  "name": "@yuri-kiss/gallery",
+  "name": "@surv-is-a-dev/gallery",
   "version": "0.0.1",
   "description": "gallery",
   "scripts": {
@@ -8,13 +8,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yuri-kiss/gallery.git"
+    "url": "git+https://github.com/surv-is-a-dev/gallery.git"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/yuri-kiss/gallery/issues"
+    "url": "https://github.com/surv-is-a-dev/gallery/issues"
   },
-  "homepage": "https://github.com/yuri-kiss/gallery#readme",
+  "homepage": "https://github.com/surv-is-a-dev/gallery#readme",
   "dependencies": {
     "@turbowarp/types": "git+https://github.com/TurboWarp/types-tw.git#tw"
   },
