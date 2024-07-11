@@ -1,6 +1,13 @@
+/**!
+ * Compiler Injector
+ * @author 0znzw https://scratch.mit.edu/users/0znzw/
+ * @version 1.0
+ * @copyright MIT & LGPLv3 License
+ * Do not remove this comment
+ */
 (function(Scratch) {
   if (!Scratch.extensions.unsandboxed) {
-    throw new Error(`"Compiler Patchs" extension must be ran unsandboxed!`);
+    throw new Error(`"Compiler Injector" extension must be ran unsandboxed!`);
   }
   
   const { vm, BlockType, ArgumentType } = Scratch, { runtime } = vm, extId = '0znzwCompilerPatching';
@@ -197,7 +204,7 @@ ${node.patchedOpcode.after ?? ''}`;
     getInfo() {
       return {
         id: extId,
-        name: 'Compiler Patchs',
+        name: 'Compiler Injector',
         blocks: [{
           blockType: BlockType.COMMAND,
           opcode: 'patch_command',
