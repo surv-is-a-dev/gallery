@@ -1,8 +1,8 @@
 # npm
 node_modules
 
-# Final built website
-build
+# files.xml
+site/files.xml
 
 # vscode
 .vscode

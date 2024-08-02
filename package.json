@@ -4,7 +4,8 @@
   "description": "gallery",
   "scripts": {
     "lint": "eslint development extensions --max-warnings=0",
-    "fix": "npm run lint -- --fix"
+    "fix": "npm run lint -- --fix",
+    "dev": "bash dev/server.sh"
   },
   "repository": {
     "type": "git",
