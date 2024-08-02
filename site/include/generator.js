@@ -61,7 +61,18 @@ GeneratorLoaded(new (function Generator() {
       h1.appendChild(h1_img);
       h1.appendChild(h1_div);
       wrap.appendChild(h1);
-      // Additional warning
+      // Archive warning
+      const archive = document.createElement('div');
+      archive.classList.add('infobox', 'infobox-warning-orange');
+      const archive_title = document.createElement('div');
+      archive_title.classList.add('infobox-title');
+      archive_title.textContent = `This gallery has been archived.`;
+      const archive_body = document.createElement('span');
+      archive_body.innerHTML = `&nbsp;&nbsp;This will recive no further updates even if bugs exist, I do not plan on maintaining this anymore.`;
+      archive.appendChild(archive_title);
+      archive.appendChild(archive_body);
+      wrap.appendChild(archive);
+      // Unsandboxed warning
       const warning = document.createElement('div');
       warning.classList.add('infobox', 'infobox-warning');
       const warning_title = document.createElement('div');

@@ -84,6 +84,10 @@ h2, h3, p {
   background-color: rgba(255, 0, 0, 0.245);
   border-color: rgba(255, 0, 0, 0.446);
 }
+.infobox-warning-orange {
+  background-color: rgba(255, 165, 0, 0.245);
+  border-color: rgba(255, 165, 0, 0.245);
+}
 .infobox-title {
   font-weight: bold;
   margin-bottom: 4px;
