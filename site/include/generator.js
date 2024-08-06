@@ -60,7 +60,6 @@ GeneratorLoaded(new (function Generator() {
       h1_div.textContent = document.querySelector('title').textContent;
       h1.appendChild(h1_img);
       h1.appendChild(h1_div);
-      wrap.appendChild(h1);
       // Archive warning
       const archive = document.createElement('div');
       archive.classList.add('infobox', 'infobox-warning-orange');
