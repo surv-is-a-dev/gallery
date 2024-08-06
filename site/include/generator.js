@@ -4,11 +4,11 @@ GeneratorLoaded(new (function Generator() {
   const SITE = {
     dev_host: 'localhost:9000',
     isDev: (document.location.hostname.startsWith('localhost')), // Assume its dev IF we are using localhost
-    host: document.location.hostname, // if you want to manually specify this go ahead
-    // Use this if your hosting on a subdomain
+    host: document.location.hostname, //If you want to manually specify this go ahead
+    // Use this if you are hosting on a subdomain
     subdomain: 'gallery',
     isSub: false,
-    // Otherwise this will be the path of where the site is hosted
+    // Otherwise this will be the path where the site is hosted
     path: '/gallery/',
     dev_path: '/',
   };
@@ -67,7 +67,7 @@ GeneratorLoaded(new (function Generator() {
       archive_title.classList.add('infobox-title');
       archive_title.textContent = `This gallery has been archived.`;
       const archive_body = document.createElement('span');
-      archive_body.innerHTML = `&nbsp;&nbsp;This will recive no further updates even if bugs exist, I do not plan on maintaining this anymore.`;
+      archive_body.innerHTML = `&nbsp;&nbsp;This will receive no further updates even if bugs exist, I do not plan on maintaining this anymore.`;
       archive.appendChild(archive_title);
       archive.appendChild(archive_body);
       wrap.appendChild(archive);
@@ -377,7 +377,6 @@ GeneratorLoaded(new (function Generator() {
   this.addFooterLinks = (...links) => {
     this.$footerLinks = links;
   }
-  // If you dont mind uh send me thigh highs hehehe
   this.setUsage = (usage) => {
     if (usage === 'gallery') UseGalleryMode();
     // Footer :P
@@ -430,4 +429,4 @@ GeneratorLoaded(new (function Generator() {
     document.body.appendChild(themeButtonHolder);
   };
   AddThemeSelector();
-})); // This is a called but you must define it in a external file
+})); // This is called but you must define it in an external file
