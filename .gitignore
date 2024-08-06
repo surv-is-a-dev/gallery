@@ -1,8 +1,9 @@
 # npm
 node_modules
 
-# files.xml
-site/files.xml
+# build files
+site
+site/*
 
 # vscode
 .vscode

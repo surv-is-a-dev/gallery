@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <meta name="theme-color" content="#ff4c4c">
+    <meta name="description" content="Surv's extension gallery :D">
+    <link rel="icon" type="image/x-icon" href=/gallery/favicon.ico" />
+    <style>
+      @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css");
+      :root {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        color-scheme: light dark;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          color: #eee;
+          background: #111;
+        }
+        a {
+          color: #56b2ff;
+        }
+        a:visited {
+          color: #f192ff;
+        }
+        a:active {
+          color: red;
+        }
+        .invert-dark {
+          filter: invert(100%);
+        }
+        .change-log {
+          border-color: #aaaaaa;
+        }
+      }
+
+      h1 {
+        margin: 16px 0;
+      }
+      h2, h3, p {
+        margin: 8px 0;
+      }
+
+      .versionDropdownButton {
+        background: transparent;
+        border: none 0px;
+      }
+
+      /* todo: figure out how to make the opening and closing smooth */
+      .change-log {
+        border-radius: 0px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: #444444;
+        width: fit-content;
+        margin-top: 5px;
+      }
+
+      .change-log .logs {
+        padding-right: 10px;
+        overflow: hidden;
+      }
+
+      .change-log .logs .log {
+        padding-left: 20px;
+      }
+
+      .change-log .logs h4 {
+        padding-left: 10px;
+      }
+
+      .change-log .versionDropdownButton {
+        padding-top: 7.5px;
+        font-size: large;
+      }
+
+      .change-log[data-open="0"] .versionDropdownButton::after {
+        content: " ...";
+        white-space: pre;
+        display: inline-flexbox;
+        font-size: large;
+      }
+
+      .versionDropdownButton i {
+        padding-right: -10px;
+        opacity: 1;
+      }
+
+      .versionDropdownButton:hover {
+        cursor: pointer;
+      }
+
+      .versionDropdownButton:active {
+        opacity: 0.5;
+      }
+      
+      .version-content {
+        padding-left: 10px;
+      }
+    </style>
+    <script defer>
+      function updateVersion(button) {
+        const logContainer = button.parentElement;
+        const logText = logContainer.querySelector('div[data-logs="1"]');
+        const hidden = logText.hasAttribute('hidden');
+        if (hidden) {
+          logText.removeAttribute('hidden');
+          logContainer.dataset.open = '1';
+          button.innerHTML = `
+            ⇩
+          `;
+        } else {
+          logText.setAttribute('hidden', 'true');
+          logContainer.dataset.open = '0';
+          button.innerHTML = `
+            ⇧
+          `;
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <% 
+      function log(text) {
+        return `<li><span class="log">${text}<br></span></li>`;
+      }
+      function ver(v, l, hideProduction, hideDevelopment) {
+        hideProduction = Boolean((hideProduction ?? false)) ? 'style="display: none;"' : '';
+        hideDevelopment = Boolean((hideDevelopment ?? false)) ? 'style="display: none;"' : '';
+        l = l ?? '<li>Nothing here :(</li>';
+        if (typeof l === 'object' && l.length) {
+          l = l.map(t => log(t)).join('\n');
+        }
+        l = String(l);
+        const p = `./${v}/production.js`;
+        const d = `./${v}/development.js`;
+        return `<div class="version-wrapper">
+          <h3>v${v}</h3>
+          <div class="version-content">
+            <span ${hideProduction}>Production: <a href="${p}">${p}</a><br></span>
+            <span ${hideDevelopment}>Development: <a href="${d}">${d}</a><br></span>
+            <div class="change-log" data-open="0" data-version="${v}">
+              <button onclick="updateVersion(this)" class="versionDropdownButton">
+                ⇧
+              </button>
+              <div hidden class="logs" data-logs="1">
+                <h4>Change log:</h4>
+                <ol type="1">
+                  ${l}
+                </ol>
+              </div>
+            </div>
+          </div>
+        </div>`
+      }
+    %>
+    <h2>Compiler utility</h2>
+    <strong>ALL VERSIONS AFTER 2.1.1 ARE LICENSED UNDER LGPLv3</strong><br>
+    <span>Versions before 1.7 are not available :(</span><br>
+    <%- ver('1.7', ['First production release.', 'Also the website was made.']) %>
+    <%- ver('1.8', ['Added Support for the unreleased compiler exports in tw vm.', 'Updated check system.'], true) %>
+    <%- ver('1.9', ['Fix crash when the tw export could not be found', 'Added "apply" to the mixins that were missing it', 'Fixed double load crash.']) %>
+    <%- ver('2.0', ['Updated the tw export to use the new one', 'ESLint and missing semi-colons fixed', 'Added fake exports to IRGenerator on tw (fixes a crash)', 'Added fake exports to JSGenerator on tw (fixes a crash)', 'Added VariablePool class', 'Fixed enable debug option'], true) %>
+    <%- ver('2.1.1', ['<b>COMPATIBILITY BROKEN WITH OLDER VERSIONS</b>', 'Added a option to NOT expose anything in the VM. (just set vmExpose to false in the options)', '(hotfix) use Compiler not vm.compiler', '(hotfix2) make check true if checkTW is true'], true) %>
+  </body>
+</html>

@@ -22,8 +22,9 @@ jobs:
         uses: actions/setup-node@26961cf329f22f6837d5f54c3efd76b480300ace # v4
         with:
             node-version: '20.x'
+        run: npm ci
       - name: Build
-        run: node build/index.js
+        run: node build/index.js production
       - name: List Site (build)
         run: echo Site files && echo | ls site/
       - name: Write Artifact

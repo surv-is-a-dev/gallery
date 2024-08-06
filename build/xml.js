@@ -24,7 +24,7 @@ const XMLDoc = function XMLDoc() {
   this.root = true;
   this._toString = this.toString;
   this.toString = function() {
-    return `<?xml version="1.0" encoding="utf-8"?>${this._toString()}`;
+    return `<?xml version="1.0" encoding="utf-8"?>${this._toString()}`.replaceAll('\n', '');
   };
 };
 module.exports = { XMLNode, XMLDoc };

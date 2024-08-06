@@ -1,0 +1,234 @@
+[{
+  "img": "", "id": "Placeholder",
+  "name": "Placeholder",
+  "description": "A placeholder for people to use when adding extensions :P",
+  "search_tags": ["experimental", "advanced"], "requirements": ["internet", "hardware", "mobile"],
+  "new": false, "updated": false,
+  "iCard": {
+    "url": "#",
+    "description": "Bleh"
+  },
+  "credits": [{
+    "name": "Placeholder",
+    "url": "#1"
+  }, {
+    "name": "Placeholder SR",
+    "url": "#2"
+  }, {
+    "name": "Placeholder JR",
+    "url": "#3"
+  }]
+}, {
+  "img": "TurboCharged.svg", "id": "TurboCharged",
+  "name": "TurboCharged",
+  "description": "Override and modify the base categorys. (credits in extension)",
+  "search_tags": ["advanced"], "requirements": [],
+  "new": false, "updated": false,
+  "credits": []
+}, {
+  "img": "0znzw/NicheToolbox.svg", "id": "0znzw/NicheToolbox",
+  "name": "NicheToolbox",
+  "description": "Some blocks for niche use cases.",
+  "search_tags": [], "requirements": [],
+  "new": false, "updated": false,
+  "credits": [{
+    "name": "0znzw",
+    "url": "https://scratch.mit.edu/users/0znzw/"
+  }]
+}, {
+  "img": "0znzw/0tils.png", "id": "0znzw/0tils",
+  "name": "0tils",
+  "description": "My first ever extension.",
+  "search_tags": [], "requirements": [],
+  "new": false, "updated": false,
+  "credits": [{
+    "name": "0znzw",
+    "url": "https://scratch.mit.edu/users/0znzw/"
+  }]
+}, {
+  "img": "0znzw/ScriptManagement.svg", "id": "0znzw/ScriptManagement",
+  "name": "Script Management",
+  "description": "Manage scripts and threads, allowing for better control of your project.",
+  "search_tags": [], "requirements": [],
+  "new": false, "updated": false,
+  "credits": [{
+    "name": "0znzw",
+    "url": "https://scratch.mit.edu/users/0znzw/"
+  }, {
+    "name": "CST1229",
+    "url": "https://scratch.mit.edu/users/CST1229/"
+  }, {
+    "name": "FurryR",
+    "url": "https://github.com/FurryR/"
+  }]
+}, {
+  "img": "0znzw/PeriodicTable.svg", "id": "0znzw/PeriodicTable",
+  "name": "Periodic Table",
+  "description": "You can now get periodic table elements!",
+  "search_tags": [], "requirements": [],
+  "new": false, "updated": false,
+  "credits": [{
+    "name": "0znzw",
+    "url": "https://scratch.mit.edu/users/0znzw/"
+  }]
+}, {
+  "img": "0znzw/MatrixPlus.svg", "id": "0znzw/MatrixPlus",
+  "name": "Microbit Extended",
+  "description": "Additions to the microbit extension!",
+  "search_tags": [], "requirements": ["hardware"],
+  "new": false, "updated": false,
+  "credits": [{
+    "name": "0znzw",
+    "url": "https://scratch.mit.edu/users/0znzw/"
+  }]
+}, {
+  "img": "ION/Since2k.svg", "id": "ION/Since2k",
+  "name": "Since 2000",
+  "description": "More since 2000 related block's.",
+  "search_tags": [], "requirements": [],
+  "new": false, "updated": false,
+  "credits": [{
+    "name": "ION",
+    "url": "https://scratch.mit.edu/users/IONSlayer/"
+  }]
+}, {
+  "img": "Yoreni/breakEternityScratch.svg", "id": "Yoreni/breakEternityScratch",
+  "name": "Breaking Eternity",
+  "description": "Its like big int but with decimals and more features!",
+  "search_tags": [], "requirements": [],
+  "new": false, "updated": false,
+  "credits": [{
+    "name": "Yoreni",
+    "url": "https://github.com/Yoreni/"
+  }]
+}, {
+  "img": "", "id": "0znzw/DocumentEvents",
+  "name": "Document Events",
+  "description": "Some cool events ran on the document.",
+  "search_tags": [], "requirements": [],
+  "new": false, "updated": false,
+  "credits": [{
+    "name": "0znzw",
+    "url": "https://scratch.mit.edu/users/0znzw/"
+  }]
+}, {
+  "img": "0znzw/spellCheck.svg", "id": "0znzw/spellCheck",
+  "name": "Spell Check",
+  "description": "Oh yes, its spellcheck, bare bones spellcheck :).",
+  "search_tags": [], "requirements": [],
+  "new": false, "updated": false,
+  "credits": [{
+    "name": "0znzw",
+    "url": "https://scratch.mit.edu/users/0znzw/"
+  }]
+}, {
+  "img": "0znzw/MimeDB.svg", "id": "0znzw/MimeDB",
+  "name": "MimeDB",
+  "description": "Convert file types to their mime types and vice versa.",
+  "search_tags": [], "requirements": [],
+  "new": false, "updated": false,
+  "credits": [{
+    "name": "0znzw",
+    "url": "https://scratch.mit.edu/users/0znzw/"
+  }]
+}, {
+  "img": "adacraft/browser.png", "id": "adacraft/browser",
+  "name": "Browser - adacraft",
+  "description": "Browser utilities.",
+  "search_tags": [], "requirements": ["internet"],
+  "new": false, "updated": false,
+  "credits": [{
+    "name": "adacraft",
+    "url": "https://adacraft.org/"
+  }]
+}, {
+  "img": "0znzw/RightClickMenu.svg", "id": "0znzw/RightClickMenu",
+  "name": "Right Click Menu",
+  "description": "Disable and enable the right click menu.",
+  "search_tags": [], "requirements": [],
+  "new": false, "updated": false,
+  "credits": [{
+    "name": "0znzw",
+    "url": "https://scratch.mit.edu/users/0znzw/"
+  }]
+}, {
+  "img": "0znzw/DOMPurify.svg", "id": "0znzw/DOMPurify",
+  "name": "DOMPurify",
+  "description": "Sanitize user HTML.",
+  "search_tags": [], "requirements": [],
+  "new": false, "updated": false,
+  "credits": [{
+    "name": "0znzw",
+    "url": "https://scratch.mit.edu/users/0znzw/"
+  }]
+}, {
+  "img": "", "id": "0znzw/HTMLEntitys",
+  "name": "HTML Entitys",
+  "description": "Encode user inputted HTML. (better version of \"HTML Encode\")",
+  "search_tags": [], "requirements": [],
+  "new": false, "updated": false,
+  "credits": [{
+    "name": "0znzw",
+    "url": "https://scratch.mit.edu/users/0znzw/"
+  }]
+}, {
+  "img": "", "id": "0znzw/FunneImageBlocks",
+  "name": "Image Blocks",
+  "description": "They are blocks, but are they?",
+  "search_tags": ["experimental"], "requirements": ["internet"],
+  "new": false, "updated": false,
+  "credits": [{
+    "name": "0znzw",
+    "url": "https://scratch.mit.edu/users/0znzw/"
+  }]
+}, {
+  "img": "", "id": "0znzw/MoreButtons",
+  "name": "More Buttons",
+  "description": "Create your own buttons and manage the toolbox!",
+  "search_tags": ["advanced"], "requirements": [],
+  "new": false, "updated": false,
+  "credits": [{
+    "name": "0znzw",
+    "url": "https://scratch.mit.edu/users/0znzw/"
+  }]
+}, {
+  "img": "", "id": "0znzw/TryCatchV2",
+  "name": "Try Catch V2",
+  "description": "Catch and throw REAL JavaScript errors.",
+  "search_tags": ["advanced"], "requirements": [],
+  "new": false, "updated": false,
+  "credits": [{
+    "name": "0znzw",
+    "url": "https://scratch.mit.edu/users/0znzw/"
+  }]
+}, {
+  "img": "0znzw/EncodingV2.svg", "id": "0znzw/EncodingV2",
+  "name": "Cryptography",
+  "description": "Encryption, encoding and more.",
+  "search_tags": ["advanced"], "requirements": [],
+  "new": false, "updated": false,
+  "credits": [{
+    "name": "0znzw",
+    "url": "https://scratch.mit.edu/users/0znzw/"
+  }]
+}, {
+  "img": "0znzw/ErrorPages.svg", "id": "0znzw/ErrorPages",
+  "name": "Fake Crashes",
+  "description": "Create and customize custom GUI crashes (and crash the vm :o).",
+  "search_tags": ["experimental"], "requirements": [],
+  "new": false, "updated": false,
+  "credits": [{
+    "name": "0znzw",
+    "url": "https://scratch.mit.edu/users/0znzw/"
+  }]
+}, {
+  "img": "", "id": "0znzw/CompilerPatcher",
+  "name": "Compiler Injector",
+  "description": "Inject JS into the compiled script and override existing blocks JS.",
+  "search_tags": ["experimental", "advanced"], "requirements": [],
+  "new": false, "updated": false,
+  "credits": [{
+    "name": "0znzw",
+    "url": "https://scratch.mit.edu/users/0znzw/"
+  }]
+}]

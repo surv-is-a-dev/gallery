@@ -5,7 +5,8 @@
   "scripts": {
     "lint": "eslint development extensions --max-warnings=0",
     "fix": "npm run lint -- --fix",
-    "dev": "bash dev/server.sh"
+    "dev": "bash dev/server-dev.sh",
+    "prod": "bash dev/server-prod.sh"
   },
   "repository": {
     "type": "git",
@@ -17,7 +18,12 @@
   },
   "homepage": "https://github.com/surv-is-a-dev/gallery#readme",
   "dependencies": {
-    "@turbowarp/types": "git+https://github.com/TurboWarp/types-tw.git#tw"
+    "@turbowarp/types": "git+https://github.com/TurboWarp/types-tw.git#tw",
+    "clean-css": "^5.3.3",
+    "fs-extra": "^11.2.0",
+    "html-minifier": "^4.0.0",
+    "rimraf": "^6.0.1",
+    "terser": "^5.31.3"
   },
   "devDependencies": {
     "eslint": "^9.8.0"
