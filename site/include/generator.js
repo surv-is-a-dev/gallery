@@ -60,7 +60,7 @@ GeneratorLoaded(new (function Generator() {
       h1_div.textContent = document.querySelector('title').textContent;
       h1.appendChild(h1_img);
       h1.appendChild(h1_div);
-      // Archive warning
+      /*// Archive warning
       const archive = document.createElement('div');
       archive.classList.add('infobox', 'infobox-warning-orange');
       const archive_title = document.createElement('div');
@@ -70,7 +70,7 @@ GeneratorLoaded(new (function Generator() {
       archive_body.innerHTML = `&nbsp;&nbsp;This will receive no further updates even if bugs exist, I do not plan on maintaining this anymore.`;
       archive.appendChild(archive_title);
       archive.appendChild(archive_body);
-      wrap.appendChild(archive);
+      wrap.appendChild(archive);*/
       // Unsandboxed warning
       const warning = document.createElement('div');
       warning.classList.add('infobox', 'infobox-warning');
