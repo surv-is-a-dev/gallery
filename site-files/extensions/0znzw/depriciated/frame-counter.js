@@ -70,7 +70,7 @@
       requestAnimationFrame(onFrame2);
     }
     get2() { return frameCount2; }
-    end2() { measuringFrames1 = false; }
+    end2() { measuringFrames2 = false; }
   }
   Scratch.extensions.register(new extension());
 })(Scratch);
