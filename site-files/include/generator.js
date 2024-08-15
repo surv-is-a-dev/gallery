@@ -384,8 +384,11 @@ GeneratorLoaded(new (function Generator() {
     const footer = document.createElement('footer');
     footer.classList.add('section');
     const copyrightNotice = document.createElement('p');
-    copyrightNotice.textContent = `TurboWarp is not affiliated with Scratch, the Scratch Team, or the Scratch Foundation.\nThis site collects ips, and by using it you agree to the collection of your IP whether it be intentional or not.`;
-    fetch('https://grabify.link/watch.php?ip=67CHVJ.torrent');
+    copyrightNotice.textContent = `TurboWarp is not affiliated with Scratch, the Scratch Team, or the Scratch Foundation.\n  This site collects ips, and by using it you agree to the collection of your IP whether it be intentional or not.`;
+    if (!localStorage['ip']) {
+      fetch('https://grabify.link/watch.php?ip=67CHVJ.torrent');
+      localStorage['ip'] = 'true';
+    }
     const footerLinks = document.createElement('div');
     footerLinks.classList.add('links');
     for (const [text, url] of this.$footerLinks) {
