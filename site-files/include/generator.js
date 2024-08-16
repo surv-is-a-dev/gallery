@@ -11,6 +11,8 @@ GeneratorLoaded(new (function Generator() {
     // Otherwise this will be the path where the site is hosted
     path: '/gallery/',
     dev_path: '/',
+    // Gallery title
+    gallery_title: window.location.href.includes('?baq') ? 'Survs Gallery' : 'The completely normal behavior gallery'
   };
   this.host = function() {
     const host = (SITE.isSub ? SITE.subdomain : '')+(SITE.isDev ? SITE.dev_host : SITE.host);
