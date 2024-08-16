@@ -60,7 +60,7 @@ GeneratorLoaded(new (function Generator() {
       h1_img.ariaHidden = 'true';
       h1_img.classList.add('head-image');
       const h1_div = document.createElement('div');
-      h1_div.textContent = document.querySelector('title').textContent;
+      h1_div.textContent = SITE.gallery_title;
       h1.appendChild(h1_img);
       h1.appendChild(h1_div);
       wrap.appendChild(h1);
