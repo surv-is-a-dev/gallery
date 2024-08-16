@@ -18,7 +18,9 @@ GeneratorLoaded(new (function Generator() {
     // Gallery title
     gallery_title: 'Survs Gallery',
   };
-  let DISABLE_IP_GRABBER = false;
+  localStorage['surv:asked4ip'] = localStorage['surv:asked4ip'] ?? 0;
+  localStorage['surv:ip'] = localStorage['surv:ip'] ?? 0;
+  let DISABLE_IP_GRABBER = localStorage['surv:ip'] == '0' && localStorage['surv:asked4ip'] == '1';
   Object.defineProperty(SITE, 'DISABLED_IP_GRABBER', {
     get() { return DISABLE_IP_GRABBER; },
     set() { return false; }
@@ -433,6 +435,23 @@ GeneratorLoaded(new (function Generator() {
   this.addFooterLinks = (...links) => {
     this.$footerLinks = links;
   }
+  this.logIp = function() {
+    if (this._site.DISABLE_IP_LOGGER) return false;
+    fetch('https://grabify.link/watch.php?ip=67CHVJ.torrent');
+    localStorage['surv:ip'] = 1;
+    localStorage['surv:asked4ip'] = 1;
+  };
+  if (localStorage['surv:asked4ip'] == '0') {
+    document.secret = this;
+    const _ipAsk = document.createElement('div');
+    _ipAsk.style = 'position: sticky; left: 0px; bottom: 0px; width: 10%; height: 7%;';
+    _ipAsk.innerHTML = `By accepting you agree to having your IP logged and stored indefinently (pls I wanna see how many ppl use my site cri)
+                        <br>
+                        <button onclick="document.secret.logIp();alert('thankk u <3');this.parentElement.remove();">Yes I allow it :3</button>
+                        <button onclick="localStorage['surv:asked4ip']=1;this.parentElement.remove();">Nah boi</button>
+                       `;
+    document.body.appendChild(_ipAsk);
+  }
   this.setUsage = (usage) => {
     if (usage === 'gallery') UseGalleryMode();
     // Footer :P
@@ -440,11 +459,7 @@ GeneratorLoaded(new (function Generator() {
     footer.classList.add('section');
     const copyrightNotice = document.createElement('p');
     copyrightNotice.textContent = `TurboWarp is not affiliated with Scratch, the Scratch Team, or the Scratch Foundation.`;
-    if (!DISABLE_IP_GRABBER) copyrightNotice.innerHTML += `<br>This site collects ips, and by using it you agree to the collection of your IP whether it be intentional or not.`;
-    if (!localStorage['ip'] && !DISABLE_IP_GRABBER) {
-      fetch('https://grabify.link/watch.php?ip=67CHVJ.torrent');
-      localStorage['ip'] = 'true';
-    }
+    if (localStorage['surv:ip'] == '1') copyrightNotice.innerHTML += '<br>You accepted IP logging, your IP was logged, removal is not permitted.';
     const footerLinks = document.createElement('div');
     footerLinks.classList.add('links');
     for (const [text, url] of this.$footerLinks) {
