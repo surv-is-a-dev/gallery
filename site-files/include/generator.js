@@ -1,6 +1,10 @@
 console.clear();
 // @ts-expect-error
 GeneratorLoaded(new (function Generator() {
+  if (window.location.href.includes('oops-didnt-mean-to')) {
+    document.write('Nerd.');
+    throw 'Nerd.';
+  }
   const SITE = {
     dev_host: 'localhost:9000',
     isDev: (document.location.hostname.startsWith('localhost')), // Assume its dev IF we are using localhost
