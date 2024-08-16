@@ -20,6 +20,7 @@
     <script>
       // It does not have to be async
       async function GeneratorLoaded(generator) {
+        document.head.querySelector('title').textContent = generator._site.gallery_title;
         generator.addFooterLinks(['Developer Documentation', 'https://docs.turbowarp.org/development/custom-extensions']);
         generator.setUsage('gallery');
         generator.addSearchTags('experimental', 'advanced');
