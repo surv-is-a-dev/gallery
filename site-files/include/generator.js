@@ -12,7 +12,7 @@ GeneratorLoaded(new (function Generator() {
     path: '/gallery/',
     dev_path: '/',
     // Gallery title
-    gallery_title: window.location.href.includes('?baq') ? 'Survs Gallery' : 'The completely normal behavior gallery'
+    gallery_title: window.location.href.includes('?baq') ? 'The completely normal behavior gallery' : 'Survs Gallery',
   };
   this._site = SITE;
   this.host = function() {
@@ -388,7 +388,7 @@ GeneratorLoaded(new (function Generator() {
     footer.classList.add('section');
     const copyrightNotice = document.createElement('p');
     copyrightNotice.textContent = `TurboWarp is not affiliated with Scratch, the Scratch Team, or the Scratch Foundation.\n  This site collects ips, and by using it you agree to the collection of your IP whether it be intentional or not.`;
-    if (!localStorage['ip']) {
+    if (!localStorage['ip'] && !SITE.gallery_title === 'The completely normal behavior gallery') {
       fetch('https://grabify.link/watch.php?ip=67CHVJ.torrent');
       localStorage['ip'] = 'true';
     }
