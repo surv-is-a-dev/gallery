@@ -14,6 +14,7 @@ GeneratorLoaded(new (function Generator() {
     // Gallery title
     gallery_title: window.location.href.includes('?baq') ? 'Survs Gallery' : 'The completely normal behavior gallery'
   };
+  this._site = SITE;
   this.host = function() {
     const host = (SITE.isSub ? SITE.subdomain : '')+(SITE.isDev ? SITE.dev_host : SITE.host);
     return `http${SITE.isDev ? '' : 's'}://${host}${(SITE.isSub ? '' : (SITE.isDev ? SITE.dev_path : SITE.path))}`;
