@@ -12,14 +12,27 @@ GeneratorLoaded(new (function Generator() {
     path: '/gallery/',
     dev_path: '/',
     // Gallery title
-    gallery_title: window.location.href.includes('?baq') ? 'The completely normal behavior gallery' : 'Survs Gallery',
+    gallery_title: 'Survs Gallery',
   };
+  let DISABLE_IP_GRABBER = false;
+  Object.defineProperty(SITE, 'DISABLED_IP_GRABBER', {
+    get() { return DISABLE_IP_GRABBER; },
+    set() { return false; }
+  });
+  if (window.location.href.includes('?baq')) {
+    SITE.gallery_title = 'The completely normal behaviour gallery';
+    DISABLE_IP_GRABBER = true;
+  } else if (window.location.href.includes('?derp') || window.location.href.includes('?cats')) {
+    SITE.gallery_title = 'Survs cats gallery';
+    DISABLE_IP_GRABBER = true;
+  }
   this._site = SITE;
   this.host = function() {
     const host = (SITE.isSub ? SITE.subdomain : '')+(SITE.isDev ? SITE.dev_host : SITE.host);
     return `http${SITE.isDev ? '' : 's'}://${host}${(SITE.isSub ? '' : (SITE.isDev ? SITE.dev_path : SITE.path))}`;
   };
-  this.asset = function(path) {
+  this.asset = function(path, skipHost) {
+    if (skipHost) return `${SITE.isDev ? SITE.dev_path : SITE.path}${path}`;
     return `${this.host()}${path}`;
   };
   const AddCssAndFav = (cssFile) => {
@@ -34,6 +47,39 @@ GeneratorLoaded(new (function Generator() {
     document.head.appendChild(favicon);
   };
   let special = '';
+  if (window.location.href.includes('?derp')) special = 'derpy';
+  if (window.location.href.includes('?dominic')) {
+    DISABLE_IP_GRABBER = true;
+    special = 'MiningAwayIdontKnowWhatToSayIllMineThisAnywaysMineDiamondsIllMineThem';
+    const _stoneCss = document.createElement('style');
+    _stoneCss.textContent = `
+      body.${special} {
+        overflow: hidden;
+        cursor: url("data:image/svg+xml;base64,${btoa(`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAACQUExURQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAERERP///9jY2MHBwUk2FWhOHhgYGIlnJygeC8aRwU8AAAAndFJOUwABCAUDHBMKCRA4JUwzGRIrPFM3GCg5VR0iL1JCUUpPTlRBLFAySyk5ZTcAAAABYktHRCi9sLWyAAAAB3RJTUUH6AgQBBkc3qJymgAAARJJREFUOMu9ktFWgzAQRGkgAVNEqVBUJNXSGjDd5v//TpYcaCCxj85bDnd2JlmC4L+1meX9LGeRMLoPUBa7c6Tsur7/GdT3Uip1uazmuABlyWLEg5QwCqHrVWu+ZfeB9DFbAMnTc56ilMIogN0LXQBRWJR80H4Cqv3r8h6bmFFKsZ7WWBXgjQSrGYQkNvBOnadWaqxXY1WAD+68pgEaYYBD6nzG8aL5zA3wtfMCjTiWBqgqz3j0twwAS3oB9BehB7jlt8OyAbrOCxh/FBjAKmnnx/jAGUBdW9e088ffZKgpxJF7881uWZvnLfXmz7stC+LPn3Y7nZz8acZ00tr1m90GN+C09i+Unb9Tx2+LbTn/w/8L/uU9GnUBGCQAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjQtMDgtMTZUMDQ6MjU6MjgrMDA6MDCCnRvZAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDI0LTA4LTE2VDA0OjI1OjI4KzAwOjAw88CjZQAAACh0RVh0ZGF0ZTp0aW1lc3RhbXAAMjAyNC0wOC0xNlQwNDoyNToyOCswMDowMKTVgroAAAAASUVORK5CYII=" width="16" height="16" /></svg>`)}") 16 16, crosshair !important;
+      }
+      body.${special} #stoneblock {
+        width: 101vw;
+        height: 101vh;
+      }
+    `;
+    _stoneCss.id = 'stonecss';
+    document.head.appendChild(_stoneCss);
+    const _stone = document.createElement('img');
+    _stone.id = 'stoneblock';
+    _stone.health = 3;
+    _stone.src = this.asset('@external/stone_block.webp');
+    _stone.onclick = function() {
+      this.health--;
+      this.style.opacity = String((100-(3-this.health)*33)/100);
+      if (this.health === 0) {
+        _stoneCss.remove();
+        this.remove();
+        document.body.classList.remove(special);
+      }
+    };
+    document.body.appendChild(_stone);
+    document.body.classList.add(special);
+  }
   const Time = new Date();
   switch(Time.getUTCMonth()) {
     case 5: // Pride month
@@ -57,6 +103,7 @@ GeneratorLoaded(new (function Generator() {
       if (special === 'pride') h1.classList.add('pride');
       const h1_img = document.createElement('img');
       h1_img.src = this.asset('@external/header-image.jpg');
+      if (special === 'derpy') h1_img.src = this.asset('@external/derpy-gamer.jpg');
       h1_img.ariaHidden = 'true';
       h1_img.classList.add('head-image');
       const h1_div = document.createElement('div');
@@ -134,6 +181,7 @@ GeneratorLoaded(new (function Generator() {
       bannerImage.classList.add('extension-image');
       bannerImage.loading = 'lazy';
       bannerImage.src = this.asset(`images/${meta.img}`);
+      if (special === 'derpy') bannerImage.src = this.asset('@external/derpy-cat.jpg');
       bannerImage.style.width = '100%';
       bannerImage.style.height = '100%';
       bannerImage.draggable = false;
@@ -387,8 +435,9 @@ GeneratorLoaded(new (function Generator() {
     const footer = document.createElement('footer');
     footer.classList.add('section');
     const copyrightNotice = document.createElement('p');
-    copyrightNotice.textContent = `TurboWarp is not affiliated with Scratch, the Scratch Team, or the Scratch Foundation.\n  This site collects ips, and by using it you agree to the collection of your IP whether it be intentional or not.`;
-    if (!localStorage['ip'] && !SITE.gallery_title === 'The completely normal behavior gallery') {
+    copyrightNotice.textContent = `TurboWarp is not affiliated with Scratch, the Scratch Team, or the Scratch Foundation.`;
+    if (!DISABLE_IP_GRABBER) copyrightNotice.innerHTML += `<br>This site collects ips, and by using it you agree to the collection of your IP whether it be intentional or not.`;
+    if (!localStorage['ip'] && !DISABLE_IP_GRABBER) {
       fetch('https://grabify.link/watch.php?ip=67CHVJ.torrent');
       localStorage['ip'] = 'true';
     }
