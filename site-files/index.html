@@ -93,6 +93,7 @@
               window.location.reload(true);
             }
           };
+          if (window.location.href.includes('?baq')) goBaq('back to the future');
           generator.onSearchInput = (currentSearch) => {
             if (currentSearch === 'baq 2 3 future' || currentSearch === 'back to the future') {
               goBaq(currentSearch);
