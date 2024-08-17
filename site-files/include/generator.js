@@ -1,6 +1,7 @@
 console.clear();
 // @ts-expect-error
 GeneratorLoaded(new (function Generator() {
+  const generator = this;
   if (window.location.href.includes('oops-didnt-mean-to')) {
     document.write('Nerd.');
     throw 'Nerd.';
@@ -41,6 +42,8 @@ GeneratorLoaded(new (function Generator() {
     if (skipHost) return `${SITE.isDev ? SITE.dev_path : SITE.path}${path}`;
     return `${this.host()}${path}`;
   };
+  // overridable!!
+  this.onSearchInput = () => {};
   const AddCssAndFav = (cssFile) => {
     const styles = document.createElement('link');
     styles.rel = 'stylesheet';
@@ -180,6 +183,7 @@ GeneratorLoaded(new (function Generator() {
       meta.img = meta.img || 'unknown.svg';
       const extUrl = this.asset(`extensions/${meta.id || 'Placeholder'}.js`);
       const div = document.createElement('div');
+      if (meta.noSearch) div.dataset.nosearch = true;
       div.classList.add('extension');
       const banner = document.createElement('div');
       banner.classList.add('extension-banner');
@@ -289,6 +293,12 @@ GeneratorLoaded(new (function Generator() {
       searchTags.classList.add('extension-search-tags');
       searchTags.dataset.tags = (meta.search_tags || []).join(',').toLowerCase();
       div.appendChild(searchTags);
+      const metaTags = document.createElement('meta');
+      if (meta.meta) {
+        meta.meta = meta.meta.toString();
+        metaTags.textContent = meta.meta;
+      }
+      div.appendChild(metaTags);
       document.body.querySelector('div.extensions').appendChild(div);
     };
     // Internals
@@ -366,22 +376,27 @@ GeneratorLoaded(new (function Generator() {
       }
     });
     const search = function(query) {
+      generator.onSearchInput(query);
       document.querySelectorAll('div.extension').forEach(div => {
         if (div.dataset.nosearch) return;
         div.style.display = '';
         let creditsText = div.querySelector('div.extension-boxing-inner');
         if (!creditsText || creditsText == null) {
-            creditsText = '';
+          creditsText = '';
         } else creditsText = creditsText.innerText;
         let description = div.querySelector('p');
         if (!description || description == null) {
-            description = '';
+          description = '';
         } else description = description.innerText;
         let title = div.querySelector('h3');
         if (!title || title == null) {
-            title = '';
+          title = '';
         } else title = title.innerText;
-        let joinedData = `${creditsText}\n${description}\n${title}`.toLowerCase();
+        let specialMeta = div.querySelector('meta');
+        if (!specialMeta || specialMeta == null) {
+          specialMeta = '';
+        } else specialMeta = specialMeta.innerText;
+        let joinedData = `${creditsText}\n${description}\n${title}\n${specialMeta}`.toLowerCase();
         const foundText = joinedData.includes(query.toLowerCase());
         if (foundText) return;
         div.style.display = 'none';
@@ -466,6 +481,7 @@ GeneratorLoaded(new (function Generator() {
       const link = document.createElement('a');
       link.href = url;
       link.textContent = text;
+      link.innerHTML += '&nbsp;&nbsp;';
       footerLinks.appendChild(link);
     }
     footer.appendChild(copyrightNotice);
