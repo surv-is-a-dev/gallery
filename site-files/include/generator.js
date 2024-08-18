@@ -144,8 +144,8 @@ GeneratorLoaded(
         warning_title.textContent = `These extensions are not compatible with Scratch.`;
         const warning_body = document.createElement('span');
         warning_body.innerHTML = `
-          &nbsp;&nbsp;Projects that use these extensions can't be uploaded to the Scratch website or loaded into turbowarp with sandbox enabled.
-          They can, however, be used in <a href="https://packager.turbowarp.org/">the packager</a>.
+          &nbsp;&nbsp;Projects that use these extensions can't be uploaded to the Scratch website or loaded with the sandbox enabled.
+          They can, however, be used in the packager.
         `;
         warning.appendChild(warning_title);
         warning.appendChild(warning_body);
@@ -216,7 +216,7 @@ GeneratorLoaded(
         button_copycode.textContent = 'Copy Code';
         const button_open = document.createElement('a');
         button_open.style.display = 'none';
-        button_open.href = `https://turbowarp.org/editor?extension=${extUrl}`;
+        button_open.href = `#`;
         button_open.classList.add('open');
         button_open.textContent = 'Open extension';
         bannerButtons.appendChild(button_copycode);
@@ -488,7 +488,7 @@ GeneratorLoaded(
       const footer = document.createElement('footer');
       footer.classList.add('section');
       const copyrightNotice = document.createElement('p');
-      copyrightNotice.textContent = `TurboWarp is not affiliated with Scratch, the Scratch Team, or the Scratch Foundation.`;
+      copyrightNotice.textContent = `Surv-is-a-dev is not affiliated with TurboWarp, Scratch, the Scratch Team, or the Scratch Foundation.`;
       if (localStorage['surv:ip'] == '1') copyrightNotice.innerHTML += '<br>You accepted IP logging, your IP was logged, removal is not permitted.';
       const footerLinks = document.createElement('div');
       footerLinks.classList.add('links');
