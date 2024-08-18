@@ -309,6 +309,7 @@ GeneratorLoaded(
         }
         div.appendChild(metaTags);
         document.body.querySelector('div.extensions').appendChild(div);
+        return div;
       };
       // Internals
       const queryParams = new URL(document.location.href).searchParams;

@@ -41,8 +41,31 @@
           alert('Failed to load gallery :(');
           return false;
         }
+        let i = 0;
         for (const extension of extensions) {
-          generator.addExtension(extension);
+          extensions[i] = generator.addExtension(extension);
+          i++;
+        }
+        if (window.location.href.includes('?hl')) {
+          const _placeholder = extensions[0];
+          _placeholder.querySelector('div.extension-buttons').appendChild((() => {
+            const div = document.createElement('div');
+            div.style = 'position: absolute; left: 0px; bottom: 0px; border: none; background: none;';
+            div.id = 'hlMusic';
+            div.innerHTML = `
+              <img src="${generator.asset('@external/radio.webp')}" width="32" height="64" loading="lazy" draggable="false" />
+              <audio src="${generator.asset('@external/radio.ogg')}" disablecontrols="false" loop="" style="display: none;" />
+            `;
+            div.audio = div.querySelector('audio');
+            div.onclick = function() {
+              if (this.yes) return;
+              this.yes = true;
+              this.audio.play();
+              this.audio.disabled = true;
+              delete this.onclick;
+            };
+            return div;
+          })());
         }
         if (funnyMode) {
           alert('Funny mode activated, PLEASE do not report any bugs while using this mode!');
