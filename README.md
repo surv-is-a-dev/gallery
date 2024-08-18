@@ -4,7 +4,7 @@ Surv's extension gallery.
 
 Please dont take any files from this gallery to put in someone elses gallery without prior permission of surv.
 
-If surv allows/disallows it just see if they have a readme file in their folder (see the extensions folder for people)
+If they allow/disallow it just see if they have a readme file in their folder (see the extensions folder for people)
 
 ## Contributing
 
