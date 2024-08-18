@@ -20,7 +20,7 @@
     <script>
       // It does not have to be async
       async function GeneratorLoaded(generator) {
-        const footerLinks = [['Developer Documentation', 'https://docs.turbowarp.org/development/custom-extensions']];
+        const footerLinks = [];
         const funnyMode = window.location.href.includes('?funny-is-allowed');
         if (funnyMode) {
           generator._site.gallery_title += ' (Funny mode)';
