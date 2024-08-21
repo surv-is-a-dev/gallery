@@ -1,9 +1,8 @@
 # Survs Gallery
+Surv's extension gallery.
 
-My extension gallery.
 
-
-Please dont take any files from this gallery to put in someone elses gallery without prior permission of the creator.
+Please dont take any files from this gallery to put in someone elses gallery without prior permission of surv.
 
 If they allow/disallow it just see if they have a readme file in their folder (see the extensions folder for people)
 
