@@ -192,7 +192,7 @@
     "url": "https://scratch.mit.edu/users/0znzw/"
   }]
 }, {
-  "img": "", "id": "0znzw/TryCatchV2",
+  "img": "0znzw/TryCatchV2.png", "id": "0znzw/TryCatchV2",
   "name": "Try Catch V2",
   "description": "Catch and throw REAL JavaScript errors.",
   "search_tags": ["advanced"], "requirements": [],
