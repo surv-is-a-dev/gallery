@@ -76,7 +76,7 @@ class HistoryAPI {
     window.history.back();
   }
   go(args) {
-    window.history.go(args.times);
+    window.history.go(Scratch.Cast.toNumber(args.times));
   }
   push(args) {
     const state = { page_id: Scratch.Cast.toNumber(args.pageID), user_id: Scratch.Cast.toNumber(args.userID) };
