@@ -2,7 +2,7 @@
   `use strict`;
 
    if(!Scratch.extensions.unsandboxed) {
-     throw new Error("The "History Api Extension" requires to be unsandboxed!")
+     throw new Error("The 'History Api Extension' requires to be unsandboxed!")
    }
 
   class HistoryAPI {
