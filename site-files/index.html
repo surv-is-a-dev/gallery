@@ -30,13 +30,14 @@
         generator.addFooterLinks(...footerLinks);
         generator.setUsage('gallery');
         generator.addSearchTags('experimental', 'advanced');
+        await generator.import(generator.asset('include/JSON5.min.js'));
         let req, extensions;
-        req = await fetch(generator.asset('extensions/index.json'));
+        req = await fetch(generator.asset('extensions/index.json5'));
         if (!req.ok) {
           alert('Failed to load gallery :(');
           return false;
         }
-        extensions = await req.json();
+        extensions = JSON5.parse(await req.text());
         if (!extensions) {
           alert('Failed to load gallery :(');
           return false;
@@ -70,12 +71,12 @@
         if (funnyMode) {
           alert('Funny mode activated, PLEASE do not report any bugs while using this mode!');
           generator.addSearchTags('funny');
-          req = await fetch(generator.asset('extensions/funny-is-allowed.json'));
+          req = await fetch(generator.asset('extensions/funny-is-allowed.json5'));
           if (!req.ok) {
             alert('Failed to load gallery :(');
             return false;
           }
-          extensions = await req.json();
+          extensions = JSON5.parse(await req.text());
           if (!extensions) {
             alert('Failed to load extra gallery :(');
             return false;
