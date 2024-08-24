@@ -1,7 +1,7 @@
 class HistoryAPI {
   getInfo() {
     return {
-      id: 'history',
+      id: 'lemonHistory',
       name: 'Web History API',
       docsURI : 'https://developer.mozilla.org/en-US/docs/Web/API/History_API',
       blocks: [
