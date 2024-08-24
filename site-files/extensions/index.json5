@@ -244,4 +244,14 @@
     "name": "0znzw",
     "url": "https://scratch.mit.edu/users/0znzw/"
   }]
+}, {
+  "img": "", "id": "Lemon/GalleryAPI",
+  "name": "Gallery API",
+  "description": "Access the Web History API.",
+  "search_tags": [], "requirements": ["internet"],
+  "new": true, "updated": false,
+  "credits": [{
+    "name": "Lemon",
+    "url": "https://scratch.mit.edu/users/BludIsAnLemon/"
+  }]
 }]
