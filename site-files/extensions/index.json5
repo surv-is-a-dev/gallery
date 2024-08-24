@@ -1,15 +1,28 @@
+// This file supports comments!
 [{
+  // Img: This is optional just use {FOLDER_NAME}/{EXTENSION_NAME}.{FILE_EXTENSION}
+  // Id: This is required, set it to the JS file path (look at NicheToolbox for an example)
   "img": "", "id": "Placeholder",
+  // The name of the extension.
   "name": "Placeholder",
+  // A description so people know what your extension is for.
   "description": "A placeholder for people to use when adding extensions :P",
+  // search_tags and requirements can both be empty, they are not required,
+  // these are all the available tags.
   "search_tags": ["experimental", "advanced"], "requirements": ["internet", "hardware", "mobile"],
+  // If your extension is new or you just updated it then set these.
   "new": false, "updated": false,
+  // This is the little I-Card, you can use this for docs, or anything that makes sense.
   "iCard": {
+    // (use # for the url if its not changing the url)
     "url": "#",
     "description": "Bleh"
   },
+  // Currently due to limitations it can only list 3 people without bugging,
+  // If you need more than 3 I will fix this, just add an object with name and url key.
   "credits": [{
     "name": "Placeholder",
+    // Please try to ONLY use your scratch account if possible.
     "url": "#1"
   }, {
     "name": "Placeholder SR",
