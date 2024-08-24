@@ -47,8 +47,16 @@ GeneratorLoaded(
       if (skipHost) return `${SITE.isDev ? SITE.dev_path : SITE.path}${path}`;
       return `${this.host()}${path}`;
     };
-    // overridable!!
     this.onSearchInput = () => {};
+    this.import = (url) => {
+      const script = document.createElement('script');
+      return new Promise((resolve, reject) => {
+        script.onerror = reject;
+        script.onload = resolve;
+        script.src = url;
+        document.body.appendChild(script);
+      });
+    };
     const AddCssAndFav = (cssFile) => {
       const styles = document.createElement('link');
       styles.rel = 'stylesheet';
