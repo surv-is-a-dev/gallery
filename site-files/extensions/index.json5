@@ -245,7 +245,7 @@
     "url": "https://scratch.mit.edu/users/0znzw/"
   }]
 }, {
-  "img": "", "id": "Lemon/GalleryAPI",
+  "img": "Lemon/GalleryAPI.svg", "id": "Lemon/GalleryAPI",
   "name": "Web History API",
   "description": "Access the Web History API.",
   "search_tags": [], "requirements": ["internet"],
