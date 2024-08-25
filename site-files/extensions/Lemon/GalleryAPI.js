@@ -1,3 +1,7 @@
+/*
+  License: MIT
+*/
+
 (function (Scratch) {
   'use strict';
 
