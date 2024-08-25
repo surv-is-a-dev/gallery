@@ -246,7 +246,7 @@
   }]
 }, {
   "img": "", "id": "Lemon/GalleryAPI",
-  "name": "Gallery API",
+  "name": "Web History API",
   "description": "Access the Web History API.",
   "search_tags": [], "requirements": ["internet"],
   "new": true, "updated": false,
