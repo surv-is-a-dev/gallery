@@ -83,3 +83,7 @@ All images in this folder are licensed under the [GNU General Public License ver
  ## 0znzw/DOMPurify.svg
  - Created by [@0znzw](https://scratch.mit.edu/users/0znzw)
  - Font used is [Freeman](https://fonts.google.com/specimen/Freeman/).
+
+ ## Lemon/GalleryAPI.svg
+ - Created by [Lemon](https://scratch.mit.edu/users/BludIsAnLemon)
+ - Font used is [Comic Sans MS](#)
