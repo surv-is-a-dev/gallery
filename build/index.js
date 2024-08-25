@@ -47,6 +47,15 @@ new Promise(async (resolveShare) => {
     const map = new XMLDoc();
     map.attrs['x-build-time'] = Date.now();
     while (file = files.shift()) {
+      if (file.endsWith('.html')) {
+        await new Promise((resolve) => {
+          fs.readFile(file).catch((err) => console.error(`BUILD: Failed to inject generator ${file}\n`, err)).then(async (data) => {
+            data = data.toString().replace('<!-- %GENERATOR.JS% -->', `<!-- The base64 is just to use the altgen and isaltgen tags -->\n    <script src="/include/generator.js?v=${Date.now().toString(16)}" data-altgen="/gallery/include/generator.js?v=${Date.now().toString(16)}" data-isaltgen="1" onerror="eval(atob('ICAgICgoKT0+e2NvbnN0IHRvcExldmVsID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgnc2NyaXB0Jyk7CiAgICB0b3BMZXZlbC5vbmVycm9yID0gKCkgPT4gYWxlcnQoJ1RoaXMgc2l0ZSBpcyBub3QgY29uZmlndXJlZCBjb3JyZWN0bHknKTsKICAgIHRvcExldmVsLnNyYyA9IChkb2N1bWVudC5xdWVyeVNlbGVjdG9yKCdzY3JpcHRbZGF0YS1pc2FsdGdlbj0iMSJdJykuZGF0YXNldC5hbHRnZW4pOwogICAgZG9jdW1lbnQuYm9keS5hcHBlbmRDaGlsZCh0b3BMZXZlbCk7fSkoKTs='))"></script>`);
+            data = data.replace('<!-- %HEADER% -->', `<!-- To the guy whos snooping. -->\n    <!-- This site is generated via JS -->\n    <!-- So its not just there on load -->\n    <!-- Please be careful -->`);
+            fs.writeFile(file, data, 'utf8').catch((err) => console.error(`BUILD: Failed to inject generator ${file}\n`, err)).then(() => resolve(console.log(`BUILD: Minified ${file}`)));
+          });
+        });
+      }
       if (production) {
         if ((file.endsWith('.js') && !(file.startsWith('site/extensions/') || file.endsWith('.min.js'))) || file.endsWith('.html') || file.endsWith('.css') || file.endsWith('.json5')) {
           console.log(`BUILD: Minifying ${file}`);
