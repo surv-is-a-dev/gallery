@@ -1,4 +1,4 @@
-let terser, htmlminifier, cleancss;
+let terser, htmlminifier, cleancss, JSON5;
 const production = process.argv.slice(2)[0] === 'production';
 if (production) {
   console.log('BUILD: Running in production mode!');
@@ -7,6 +7,7 @@ if (production) {
   cleancss = new (require('clean-css'))({
     level: 2,
   });
+  JSON5 = require('./JSON5');
 }
 const rimraf = require('rimraf').rimraf;
 const { XMLDoc, XMLNode } = require('./xml.js');
@@ -47,7 +48,7 @@ new Promise(async (resolveShare) => {
     map.attrs['x-build-time'] = Date.now();
     while (file = files.shift()) {
       if (production) {
-        if ((file.endsWith('.js') && !file.startsWith('site/extensions/')) || file.endsWith('.html') || file.endsWith('css')) {
+        if ((file.endsWith('.js') && !(file.startsWith('site/extensions/') || file.endsWith('.min.js'))) || file.endsWith('.html') || file.endsWith('.css') || file.endsWith('.json5')) {
           console.log(`BUILD: Minifying ${file}`);
           await new Promise((resolve) => {
             fs.readFile(file).catch((err) => console.error(`BUILD: Failed to minify ${file}\n`, err)).then(async (data) => {
@@ -62,8 +63,10 @@ new Promise(async (resolveShare) => {
                   minifyJS: true,
                   minifyCSS: true,
                 }));
-              } else if (file.endsWith('css')) {
+              } else if (file.endsWith('.css')) {
                 data = (await cleancss.minify(data)).styles;
+              } else if (file.endsWith('.json5')) {
+                data = JSON5.stringify(JSON5.parse(data));
               }
               fs.writeFile(file, data, 'utf8').catch((err) => console.error(`BUILD: Failed to minify ${file}\n`, err)).then(() => resolve(console.log(`BUILD: Minified ${file}`)));
             });
