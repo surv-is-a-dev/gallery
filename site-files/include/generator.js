@@ -20,6 +20,7 @@ GeneratorLoaded(
       // Gallery title
       gallery_title: 'Survs Gallery',
     };
+    const NOW = Date.now().toString(16);
     localStorage['surv:asked4ip'] = localStorage['surv:asked4ip'] ?? 0;
     localStorage['surv:ip'] = localStorage['surv:ip'] ?? 0;
     let DISABLE_IP_GRABBER = localStorage['surv:ip'] == '0' && localStorage['surv:asked4ip'] == '1';
@@ -198,7 +199,7 @@ GeneratorLoaded(
       // Adding extensions
       this.addExtension = (meta) => {
         meta.img = meta.img || 'unknown.svg';
-        const extUrl = this.asset(`extensions/${meta.id || 'Placeholder'}.js`);
+        const extUrl = this.asset(`extensions/${meta.id || 'Placeholder'}.js?v=${NOW}`);
         const div = document.createElement('div');
         if (meta.noSearch) div.dataset.nosearch = true;
         div.classList.add('extension');
