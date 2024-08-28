@@ -235,7 +235,7 @@
     "url": "https://scratch.mit.edu/users/0znzw/"
   }]
 }, {
-  "img": "0znzw/CompilerPatcher.svg", "id": "0znzw/CompilerPatcher",
+  "img": "", "id": "0znzw/CompilerPatcher",
   "name": "Compiler Injector",
   "description": "Inject JS into the compiled script and override existing blocks JS.",
   "search_tags": ["experimental", "advanced"], "requirements": [],
