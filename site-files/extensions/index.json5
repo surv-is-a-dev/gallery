@@ -115,7 +115,7 @@
     "url": "https://github.com/Yoreni/"
   }]
 }, {
-  "img": "", "id": "0znzw/DocumentEvents",
+  "img": "0znzw/DocumentEvents.svg", "id": "0znzw/DocumentEvents",
   "name": "Document Events",
   "description": "Some cool events ran on the document.",
   "search_tags": [], "requirements": [],
@@ -175,7 +175,7 @@
     "url": "https://scratch.mit.edu/users/0znzw/"
   }]
 }, {
-  "img": "", "id": "0znzw/HTMLEntitys",
+  "img": "0znzw/HTMLEntitys.svg", "id": "0znzw/HTMLEntitys",
   "name": "HTML Entitys",
   "description": "Encode user inputted HTML. (better version of \"HTML Encode\")",
   "search_tags": [], "requirements": [],
@@ -185,7 +185,7 @@
     "url": "https://scratch.mit.edu/users/0znzw/"
   }]
 }, {
-  "img": "", "id": "0znzw/FunneImageBlocks",
+  "img": "0znzw/FunneImageBlocks.svg", "id": "0znzw/FunneImageBlocks",
   "name": "Image Blocks",
   "description": "They are blocks, but are they?",
   "search_tags": ["experimental"], "requirements": ["internet"],
@@ -195,7 +195,7 @@
     "url": "https://scratch.mit.edu/users/0znzw/"
   }]
 }, {
-  "img": "", "id": "0znzw/MoreButtons",
+  "img": "0znzw/MoreButtons.svg", "id": "0znzw/MoreButtons",
   "name": "More Buttons",
   "description": "Create your own buttons and manage the toolbox!",
   "search_tags": ["advanced"], "requirements": [],
@@ -205,7 +205,7 @@
     "url": "https://scratch.mit.edu/users/0znzw/"
   }]
 }, {
-  "img": "", "id": "0znzw/TryCatchV2",
+  "img": "0znzw/TryCatchV2.svg", "id": "0znzw/TryCatchV2",
   "name": "Try Catch V2",
   "description": "Catch and throw REAL JavaScript errors.",
   "search_tags": ["advanced"], "requirements": [],
