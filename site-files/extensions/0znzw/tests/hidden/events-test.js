@@ -9,6 +9,7 @@
   'use strict';
 
   const runHats = (opcode) => {
+    // https://github.com/surv-is-a-dev/gallery/blob/main/site-files/extensions/0znzw/tests/hidden/runHats.js
     const threads = [];
     for (const target of vm.runtime.targets) {
       Object.values(target.blocks._blocks).filter(block => block.opcode === opcode).forEach(block => {
