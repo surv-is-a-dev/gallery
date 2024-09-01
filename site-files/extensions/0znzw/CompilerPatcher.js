@@ -41,8 +41,8 @@
     const id = src.slice(src.indexOf('["') + 2, src.length - 2);
     return target.variables[id]?.value;
   };
-  VariableInput.prototype.asRaw = function(jsg) {
-    return this._value ? this._value.asRaw() : this.asUnknown();
+  VariableInput.prototype.asRaw = function() {
+    return this.asUnknown();
   };
   
   const PATCHES_ID = `__patches_${extId}__`;
