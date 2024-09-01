@@ -172,7 +172,7 @@ ${node.patchedOpcode.after ?? ''}`, TYPE_UNKNOWN);
           this.source += new TypedInput(getPreset.call(this, node.name), TYPE_UNKNOWN);
           break;
         case `${extId}.newline`:
-          return new TypedInput('/*<br />*/\n', TYPE_UNKNOWN);
+          return new TypedInput('\n', TYPE_UNKNOWN);
         default:
           return fn(node, ...args);
       }
