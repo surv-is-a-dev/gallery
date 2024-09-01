@@ -1,7 +1,7 @@
 /**!
  * Compiler Injector
  * @author 0znzw https://scratch.mit.edu/users/0znzw/
- * @version 1.2
+ * @version 1.4
  * @copyright MIT & LGPLv3 License
  * Do not remove this comment
  */
@@ -10,11 +10,70 @@
     throw new Error(`"Compiler Injector" extension must be ran unsandboxed!`);
   }
   
-  const { vm, BlockType, ArgumentType } = Scratch, { runtime } = vm, extId = '0znzwCompilerPatching';
-  const iwnafhwtb = vm.exports.i_will_not_ask_for_help_when_these_break();
-  const { JSGenerator, IRGenerator, ScriptTreeGenerator } = iwnafhwtb;
-  const { TYPE_NUMBER, TYPE_STRING, TYPE_BOOLEAN, TYPE_UNKNOWN, TYPE_NUMBER_NAN, TypedInput, ConstantInput, VariableInput, Frame, sanitize } = JSGenerator.unstable_exports;
-  const JSGP = JSGenerator.prototype, IRGP = IRGenerator.prototype, STGP = ScriptTreeGenerator.prototype;
+  const { vm, BlockType, ArgumentType } = Scratch, { runtime } = vm, extId = '0znzwCompilerPatching', uExtId = extId.toUpperCase();
+  const hasOwn = (obj, key) => Object.prototype.hasOwnProperty.call(obj, key);
+  const exports = (() => {
+    const referr = 'Non-variable was passed to asRef';
+    let taco = false;
+    const ve = vm.exports;
+    const extras = {
+      ...ve,
+    };
+    if (hasOwn(ve, 'i_will_not_ask_for_help_when_these_break')) {
+      const iwnafhwtb = ve.i_will_not_ask_for_help_when_these_break();
+      taco = hasOwn(iwnafhwtb, 'IntermediateStackBlock');
+      return {
+        ...extras,
+        ...iwnafhwtb,
+        ...iwnafhwtb.JSGenerator.unstable_exports,
+        JSGP: iwnafhwtb.JSGenerator.prototype,
+        STGP: iwnafhwtb.ScriptTreeGenerator.prototype,
+        taco,
+      };
+    } else if (hasOwn(ve, 'JSGenerator') && hasOwn(ve, 'IRGenerator') && hasOwn(ve.IRGenerator, 'exports') && hasOwn(ve.IRGenerator.exports, 'ScriptTreeGenerator')) {
+      const jsg = ve.JSGenerator, je = jsg.exports;
+      extras.InputType = {
+        NUMBER: je.TYPE_NUMBER,
+        STRING: je.TYPE_STRING,
+        UNKNOWN: je.TYPE_UNKNOWN,
+        BOOLEAN: je.TYPE_UNKNOWN,
+      };
+      return {
+        ...extras,
+        JSGenerator: jsg,
+        ...ve.IRGenerator.exports,
+        ...ve.JSGenerator.exports,
+        JSGP: ve.JSGenerator.prototype,
+        STGP: ve.IRGenerator.exports.ScriptTreeGenerator.prototype,
+      };
+    } else {
+      throw new Error(`The VM is outdated please use a version with a compiler and compiler exports.`);
+    }
+  })();
+  if (exports.taco) {
+    exports.asRaw = function(input) {
+      input = String(input);
+      if (input[0] === '"' && input[input.length - 1] === '"') return JSON.parse(input);
+      return input;
+    };
+  } else {
+    exports.asRaw = function(input) {
+      if (input instanceof exports.ConstantInput || hasOwn(input, 'constantValue')) return input.constantValue;
+      return input.asUnknown();
+    };
+  }
+  exports.asRef = function(input, JSG) {
+    if (!(!exports.taco && (input instanceof exports.VariableInput || hasOwn(input, '_value'))) && !(exports.taco && (input = String(input)) && input.startsWith('b') && input.endsWith('.value'))) {
+      return (console.log(referr), `('${referr}')`);
+    }
+    if (input._value) return exports.asRaw(input._value);
+    input = input?.source || input;
+    const ref = input.slice(0, input.indexOf('.'));
+    const src = Object.entries(JSG._setupVariables).find(entr => entr[1] === ref)[0];
+    const target = src.startsWith('stage.variables') ? runtime.getTargetForStage() : JSG.target;
+    const id = src.slice(src.indexOf('["') + 2, src.length - 2);
+    return target.variables[id]?.value;
+  };
 
   runtime.patchedOpcodes = new Map(), runtime.patchPresets = new Map();
   runtime.patchedOpcodes.setOpcode = (function(opcode, position, js) {
@@ -27,21 +86,6 @@
     }
     runtime.patchedOpcodes.get(opcode)[position] = js;
   }).bind(runtime.patchedOpcodes);
-
-  const asRaw = function(input) {
-    if (input instanceof ConstantInput || hasOwn(input, 'constantValue')) return input.constantValue;
-    return input.asUnknown();
-  };
-  const asRef = function(input, JSG) {
-    const err = 'Non-variable was passed to asRef';
-    if (!(input instanceof VariableInput || hasOwn(input, '_value'))) return (console.log(err), `('${err}')`);
-    if (input._value) return asRaw(input._value);
-    const ref = input.source.slice(0, input.source.indexOf('.'));
-    const src = Object.entries(JSG._setupVariables).find(entr => entr[1] === ref)[0];
-    const target = src.startsWith('stage.variables') ? vm.runtime.getTargetForStage() : JSG.target;
-    const id = src.slice(src.indexOf('["') + 2, src.length - 2);
-    return target.variables[id]?.value;
-  };
   
   const PATCHES_ID = `__patches_${extId}__`;
   const cst_patch = (obj, functions) => {
@@ -62,175 +106,339 @@
       }
     }
   };
-  
-  const descendPatchArgs = function(block) {
-    return Array.from(Object.entries(block.inputs).flatMap(entr => String(entr[0]).startsWith('ARG') ? [this.descendInputOfBlock(block, entr[0])] : []) || []);
-  };
 
-  cst_patch(STGP, {
-    descendInput(fn, block, ...args) {
-      const patchedOpcode = runtime.patchedOpcodes.get(block.opcode);
-      if (patchedOpcode) {
-        return {
-          kind: `${extId}.opPatch`,
-          node: fn(block, ...args),
-          patchedOpcode,
-        };
-      }
-      switch(block.opcode) {
-        // Skip any stack-like blocks
-        case `${extId}_newline`:
-          return {
-            kind: `${extId}.newline`,
-          };
-        case `${extId}_patch_reporter`:
-          return {
-            kind: `${extId}.patchReporter`,
-            js: descendPatchArgs.call(this, block),
-          };
-        case `${extId}_all_patched`:
-          return {
-            kind: `${extId}.allPatched`,
-          };
-        case `${extId}_is_patched`:
-          return {
-            kind: `${extId}.isPatched`,
-            opcode: this.descendInputOfBlock(block, 'OPCODE'),
-          };
-        case `${extId}_use_preset_reporter`:
-          return {
-            kind: `${extId}.presetReporter`,
-            name: this.descendInputOfBlock(block, 'NAME'),
-          };
-        case `${extId}_ref_variable`:
-          return {
-            kind: `${extId}.refVariable`,
-            var: this.descendInputOfBlock(block, 'VAR'),
-          };
-        default:
-          return fn(block, ...args);
-      }
-    },
-    descendStackedBlock(fn, block, ...args) {
-      const patchedOpcode = runtime.patchedOpcodes.get(block.opcode);
-      if (patchedOpcode) {
-        return {
-          kind: `${extId}.opPatch`,
-          node: fn(block, ...args),
-          patchedOpcode,
-        };
-      }
-      switch(block.opcode) {
-        // Skip any non-stack-like blocks
-        case `${extId}_patch_command`:
-          return {
-            kind: `${extId}.patchCommand`,
-            args: descendPatchArgs.call(this, block),
-          };
-        case `${extId}_patch_conditional`:
-          return {
-            kind: `${extId}.patchWrapper`,
-            js1: this.descendInputOfBlock(block, 'JSSTART'),
-            stack: this.descendSubstack(block, 'SUBSTACK'),
-            js2: this.descendInputOfBlock(block, 'JSEND'),
-          };
-        case `${extId}_patch_opcode`:
-          return {
-            kind: `${extId}.patchOpcode`,
-            opcode: this.descendInputOfBlock(block, 'OPCODE'),
-            position: this.descendInputOfBlock(block, 'POS'),
-            js: this.descendInputOfBlock(block, 'JS'),
-          };
-        case `${extId}_unpatch_opcode`:
-          return {
-            kind: `${extId}.unpatchOpcode`,
-            opcode: this.descendInputOfBlock(block, 'OPCODE'),
-          };
-        case `${extId}_new_preset`:
-          return {
-            kind: `${extId}.newPreset`,
-            name: this.descendInputOfBlock(block, 'NAME'),
-            id: block.id,
-          };
-        case `${extId}_use_preset_command`:
-          return {
-            kind: `${extId}.presetCommand`,
-            name: this.descendInputOfBlock(block, 'NAME'),
-          };
-        case `${extId}_debug_state`:
-          debugger;
-          return {
-            kind: `${extId}.debugState`,
-          };
-        default:
-          return fn(block, ...args);
-      }
-    },
-  });
-  
+  const { asRaw, asRef, STGP, JSGP, Frame } = exports;
+  const descendPatchArgs = function(block) {
+    let inputs = block?.inputs;
+    if (!inputs) inputs = block;
+    return Array.from(Object.entries(inputs).flatMap(entr => String(entr[0]).startsWith('ARG') ? [this.descendInputOfBlock(block, entr[0])] : []) || []);
+  };
   function getPreset(name) {
     return '';
   }
-  cst_patch(JSGP, {
-    descendInput(fn, node, ...args) {
-      switch(node.kind) {
-        case `${extId}.newline`:
-          return new TypedInput('\n', TYPE_UNKNOWN);
-        case `${extId}.opPatch`:
-          return new TypedInput(`${node.patchedOpcode.before ?? ''}
-${node.patchedOpcode.ontop !== null ? node.patchedOpcode.ontop : this.descendInput(node.node).asUnknown()}
-${node.patchedOpcode.after ?? ''}`, TYPE_UNKNOWN);
-        case `${extId}.patchReporter`:
-          return new TypedInput(node.args.map(arg => asRaw(this.descendInput(arg)) || '').join('') || '', TYPE_UNKNOWN);
-        case `${extId}.allPatched`:
-          return new TypedInput('(JSON.stringify(Array.from(runtime.patchedOpcodes.keys())))', TYPE_STRING);
-        case `${extId}.isPatched`:
-          return new TypedInput(`(runtime.patchedOpcodes.has(${this.descendInput(node.opcode).asString()}))`, TYPE_BOOLEAN);
-        case `${extId}.presetReporter`:
-          this.source += new TypedInput(getPreset.call(this, node.name), TYPE_UNKNOWN);
-          break;
-        case `${extId}.refVariable`:
-          return new TypedInput(asRef(this.descendInput(node.var), this), TYPE_UNKNOWN);
-        default:
-          return fn(node, ...args);
+  if (exports.taco) {
+    const { InputType, IntermediateInput, IntermediateStackBlock, StackOpcode, InputOpcode } = exports;
+    InputOpcode[`${uExtId}_OPPATCH`] = `${extId}.opPatch`;
+    InputOpcode[`${uExtId}_NEWLINE`] = `${extId}.newline`;
+    InputOpcode[`${uExtId}_PATCH_REPORTER`] = `${extId}.patchReporter`;
+    InputOpcode[`${uExtId}_ALL_PATCHED`] = `${extId}.allPatched`;
+    InputOpcode[`${uExtId}_IS_PATCHED`] = `${extId}.isPatched`;
+    InputOpcode[`${uExtId}_USE_PRESET_REPORTER`] = `${extId}.presetReporter`;
+    InputOpcode[`${uExtId}_REF_VARIABLE`] = `${extId}.refVariable`;
+    StackOpcode[`${uExtId}_OPPATCH`] = `${extId}.opPatch`;
+    StackOpcode[`${uExtId}_PATCH_COMMAND`] = `${extId}.patchCommand`;
+    StackOpcode[`${uExtId}_PATCH_CONDITIONAL`] = `${extId}.patchWrapper`;
+    StackOpcode[`${uExtId}_PATCH_OPCODE`] = `${extId}.patchOpcode`;
+    StackOpcode[`${uExtId}_UNPATCH_OPCODE`] = `${extId}.unpatchOpcode`;
+    StackOpcode[`${uExtId}_NEW_PRESET`] = `${extId}.newPreset`;
+    StackOpcode[`${uExtId}_USE_PRESET_COMMAND`] = `${extId}.presetCommand`;
+    StackOpcode[`${uExtId}_DEBUG_STATE`] = `${extId}.debugState`;
+    cst_patch(STGP, {
+      descendInput(fn, block, ...args) {
+        const patchedOpcode = runtime.patchedOpcodes.get(block.opcode);
+        if (patchedOpcode) {
+          return new IntermediateInput(InputOpcode[`${uExtId}_OPPATCH`], InputType.ANY, {
+            node: fn(block, ...args),
+            patchedOpcode,
+          });
+        }
+        switch(block.opcode) {
+          case `${extId}_newline`:
+            return new IntermediateInput(InputOpcode[`${uExtId}_NEWLINE`], InputType.ANY, {});
+          case `${extId}_patch_reporter`:
+            return new IntermediateInput(InputOpcode[`${uExtId}_PATCH_REPORTER`], InputType.ANY, {
+              args: descendPatchArgs.call(this, block),
+            });
+          case `${extId}_all_patched`:
+            return new IntermediateInput(InputOpcode[`${uExtId}_ALL_PATCHED`], InputType.ANY, {});
+          case `${extId}_is_patched`:
+            return new IntermediateInput(InputOpcode[`${uExtId}_IS_PATCHED`], InputType.ANY, {
+              opcode: this.descendInputOfBlock(block, 'OPCODE').toType(InputType.STRING),
+            });
+          case `${extId}_use_preset_reporter`:
+            return new IntermediateInput(InputOpcode[`${uExtId}_USE_PRESET_REPORTER`], InputType.ANY, {
+              name: this.descendInputOfBlock(block, 'NAME').toType(InputType.STRING),
+            });
+          case `${extId}_ref_variable`:
+            return new IntermediateInput(InputOpcode[`${uExtId}_REF_VARIABLE`], InputType.ANY, {
+              var: this.descendInputOfBlock(block, 'VAR'),
+            });
+          default:
+            return fn(block, ...args);
+        }
+      },
+      descendStackedBlock(fn, block, ...args) {
+        const patchedOpcode = runtime.patchedOpcodes.get(block.opcode);
+        if (patchedOpcode) {
+          return new IntermediateStackBlock(StackOpcode[`${uExtId}_OPPATCH`], {
+            node: fn(block, ...args),
+            patchedOpcode,
+          });
+        }
+        switch(block.opcode) {
+          case `${extId}_patch_command`:
+            return new IntermediateStackBlock(StackOpcode[`${uExtId}_PATCH_COMMAND`], {
+              args: descendPatchArgs.call(this, block),
+            });
+          case `${extId}_patch_conditional`:
+            return new IntermediateStackBlock(StackOpcode[`${uExtId}_PATCH_CONDITIONAL`], {
+              js1: this.descendInputOfBlock(block, 'JSSTART'),
+              stack: this.descendSubstack(block, 'SUBSTACK'),
+              js2: this.descendInputOfBlock(block, 'JSEND'),
+            });
+          case `${extId}_patch_opcode`:
+            return new IntermediateStackBlock(StackOpcode[`${uExtId}_PATCH_OPCODE`], {
+              opcode: this.descendInputOfBlock(block, 'OPCODE').toType(InputType.STRING),
+              position: this.descendInputOfBlock(block, 'POS').toType(InputType.STRING),
+              js: this.descendInputOfBlock(block, 'JS'),
+            });
+          case `${extId}_unpatch_opcode`:
+            return new IntermediateStackBlock(StackOpcode[`${uExtId}_UNPATCH_OPCODE`], {
+              opcode: this.descendInputOfBlock(block, 'OPCODE').toType(InputType.STRING),
+            });
+          case `${extId}_new_preset`:
+            return new IntermediateStackBlock(StackOpcode[`${uExtId}_NEW_PRESET`], {
+              name: this.descendInputOfBlock(block, 'NAME').toType(InputType.STRING),
+              id: block.id,
+            });
+          case `${extId}_use_preset_command`:
+            return new IntermediateStackBlock(StackOpcode[`${uExtId}_USE_PRESET_COMMAND`], {
+              name: this.descendInputOfBlock(block, 'NAME').toType(InputType.STRING),
+            });
+          case `${extId}_debug_state`:
+            debugger;
+            return new IntermediateStackBlock(StackOpcode[`${uExtId}_DEBUG_STATE`], {});
+          default:
+            return fn(block, ...args);
+        }
+      },
+    });
+    cst_patch(JSGP, {
+      descendInput(fn, block, ...args) {
+        const node = block.inputs; 
+        switch(block.opcode) {
+          case InputOpcode[`${uExtId}_NEWLINE`]:
+            return '\n';
+          case InputOpcode[`${uExtId}_OPPATCH`]:
+            return `${node.patchedOpcode.before ?? ''}
+  ${node.patchedOpcode.ontop !== null ? node.patchedOpcode.ontop : this.descendInput(node.node)}
+  ${node.patchedOpcode.after ?? ''}`;
+          case InputOpcode[`${uExtId}_PATCH_REPORTER`]:
+            return node.args.map(arg => asRaw(this.descendInput(arg)) || '').join('') || '';
+          case InputOpcode[`${uExtId}_ALL_PATCHED`]:
+            return '(JSON.stringify(Array.from(runtime.patchedOpcodes.keys())))';
+          case InputOpcode[`${uExtId}_IS_PATCHED`]:
+            return `(runtime.patchedOpcodes.has(${this.descendInput(node.opcode)}))`;
+          case InputOpcode[`${uExtId}_PRESET_REPORTER`]:
+            return getPreset.call(this, node.name);
+          case InputOpcode[`${uExtId}_REF_VARIABLE`]:
+            return asRef(this.descendInput(node.var), this);
+          default:
+            return fn(block, ...args);
+        }
+      },
+      descendStackedBlock(fn, block, ...args) {
+        const node = block.inputs; 
+        switch(block.opcode) {
+          case StackOpcode[`${uExtId}_OPPATCH`]:
+            this.source += node.patchedOpcode.before ?? '';
+            if (node.patchedOpcode.ontop) {
+              this.source += node.patchedOpcode.ontop;
+            } else this.descendStackedBlock(node.node);
+            this.source += node.patchedOpcode.after ?? '';
+            break;
+          case StackOpcode[`${uExtId}_PATCH_COMMAND`]:
+            this.source += node.args.map(arg => asRaw(this.descendInput(arg)) || '').join('') || '';
+            break;
+          case StackOpcode[`${uExtId}_PATCH_CONDITIONAL`]:
+            this.source += asRaw(this.descendInput(node.js1)) + '\n';
+            this.descendStack(node.stack, new Frame(false));
+            this.source += '\n' + asRaw(this.descendInput(node.js2));
+            break;
+          case StackOpcode[`${uExtId}_PATCH_OPCODE`]:
+            this.source += `runtime.patchedOpcodes.setOpcode(${this.descendInput(node.opcode)}, ${this.descendInput(node.position)}, ${this.descendInput(node.js)});`;
+            break;
+          case StackOpcode[`${uExtId}_UNPATCH_OPCODE`]:
+            this.source += `runtime.patchedOpcodes.delete(${this.descendInput(node.opcode)});`;
+            break;
+          case StackOpcode[`${uExtId}_NEW_PRESET`]:
+            this.source += `runtime.patchPresets.set(${this.descendInput(node.name)}, "${node.id}");`;
+            break;
+          case StackOpcode[`${uExtId}_PRESET_COMMAND`]:
+            this.source += getPreset.call(this, node.name);
+            break;
+          case StackOpcode[`${uExtId}_DEBUG_STATE`]:
+            debugger;
+            this.source += `console.log('Debug state over');\n`
+            break;
+          default:
+            return fn(block, ...args);
+        }
       }
-    },
-    descendStackedBlock(fn, node, ...args) {
-      switch(node.kind) {
-        case `${extId}.opPatch`:
-          this.source += `${node.patchedOpcode.before ?? ''}
-${node.patchedOpcode.ontop !== null ? node.patchedOpcode.ontop : this.descendInput(node.node).asUnknown()}
-${node.patchedOpcode.after ?? ''}`;
-          break;
-        case `${extId}.patchCommand`:
-          this.source += node.args.map(arg => asRaw(this.descendInput(arg)) || '').join('') || '';
-          break;
-        case `${extId}.patchWrapper`:
-          this.source += asRaw(this.descendInput(node.js1)) + '\n';
-          this.descendStack(node.stack, new Frame(false));
-          this.source += '\n' + asRaw(this.descendInput(node.js2));
-          break;
-        case `${extId}.patchOpcode`:
-          this.source += `runtime.patchedOpcodes.setOpcode(${this.descendInput(node.opcode).asString()}, ${this.descendInput(node.position).asString()}, ${this.descendInput(node.js).asString()});`;
-          break;
-        case `${extId}.unpatchOpcode`:
-          this.source += `runtime.patchedOpcodes.delete(${this.descendInput(node.opcode).asString()});`;
-          break;
-        case `${extId}.newPreset`:
-          this.source += `runtime.patchPresets.set(${this.descendInput(node.name).asString()}, "${node.id}");`;
-          break;
-        case `${extId}.presetCommand`:
-          this.source += getPreset.call(this, node.name);
-          break;
-        case `${extId}.debugState`:
-          debugger;
-          this.source += `console.log('Debug state over');\n`
-          break;
-        default:
-          return fn(node, ...args);
+    });
+  } else {
+    const { TypedInput, TYPE_UNKNOWN, TYPE_BOOLEAN, TYPE_STRING } = exports;
+    cst_patch(STGP, {
+      descendInput(fn, block, ...args) {
+        const patchedOpcode = runtime.patchedOpcodes.get(block.opcode);
+        if (patchedOpcode) {
+          return {
+            kind: `${extId}.opPatch`,
+            node: fn(block, ...args),
+            patchedOpcode,
+          };
+        }
+        switch(block.opcode) {
+          case `${extId}_newline`:
+            return {
+              kind: `${extId}.newline`,
+            };
+          case `${extId}_patch_reporter`:
+            return {
+              kind: `${extId}.patchReporter`,
+              args: descendPatchArgs.call(this, block),
+            };
+          case `${extId}_all_patched`:
+            return {
+              kind: `${extId}.allPatched`,
+            };
+          case `${extId}_is_patched`:
+            return {
+              kind: `${extId}.isPatched`,
+              opcode: this.descendInputOfBlock(block, 'OPCODE'),
+            };
+          case `${extId}_use_preset_reporter`:
+            return {
+              kind: `${extId}.presetReporter`,
+              name: this.descendInputOfBlock(block, 'NAME'),
+            };
+          case `${extId}_ref_variable`:
+            return {
+              kind: `${extId}.refVariable`,
+              var: this.descendInputOfBlock(block, 'VAR'),
+            };
+          default:
+            return fn(block, ...args);
+        }
+      },
+      descendStackedBlock(fn, block, ...args) {
+        const patchedOpcode = runtime.patchedOpcodes.get(block.opcode);
+        if (patchedOpcode) {
+          return {
+            kind: `${extId}.opPatch`,
+            node: fn(block, ...args),
+            patchedOpcode,
+          };
+        }
+        switch(block.opcode) {
+          case `${extId}_patch_command`:
+            return {
+              kind: `${extId}.patchCommand`,
+              args: descendPatchArgs.call(this, block),
+            };
+          case `${extId}_patch_conditional`:
+            return {
+              kind: `${extId}.patchWrapper`,
+              js1: this.descendInputOfBlock(block, 'JSSTART'),
+              stack: this.descendSubstack(block, 'SUBSTACK'),
+              js2: this.descendInputOfBlock(block, 'JSEND'),
+            };
+          case `${extId}_patch_opcode`:
+            return {
+              kind: `${extId}.patchOpcode`,
+              opcode: this.descendInputOfBlock(block, 'OPCODE'),
+              position: this.descendInputOfBlock(block, 'POS'),
+              js: this.descendInputOfBlock(block, 'JS'),
+            };
+          case `${extId}_unpatch_opcode`:
+            return {
+              kind: `${extId}.unpatchOpcode`,
+              opcode: this.descendInputOfBlock(block, 'OPCODE'),
+            };
+          case `${extId}_new_preset`:
+            return {
+              kind: `${extId}.newPreset`,
+              name: this.descendInputOfBlock(block, 'NAME'),
+              id: block.id,
+            };
+          case `${extId}_use_preset_command`:
+            return {
+              kind: `${extId}.presetCommand`,
+              name: this.descendInputOfBlock(block, 'NAME'),
+            };
+          case `${extId}_debug_state`:
+            debugger;
+            return {
+              kind: `${extId}.debugState`,
+            };
+          default:
+            return fn(block, ...args);
+        }
+      },
+    });
+    cst_patch(JSGP, {
+      descendInput(fn, node, ...args) {
+        switch(node.kind) {
+          case `${extId}.newline`:
+            return new TypedInput('\n', TYPE_UNKNOWN);
+          case `${extId}.opPatch`:
+            return new TypedInput(`${node.patchedOpcode.before ?? ''}
+  ${node.patchedOpcode.ontop !== null ? node.patchedOpcode.ontop : this.descendInput(node.node).asUnknown()}
+  ${node.patchedOpcode.after ?? ''}`, TYPE_UNKNOWN);
+          case `${extId}.patchReporter`:
+            return new TypedInput(node.args.map(arg => asRaw(this.descendInput(arg)) || '').join('') || '', TYPE_UNKNOWN);
+          case `${extId}.allPatched`:
+            return new TypedInput('(JSON.stringify(Array.from(runtime.patchedOpcodes.keys())))', TYPE_STRING);
+          case `${extId}.isPatched`:
+            return new TypedInput(`(runtime.patchedOpcodes.has(${this.descendInput(node.opcode).asString()}))`, TYPE_BOOLEAN);
+          case `${extId}.presetReporter`:
+            this.source += new TypedInput(getPreset.call(this, node.name), TYPE_UNKNOWN);
+            break;
+          case `${extId}.refVariable`:
+            return new TypedInput(asRef(this.descendInput(node.var), this), TYPE_UNKNOWN);
+          default:
+            return fn(node, ...args);
+        }
+      },
+      descendStackedBlock(fn, node, ...args) {
+        switch(node.kind) {
+          case `${extId}.opPatch`:
+            this.source += node.patchedOpcode.before ?? '';
+            if (node.patchedOpcode.ontop) {
+              this.source += node.patchedOpcode.ontop;
+            } else this.descendStackedBlock(node.node);
+            this.source += node.patchedOpcode.after ?? '';
+            break;
+          case `${extId}.patchCommand`:
+            this.source += node.args.map(arg => asRaw(this.descendInput(arg)) || '').join('') || '';
+            break;
+          case `${extId}.patchWrapper`:
+            this.source += asRaw(this.descendInput(node.js1)) + '\n';
+            this.descendStack(node.stack, new Frame(false));
+            this.source += '\n' + asRaw(this.descendInput(node.js2));
+            break;
+          case `${extId}.patchOpcode`:
+            this.source += `runtime.patchedOpcodes.setOpcode(${this.descendInput(node.opcode).asString()}, ${this.descendInput(node.position).asString()}, ${this.descendInput(node.js).asString()});`;
+            break;
+          case `${extId}.unpatchOpcode`:
+            this.source += `runtime.patchedOpcodes.delete(${this.descendInput(node.opcode).asString()});`;
+            break;
+          case `${extId}.newPreset`:
+            this.source += `runtime.patchPresets.set(${this.descendInput(node.name).asString()}, "${node.id}");`;
+            break;
+          case `${extId}.presetCommand`:
+            this.source += getPreset.call(this, node.name);
+            break;
+          case `${extId}.debugState`:
+            debugger;
+            this.source += `console.log('Debug state over');\n`
+            break;
+          default:
+            return fn(node, ...args);
+        }
       }
-    }
-  });
+    });
+  }
   
   class extension {
     getInfo() {
