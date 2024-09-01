@@ -239,7 +239,7 @@
   "name": "Compiler Injector",
   "description": "Inject JS into the compiled script and override existing blocks JS.",
   "search_tags": ["experimental", "advanced"], "requirements": [],
-  "new": false, "updated": false,
+  "new": false, "updated": true,
   "credits": [{
     "name": "0znzw",
     "url": "https://scratch.mit.edu/users/0znzw/"
@@ -249,7 +249,7 @@
   "name": "Web History API",
   "description": "Access the Web History API.",
   "search_tags": [], "requirements": ["internet"],
-  "new": true, "updated": false,
+  "new": false, "updated": false,
   "credits": [{
     "name": "Lemon",
     "url": "https://scratch.mit.edu/users/BludIsAnLemon/"
