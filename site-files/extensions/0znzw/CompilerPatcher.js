@@ -1,7 +1,7 @@
 /**!
  * Compiler Injector
  * @author 0znzw https://scratch.mit.edu/users/0znzw/
- * @version 1.1
+ * @version 1.2
  * @copyright MIT & LGPLv3 License
  * Do not remove this comment
  */
@@ -33,8 +33,16 @@
   TypedInput.prototype.asRaw = function() {
     return this.asUnknown();
   };
-  VariableInput.prototype.asRaw = function() {
-    return this._value.asRaw();
+  VariableInput.prototype.asRef = function(JSG) {
+    if (this._value?.asRaw) return this._value.asRaw();
+    const ref = this.source.slice(0, this.source.indexOf('.'));
+    const src = Object.entries(JSG._setupVariables).find(entr => entr[1] === ref)[0];
+    const target = src.startsWith('stage.variables') ? vm.runtime.getTargetForStage() : JSG.target;
+    const id = src.slice(src.indexOf('["') + 2, src.length - 2);
+    return target.variables[id]?.value;
+  };
+  VariableInput.prototype.asRaw = function(jsg) {
+    return this._value ? this._value.asRaw() : this.asUnknown();
   };
   
   const PATCHES_ID = `__patches_${extId}__`;
@@ -96,6 +104,11 @@
             kind: `${extId}.presetReporter`,
             name: this.descendInputOfBlock(block, 'NAME'),
           };
+        case `${extId}_ref_variable`:
+          return {
+            kind: `${extId}.refVariable`,
+            var: this.descendInputOfBlock(block, 'VAR'),
+          };
         default:
           return fn(block, ...args);
       }
@@ -146,6 +159,11 @@
             kind: `${extId}.presetCommand`,
             name: this.descendInputOfBlock(block, 'NAME'),
           };
+        case `${extId}_debug_state`:
+          debugger;
+          return {
+            kind: `${extId}.debugState`,
+          };
         default:
           return fn(block, ...args);
       }
@@ -158,12 +176,14 @@
   cst_patch(JSGP, {
     descendInput(fn, node, ...args) {
       switch(node.kind) {
+        case `${extId}.newline`:
+          return new TypedInput('\n', TYPE_UNKNOWN);
         case `${extId}.opPatch`:
           return new TypedInput(`${node.patchedOpcode.before ?? ''}
 ${node.patchedOpcode.ontop !== null ? node.patchedOpcode.ontop : this.descendInput(node.node).asUnknown()}
 ${node.patchedOpcode.after ?? ''}`, TYPE_UNKNOWN);
         case `${extId}.patchReporter`:
-          return new TypedInput(node.args.map(arg => this.descendInput(arg).asRaw() || '/**/').join('') || '/**/', TYPE_UNKNOWN);
+          return new TypedInput(node.args.map(arg => this.descendInput(arg).asRaw() || '').join('') || '', TYPE_UNKNOWN);
         case `${extId}.allPatched`:
           return new TypedInput('(JSON.stringify(Array.from(runtime.patchedOpcodes.keys())))', TYPE_STRING);
         case `${extId}.isPatched`:
@@ -171,8 +191,13 @@ ${node.patchedOpcode.after ?? ''}`, TYPE_UNKNOWN);
         case `${extId}.presetReporter`:
           this.source += new TypedInput(getPreset.call(this, node.name), TYPE_UNKNOWN);
           break;
-        case `${extId}.newline`:
-          return new TypedInput('\n', TYPE_UNKNOWN);
+        case `${extId}.refVariable`:
+          node.var = this.descendInput(node.var);
+          if (!node.var.asRef) {
+            console.warn('Non-variable was passed to refVariable', node.var);
+            return new TypedInput(`('Non-variable was passed to refVariable')`, TYPE_STRING);
+          }
+          return new TypedInput(node.var.asRef(this), TYPE_UNKNOWN);
         default:
           return fn(node, ...args);
       }
@@ -185,7 +210,7 @@ ${node.patchedOpcode.ontop !== null ? node.patchedOpcode.ontop : this.descendInp
 ${node.patchedOpcode.after ?? ''}`;
           break;
         case `${extId}.patchCommand`:
-          this.source += node.args.map(arg => this.descendInput(arg).asRaw() || '/**/').join('') || '/**/';
+          this.source += node.args.map(arg => this.descendInput(arg).asRaw() || '').join('') || '';
           break;
         case `${extId}.patchWrapper`:
           this.source += this.descendInput(node.js1).asRaw() + '\n';
@@ -204,6 +229,10 @@ ${node.patchedOpcode.after ?? ''}`;
         case `${extId}.presetCommand`:
           this.source += getPreset.call(this, node.name);
           break;
+        case `${extId}.debugState`:
+          debugger;
+          this.source += `console.log('Debug state over');\n`
+          break;
         default:
           return fn(node, ...args);
       }
@@ -220,6 +249,10 @@ ${node.patchedOpcode.after ?? ''}`;
           text: runtime.debug ? 'Disable debug' : 'Enable debug',
           func: 'DEBUG',
         }, {
+          blockType: BlockType.COMMAND,
+          opcode: 'debug_state',
+          text: 'debug compiler state',
+        }, '---', {
           blockType: BlockType.REPORTER,
           opcode: 'newline',
           text: 'newline',
@@ -251,6 +284,15 @@ ${node.patchedOpcode.after ?? ''}`;
           },
           func: 'interpreter_error',
         }, '---', {
+          blockType: BlockType.REPORTER,
+          opcode: 'ref_variable',
+          text: 'inject variable [VAR]',
+          arguments: {
+            VAR: { type: null },
+          },
+          allowDropAnywhere: true,
+          func: 'interpreter_error',
+        }, {
           blockType: BlockType.COMMAND,
           opcode: 'patch_opcode',
           text: 'inject js [JS] [POS] opcode [OPCODE]',
@@ -322,6 +364,11 @@ ${node.patchedOpcode.after ?? ''}`;
     DEBUG() {
       runtime.debug = !runtime.debug;
       vm.extensionManager.refreshBlocks();
+      console.log(runtime.debug ? 'Enabled compiler logs' : 'Disabled compiler logs');
+    }
+    debug_state() {
+      debugger;
+      console.log('Debug state over');
     }
     newline() {
       return '\n';
@@ -329,6 +376,7 @@ ${node.patchedOpcode.after ?? ''}`;
     patch_command() {}
     patch_reporter() {}
     patch_conditional() {}
+    ref_variable() {}
     patch_opcode() {}
     precompile() {}
     all_patched() {}
@@ -699,7 +747,14 @@ ${node.patchedOpcode.after ?? ''}`;
         this.prevInputCount = this.inputCount;
       }
     );
-    const createInput = (type, id, check = null, shadowType = undefined, shadowField = undefined, shadowDefault = undefined) => ({ type, id, check, shadowType, shadowField, shadowDefault });
+    const createInput = (
+      type, // ScratchBlocks.INPUT_VALUE, NEXT_STATEMENT or DUMMY_INPUT
+      id, // The argument ID (a number will be appended to this)
+      check = null, // null or "Boolean" (or the label text for DUMMY_INPUTs)
+      shadowType = undefined, // The type of shadow block (or falsy for none)
+      shadowField = undefined, // The field to use in the shadow block
+      shadowDefault = undefined // The default shadow block value
+    ) => ({ type, id, check, shadowType, shadowField, shadowDefault });
     if (!allExtensions.mio_extendable_string) ScratchBlocks.Extensions.register('mio_extendable_string', function () {
       this.extendableDefs = [
         createInput(ScratchBlocks.INPUT_VALUE, 'ARG', null, 'text', 'TEXT', ''),
