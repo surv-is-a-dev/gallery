@@ -12,8 +12,8 @@
   
   const { vm, BlockType, ArgumentType } = Scratch, { runtime } = vm, extId = '0znzwCompilerPatching', uExtId = extId.toUpperCase();
   const hasOwn = (obj, key) => Object.prototype.hasOwnProperty.call(obj, key);
+  const referr = 'Non-variable was passed to asRef';
   const exports = (() => {
-    const referr = 'Non-variable was passed to asRef';
     let taco = false;
     const ve = vm.exports;
     const extras = {
