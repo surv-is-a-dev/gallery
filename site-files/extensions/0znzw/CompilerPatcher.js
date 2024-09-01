@@ -463,8 +463,8 @@
           blockType: BlockType.COMMAND,
           opcode: 'patch_command',
           text: 'inject js',
-          mutator: 'cst_extendable',
-          extensions: ['mio_extendable_string'],
+          mutator: `mio_${extId}_extendable`,
+          extensions: [`mio_${extId}_extendable_string`],
           func: 'interpreter_error',
         }, {
           blockType: BlockType.REPORTER,
@@ -472,8 +472,8 @@
           text: 'inject js',
           allowDropAnywhere: true,
           disableMonitor: true,
-          mutator: 'cst_extendable',
-          extensions: ['mio_extendable_string'],
+          mutator: `mio_${extId}_extendable`,
+          extensions: [`mio_${extId}_extendable_string`],
           func: 'interpreter_error',
         }, {
           blockType: BlockType.CONDITIONAL,
@@ -642,9 +642,7 @@
       EDITABLE = true;
     }
     ScratchBlocks.FieldImageButton = FieldImageButton;
-    if (!allExtensions.cst_extendable) ScratchBlocks.Extensions.registerMutator(
-      'cst_extendable',
-      {
+    if (!allExtensions?.[`mio_${extId}_extendable`]) ScratchBlocks.Extensions.registerMutator(`mio_${extId}_extendable`, {
         domToMutation(xmlElement) {
           this.inputCount = Math.floor(
             Number(xmlElement.getAttribute('inputcount'))
@@ -949,7 +947,7 @@
       }
     );
     const createInput = (type, id, check = null, shadowType = undefined, shadowField = undefined, shadowDefault = undefined) => ({ type, id, check, shadowType, shadowField, shadowDefault });
-    if (!allExtensions.mio_extendable_string) ScratchBlocks.Extensions.register('mio_extendable_string', function () {
+    if (!allExtensions?.[`mio_${extId}_extendable_string`]) ScratchBlocks.Extensions.register(`mio_${extId}_extendable_string`, function () {
       this.extendableDefs = [
         createInput(ScratchBlocks.INPUT_VALUE, 'ARG', null, 'text', 'TEXT', ''),
       ];
