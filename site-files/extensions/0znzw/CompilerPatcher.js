@@ -1,7 +1,7 @@
 /**!
  * Compiler Injector
  * @author 0znzw https://scratch.mit.edu/users/0znzw/
- * @version 1.4
+ * @version 1.5
  * @copyright MIT & LGPLv3 License
  * Do not remove this comment
  */
@@ -76,6 +76,7 @@
   };
 
   runtime.patchedOpcodes = new Map(), runtime.patchPresets = new Map();
+  runtime.MioFunctions = new Map();
   runtime.patchedOpcodes.setOpcode = (function(opcode, position, js) {
     if (!runtime.patchedOpcodes.has(opcode)) {
       this.set(opcode, {
@@ -125,6 +126,7 @@
     InputOpcode[`${uExtId}_IS_PATCHED`] = `${extId}.isPatched`;
     InputOpcode[`${uExtId}_USE_PRESET_REPORTER`] = `${extId}.presetReporter`;
     InputOpcode[`${uExtId}_REF_VARIABLE`] = `${extId}.refVariable`;
+    InputOpcode[`${uExtId}_CALL_FN_REPORTER`] = `${extId}.callFnReporter`;
     StackOpcode[`${uExtId}_OPPATCH`] = `${extId}.opPatch`;
     StackOpcode[`${uExtId}_PATCH_COMMAND`] = `${extId}.patchCommand`;
     StackOpcode[`${uExtId}_PATCH_CONDITIONAL`] = `${extId}.patchWrapper`;
@@ -133,6 +135,8 @@
     StackOpcode[`${uExtId}_NEW_PRESET`] = `${extId}.newPreset`;
     StackOpcode[`${uExtId}_USE_PRESET_COMMAND`] = `${extId}.presetCommand`;
     StackOpcode[`${uExtId}_DEBUG_STATE`] = `${extId}.debugState`;
+    StackOpcode[`${uExtId}_NEW_FN`] = `${extId}.newFn`;
+    StackOpcode[`${uExtId}_CALL_FN_COMMAND`] = `${extId}.callFnCommand`;
     cst_patch(STGP, {
       descendInput(fn, block, ...args) {
         const patchedOpcode = runtime.patchedOpcodes.get(block.opcode);
@@ -163,6 +167,11 @@
             return new IntermediateInput(InputOpcode[`${uExtId}_REF_VARIABLE`], InputType.ANY, {
               var: this.descendInputOfBlock(block, 'VAR'),
             });
+          case `${extId}_call_fn_reporter`:
+            return new IntermediateInput(InputOpcode[`${uExtId}_CALL_FN_REPORTER`], InputType.ANY, {
+              name: this.descendInputOfBlock(block, 'NAME0').toType(InputType.STRING),
+              args: descendPatchArgs.call(this, block),
+            }, true);
           default:
             return fn(block, ...args);
         }
@@ -208,6 +217,17 @@
           case `${extId}_debug_state`:
             debugger;
             return new IntermediateStackBlock(StackOpcode[`${uExtId}_DEBUG_STATE`], {});
+          case `${extId}_new_fn`:
+            return new IntermediateStackBlock(StackOpcode[`${uExtId}_NEW_FN`], {
+              name: this.descendInputOfBlock(block, 'NAME0').toType(InputType.STRING),
+              stack: this.descendSubstack(block, Object.keys(block.inputs).find(key => key.startsWith('SUBSTACK'))),
+              args: descendPatchArgs.call(this, block).map(arg => arg.toType(InputType.STRING)),
+            });
+          case `${extId}_call_fn_command`:
+            return new IntermediateStackBlock(StackOpcode[`${uExtId}_CALL_FN_COMMAND`], {
+              name: this.descendInputOfBlock(block, 'NAME0').toType(InputType.STRING),
+              args: descendPatchArgs.call(this, block),
+            });
           default:
             return fn(block, ...args);
         }
@@ -233,6 +253,8 @@
             return getPreset.call(this, node.name);
           case InputOpcode[`${uExtId}_REF_VARIABLE`]:
             return asRef(this.descendInput(node.var), this);
+          case InputOpcode[`${uExtId}_CALL_FN_REPORTER`]:
+            return `(yield* ((runtime.MioFunctions.get(${this.descendInput(node.name)}) || function*(){})(${node.args.map(arg => this.descendInput(arg)).join(',') || ''})))`;
           default:
             return fn(block, ...args);
         }
@@ -270,6 +292,24 @@
           case StackOpcode[`${uExtId}_DEBUG_STATE`]:
             debugger;
             this.source += `console.log('Debug state over');\n`
+            break;
+          case StackOpcode[`${uExtId}_NEW_FN`]: {
+            const oldSource = this.source;
+            this.source = '';
+            this.descendStack(node.stack, new Frame(false));
+            const stack = this.source;
+            this.source = oldSource;
+            const header = `\n${Object.entries(this._setupVariables).map(entr => `let ${entr[1]} = ${entr[0]};\n`).join('')}`;
+            this.source += `runtime.MioFunctions.set(${this.descendInput(node.name)}, function*(${node.args.flatMap(arg => {
+              arg = String(this.descendInput(arg));
+              if (arg.startsWith('"') && arg.endsWith('"')) arg = JSON.parse(arg);
+              if (/([A-Z])([a-zA-Z0-9$_]+)/gi.test(arg)) return [arg];
+              return [];
+            }).join(',') || ''}) {${header}${stack}\n});\n`;
+            break;
+          };
+          case StackOpcode[`${uExtId}_CALL_FN_COMMAND`]:
+            this.source += `yield* ((runtime.MioFunctions.get(${this.descendInput(node.name)}) || function*(){})(${node.args.map(arg => this.descendInput(arg)).join(',') || ''}));\n`;
             break;
           default:
             return fn(block, ...args);
@@ -316,6 +356,12 @@
             return {
               kind: `${extId}.refVariable`,
               var: this.descendInputOfBlock(block, 'VAR'),
+            };
+          case `${extId}_call_fn_reporter`:
+            return {
+              kind: `${extId}.callFnReporter`,
+              name: this.descendInputOfBlock(block, 'NAME0'),
+              args: descendPatchArgs.call(this, block),
             };
           default:
             return fn(block, ...args);
@@ -371,6 +417,19 @@
             return {
               kind: `${extId}.debugState`,
             };
+          case `${extId}_new_fn`:
+            return {
+              kind: `${extId}.newFn`,
+              name: this.descendInputOfBlock(block, 'NAME0'),
+              stack: this.descendSubstack(block, Object.keys(block.inputs).find(key => key.startsWith('SUBSTACK'))),
+              args: descendPatchArgs.call(this, block),
+            };
+          case `${extId}_call_fn_command`:
+            return {
+              kind: `${extId}.callFnCommand`,
+              name: this.descendInputOfBlock(block, 'NAME0'),
+              args: descendPatchArgs.call(this, block),
+            };
           default:
             return fn(block, ...args);
         }
@@ -388,14 +447,15 @@
           case `${extId}.patchReporter`:
             return new TypedInput(node.args.map(arg => asRaw(this.descendInput(arg)) || '').join('') || '', TYPE_UNKNOWN);
           case `${extId}.allPatched`:
-            return new TypedInput('(JSON.stringify(Array.from(runtime.patchedOpcodes.keys())))', TYPE_STRING);
+            return new TypedInput(`(JSON.stringify(Array.from(runtime.patchedOpcodes.keys())))`, TYPE_STRING);
           case `${extId}.isPatched`:
             return new TypedInput(`(runtime.patchedOpcodes.has(${this.descendInput(node.opcode).asString()}))`, TYPE_BOOLEAN);
           case `${extId}.presetReporter`:
-            this.source += new TypedInput(getPreset.call(this, node.name), TYPE_UNKNOWN);
-            break;
+            return new TypedInput(getPreset.call(this, node.name), TYPE_UNKNOWN);
           case `${extId}.refVariable`:
             return new TypedInput(asRef(this.descendInput(node.var), this), TYPE_UNKNOWN);
+          case `${extId}.callFnReporter`:
+            return new TypedInput(`(yield* ((runtime.MioFunctions.get(${this.descendInput(node.name).asString()}) || function*(){}))(${node.args.map(arg => this.descendInput(arg).asSafe()).join(',') || ''}))`, TYPE_UNKNOWN);
           default:
             return fn(node, ...args);
         }
@@ -432,6 +492,24 @@
           case `${extId}.debugState`:
             debugger;
             this.source += `console.log('Debug state over');\n`
+            break;
+          case `${extId}.newFn`: {
+            const oldSource = this.source;
+            this.source = '';
+            this.descendStack(node.stack, new Frame(false));
+            const stack = this.source;
+            this.source = oldSource;
+            const header = `\n${Object.entries(this._setupVariables).map(entr => `let ${entr[1]} = ${entr[0]};\n`).join('')}`;
+            this.source += `runtime.MioFunctions.set(${this.descendInput(node.name).asString()}, function*(${node.args.flatMap(arg => {
+              arg = String(this.descendInput(arg).asSafe());
+              if (arg.startsWith('"') && arg.endsWith('"')) arg = JSON.parse(arg);
+              if (/([A-Z])([a-zA-Z0-9$_]+)/gi.test(arg)) return [arg];
+              return [];
+            }).join(',') || ''}) {${header}${stack}\n});\n`;
+            break;
+          };
+          case `${extId}.callFnCommand`:
+            this.source += `yield* ((runtime.MioFunctions.get(${this.descendInput(node.name).asString()}) || function*(){})(${node.args.map(arg => this.descendInput(arg).asSafe()).join(',') || ''}));\n`;
             break;
           default:
             return fn(node, ...args);
@@ -483,6 +561,7 @@
             JSSTART: { type: ArgumentType.STRING, defaultValue: 'if (1) {' },
             JSEND: { type: ArgumentType.STRING, defaultValue: '};' },
           },
+          branchCount: 1,
           func: 'interpreter_error',
         }, '---', {
           blockType: BlockType.REPORTER,
@@ -553,6 +632,29 @@
           allowDropAnywhere: true,
           hideFromPalette: true,
           func: 'interpreter_error',
+        }, '---', {
+          blockType: BlockType.COMMAND,
+          opcode: 'new_fn',
+          text: 'new function',
+          mutator: `mio_${extId}_extendable`,
+          extensions: [`mio_${extId}_extendable_newfn`],
+          func: 'interpreter_error',
+        }, {
+          blockType: BlockType.COMMAND,
+          opcode: 'call_fn_command',
+          text: 'run function',
+          mutator: `mio_${extId}_extendable`,
+          extensions: [`mio_${extId}_extendable_callfn`],
+          func: 'interpreter_error',
+        }, {
+          blockType: BlockType.REPORTER,
+          opcode: 'call_fn_reporter',
+          text: 'run function',
+          allowDropAnywhere: true,
+          disableMonitor: true,
+          mutator: `mio_${extId}_extendable`,
+          extensions: [`mio_${extId}_extendable_callfn`],
+          func: 'interpreter_error',
         }],
         menus: {
           inject_type: {
@@ -586,8 +688,14 @@
     new_preset() {}
     use_preset_command() {}
     use_preset_reporter() {}
+    new_fn() {}
+    call_fn_command() {}
+    call_fn_reporter() {}
     interpreter_error(_, util) {
-      runtime.visualReport(util.thread.isCompiled ? util.thread.peekStack() : util.thread.peekStackFrame().op.id, util.thread.isCompiled ? 'The block errored wtf.' : 'This block cannot be ran in the interpreter.');
+      const blockId = util.thread.isCompiled ? util.thread.peekStack() : util.thread.peekStackFrame().op.id;
+      let err = 'This block cannot be ran in the interpreter.';
+      if (!util.target.blocks.getBlock(blockId)) err += '\nBeing in the flyout may also cause issues.';
+      runtime.visualReport(blockId, util.thread.isCompiled ? 'How did we get here...' : err);
     }
   }
 
@@ -947,12 +1055,39 @@
       }
     );
     const createInput = (type, id, check = null, shadowType = undefined, shadowField = undefined, shadowDefault = undefined) => ({ type, id, check, shadowType, shadowField, shadowDefault });
-    if (!allExtensions?.[`mio_${extId}_extendable_string`]) ScratchBlocks.Extensions.register(`mio_${extId}_extendable_string`, function () {
+    if (!allExtensions?.[`mio_${extId}_extendable_string`]) ScratchBlocks.Extensions.register(`mio_${extId}_extendable_string`, function() {
       this.extendableDefs = [
         createInput(ScratchBlocks.INPUT_VALUE, 'ARG', null, 'text', 'TEXT', ''),
       ];
       this.minInputs = 1;
       this.inputCount = 1;
+      this.prevInputCount = 0;
+    });
+    if (!allExtensions?.[`mio_${extId}_extendable_newfn`]) ScratchBlocks.Extensions.register(`mio_${extId}_extendable_newfn`, function() {
+      this.extendableDefsStart = [
+        createInput(ScratchBlocks.INPUT_VALUE, 'NAME', null, 'text', 'TEXT', ''),
+        createInput(ScratchBlocks.DUMMY_INPUT, 'ARGS_WORD', 'arguments'),
+      ];
+      this.extendableDefs = [
+        createInput(ScratchBlocks.INPUT_VALUE, 'ARG', 'String', 'text', 'TEXT', ''),
+      ];
+      this.extendableDefsEnd = [
+        createInput(ScratchBlocks.NEXT_STATEMENT, 'SUBSTACK', null),
+      ];
+      this.minInputs = 0;
+      this.inputCount = 0;
+      this.prevInputCount = 0;
+    });
+    if (!allExtensions?.[`mio_${extId}_extendable_callfn`]) ScratchBlocks.Extensions.register(`mio_${extId}_extendable_callfn`, function() {
+      this.extendableDefsStart = [
+        createInput(ScratchBlocks.INPUT_VALUE, 'NAME', null, 'text', 'TEXT', ''),
+        createInput(ScratchBlocks.DUMMY_INPUT, 'ARGS_WORD', 'with arguments:'),
+      ];
+      this.extendableDefs = [
+        createInput(ScratchBlocks.INPUT_VALUE, 'ARG', null, 'text', 'TEXT', ''),
+      ];
+      this.minInputs = 0;
+      this.inputCount = 0;
       this.prevInputCount = 0;
     });
   });
