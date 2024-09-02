@@ -1054,6 +1054,11 @@
         this.prevInputCount = this.inputCount;
       }
     );
+    const ogInitSvg = ScratchBlocks.BlockSvg.prototype.initSvg;
+    ScratchBlocks.BlockSvg.prototype.initSvg = function() {
+      if (this.getExtendableInput && !this.extendableUpdatedDisplay) this.updateDisplay_();
+      return ogInitSvg.call(this);
+    };
     const createInput = (type, id, check = null, shadowType = undefined, shadowField = undefined, shadowDefault = undefined) => ({ type, id, check, shadowType, shadowField, shadowDefault });
     if (!allExtensions?.[`mio_${extId}_extendable_string`]) ScratchBlocks.Extensions.register(`mio_${extId}_extendable_string`, function() {
       this.extendableDefs = [
@@ -1061,7 +1066,6 @@
       ];
       this.minInputs = 1;
       this.inputCount = 1;
-      this.prevInputCount = 0;
     });
     if (!allExtensions?.[`mio_${extId}_extendable_newfn`]) ScratchBlocks.Extensions.register(`mio_${extId}_extendable_newfn`, function() {
       this.extendableDefsStart = [
@@ -1076,7 +1080,6 @@
       ];
       this.minInputs = 0;
       this.inputCount = 0;
-      this.prevInputCount = 0;
     });
     if (!allExtensions?.[`mio_${extId}_extendable_callfn`]) ScratchBlocks.Extensions.register(`mio_${extId}_extendable_callfn`, function() {
       this.extendableDefsStart = [
@@ -1088,7 +1091,6 @@
       ];
       this.minInputs = 0;
       this.inputCount = 0;
-      this.prevInputCount = 0;
     });
   });
 
