@@ -91,5 +91,9 @@ All images in this folder are licensed under the [GNU General Public License ver
  - Created by [@Baqirbeard](https://github.com/baqirbeard/)
  - For [@0znzw](https://scratch.mit.edu/users/0znzw)
 
+## 0znzw/TryCatchV2.svg
+ - Created by [@Baqirbeard](https://github.com/baqirbeard/)
+ - For [@0znzw](https://scratch.mit.edu/users/0znzw)
+
 ## baq23future/normal.webp
  - Created by [@Baqirbeard](https://github.com/baqirbeard/)
