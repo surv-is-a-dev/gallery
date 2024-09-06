@@ -1,7 +1,7 @@
 /**!
  * Image lists test
  * @author 0znzw https://scratch.mit.edu/users/0znzw/
- * @version 1.0
+ * @version 1.1
  * @copyright MIT & LGPLv3 License
  * Do not remove this comment
  */
@@ -47,7 +47,17 @@
             LIST: { type: ArgumentType.STRING, menu: 'lists' },
             H: { type: ArgumentType.NUMBER, defaultValue: 24 },
           },
-        }, ],
+        }, {
+          opcode: 'setHTML',
+          text: 'set item [ITEM] HTML in list [LIST] to [HTML]',
+          blockType: BlockType.COMMAND,
+          arguments: {
+            ITEM: { type: ArgumentType.NUMBER, defaultValue: 1 },
+            LIST: { type: ArgumentType.STRING, menu: 'lists' },
+            HTML: { type: ArgumentType.STRING, defaultValue: '...' },
+          },
+          hideFromPalette: !(new URLSearchParams(location.search).has('ImgListsShowHTML'))
+        }],
         menus: {
           lists: { acceptReporters: true, items: '_getLists' },
         },
@@ -100,6 +110,11 @@
       ROW.style['max-height'] = `${Number(ROW.style.maxHeight.replace('px', '')) + H}px`;
       ROW.style['padding-top'] = `${H}px`;
       ITEM.style['min-height'] = `${H + 24}px`;
+    }
+    setHTML({ ITEM, LIST, HTML }) {
+      ITEM = this._fetchItem(this._fetchList(Cast.toString(LIST)), Cast.toNumber(ITEM) - 1);
+      if (!ITEM) return false;
+      ITEM.innerHTML = Cast.toString(HTML);
     }
   }
   Scratch.extensions.register(runtime[`ext_${extId}`] = new extension());
