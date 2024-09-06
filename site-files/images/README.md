@@ -10,19 +10,6 @@ All images in this folder are licensed under the [GNU General Public License ver
  - Hammers icon from https://svgsilh.com/image/312334.html under [![PublicDomain](https://licensebuttons.net/p/zero/1.0/80x15.png)](https://creativecommons.org/publicdomain/zero/1.0/).
  - For [@0znzw](https://scratch.mit.edu/users/0znzw)
 
-## THE ARCHIVE/0znzw/audioPlus.svg
- - Created by [@SharkPool](https://www.youtube.com/c/SharkPoolthe1)
- - For [@0znzw](https://scratch.mit.edu/users/0znzw)
-
-## THE ARCHIVE/SharkPool/Sharktilities.svg
- - Created by [@SharkPool](https://www.youtube.com/c/SharkPoolthe1)
-
-## 0znzw/localStorageUnlocked.png
- - Created by [@True-Fantom](https://scratch.mit.edu/users/TrueFantom/) in https://github.com/TurboWarp/extensions/pull/498.
- - File icons based on https://icon-icons.com/icon/file-pdf/153412 under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
- - Background based on https://bgjar.com/contour-line under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
- Modified by [@0znzw](https://scratch.mit.edu/users/0znzw)
-
 ## THE ARCHIVE/SharkPool/canvasEffects2.svg
  - Created by @Pizzalover4783 in https://github.com/TurboWarp/extensions/issues/90#issuecomment-1526886264.
  - For the CanvasEffects extension
@@ -67,23 +54,42 @@ All images in this folder are licensed under the [GNU General Public License ver
  - Created by [@Ardaonly](https://www.youtube.com/channel/UCjZKSSnH7y_tBeptES74fFQ)
  - For [@0znzw](https://scratch.mit.edu/users/0znzw)
 
- ## 0znzw/MimeDB.svg
+## 0znzw/MimeDB.svg
  - Created by [@0znzw](https://scratch.mit.edu/users/0znzw)
- - File icons based on https://icon-icons.com/icon/file-pdf/153412 under CC BY 4.0.
- - Font used is [Lato-Bold](https://fonts.google.com/specimen/Lato/).
+ - File icons based on https://icon-icons.com/icon/file-pdf/153412 under CC BY 4.0
+ - Font used is [Lato-Bold](https://fonts.google.com/specimen/Lato/)
 
- ## 0znzw/EncodingV2.svg
+## 0znzw/EncodingV2.svg
  - Created by [@0znzw](https://scratch.mit.edu/users/0znzw)
- - Font used is [Lato-Bold](https://fonts.google.com/specimen/Lato/).
+ - Font used is [Lato-Bold](https://fonts.google.com/specimen/Lato/)
 
- ## 0znzw/ErrorPages.svg
+## 0znzw/ErrorPages.svg
  - Created by [@0znzw](https://scratch.mit.edu/users/0znzw)
- - Font used is [Lato-Bold](https://fonts.google.com/specimen/Lato/).
+ - Font used is [Lato-Bold](https://fonts.google.com/specimen/Lato/)
 
- ## 0znzw/DOMPurify.svg
+## 0znzw/DOMPurify.svg
  - Created by [@0znzw](https://scratch.mit.edu/users/0znzw)
- - Font used is [Freeman](https://fonts.google.com/specimen/Freeman/).
+ - Font used is [Freeman](https://fonts.google.com/specimen/Freeman/)
 
- ## Lemon/GalleryAPI.svg
- - Created by [Lemon](https://scratch.mit.edu/users/BludIsAnLemon)
+## Lemon/GalleryAPI.svg
+ - Created by [@Lemon](https://scratch.mit.edu/users/BludIsAnLemon)
  - Font used is [Comic Sans MS](#)
+
+## 0znzw/DocumentEvents.svg
+ - Created by [@Baqirbeard](https://github.com/baqirbeard/)
+ - For [@0znzw](https://scratch.mit.edu/users/0znzw)
+
+## 0znzw/HTMLEntitys.svg
+ - Created by [@Baqirbeard](https://github.com/baqirbeard/)
+ - For [@0znzw](https://scratch.mit.edu/users/0znzw)
+
+## 0znzw/FunneImageBlocks.svg
+ - Created by [@Baqirbeard](https://github.com/baqirbeard/)
+ - For [@0znzw](https://scratch.mit.edu/users/0znzw)
+
+## 0znzw/MoreButtons.svg
+ - Created by [@Baqirbeard](https://github.com/baqirbeard/)
+ - For [@0znzw](https://scratch.mit.edu/users/0znzw)
+
+## baq23future/normal.webp
+ - Created by [@Baqirbeard](https://github.com/baqirbeard/)
