@@ -23,7 +23,11 @@ async function walk(dir) {
   files = await Promise.all(files.map(async file => {
     const filePath = path.join(dir, file);
     const stats = await fs.stat(filePath);
-    if (stats.isDirectory() && !file.startsWith('!')) return walk(filePath);
+    if (file.startsWith('!') || file.endsWith('.md')) {
+      await rimraf(filePath, { preserveRoot: false });
+      return [];
+    }
+    if (stats.isDirectory()) return walk(filePath);
     else if(stats.isFile()) return filePath;
   }));
   return files.reduce((all, folderContents) => all.concat(folderContents), []);
@@ -47,7 +51,6 @@ new Promise(async (resolveShare) => {
     const map = new XMLDoc();
     map.attrs['x-build-time'] = Date.now();
     while (file = files.shift()) {
-      if (file.endsWith('.md') || file.startsWith('!')) continue;
       if (file.endsWith('.html')) {
         await new Promise((resolve) => {
           fs.readFile(file).catch((err) => console.error(`BUILD: Failed to inject generator ${file}\n`, err)).then(async (data) => {
