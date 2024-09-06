@@ -266,7 +266,7 @@
   }]
 }, {
   "img": "", "id": "0znzw/Buffers",
-  "name": "Buffers,
+  "name": "Buffers",
   "description": "Manipulate and read binary data.",
   "search_tags": ["advanced"], "requirements": [],
   "new": false, "updated": false,
