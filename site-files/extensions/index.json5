@@ -256,9 +256,19 @@
   }]
 }, {
   "img": "", "id": "0znzw/MoreFields",
-  "name": "More FIelds",
+  "name": "More Fields",
   "description": "New experimental custom fields.",
   "search_tags": ["experimental", "advanced"], "requirements": [],
+  "new": false, "updated": false,
+  "credits": [{
+    "name": "0znzw",
+    "url": "https://scratch.mit.edu/users/0znzw/"
+  }]
+}, {
+  "img": "", "id": "0znzw/Buffers",
+  "name": "Buffers,
+  "description": "Manipulate and read binary data.",
+  "search_tags": ["advanced"], "requirements": [],
   "new": false, "updated": false,
   "credits": [{
     "name": "0znzw",
