@@ -47,6 +47,7 @@ new Promise(async (resolveShare) => {
     const map = new XMLDoc();
     map.attrs['x-build-time'] = Date.now();
     while (file = files.shift()) {
+      if (file.endsWith('.md') || file.startswith('!')) continue;
       if (file.endsWith('.html')) {
         await new Promise((resolve) => {
           fs.readFile(file).catch((err) => console.error(`BUILD: Failed to inject generator ${file}\n`, err)).then(async (data) => {
