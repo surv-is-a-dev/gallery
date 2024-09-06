@@ -239,7 +239,7 @@
   "name": "Compiler Injector",
   "description": "Inject JS into the compiled script and override existing blocks JS.",
   "search_tags": ["experimental", "advanced"], "requirements": [],
-  "new": false, "updated": true,
+  "new": false, "updated": false,
   "credits": [{
     "name": "0znzw",
     "url": "https://scratch.mit.edu/users/0znzw/"
@@ -253,5 +253,15 @@
   "credits": [{
     "name": "Lemon",
     "url": "https://scratch.mit.edu/users/BludIsAnLemon/"
+  }]
+}, {
+  "img": "", "id": "0znzw/MoreFields",
+  "name": "More FIelds",
+  "description": "New experimental custom fields.",
+  "search_tags": ["experimental", "advanced"], "requirements": [],
+  "new": false, "updated": false,
+  "credits": [{
+    "name": "0znzw",
+    "url": "https://scratch.mit.edu/users/0znzw/"
   }]
 }]
