@@ -23,7 +23,7 @@ async function walk(dir) {
   files = await Promise.all(files.map(async file => {
     const filePath = path.join(dir, file);
     const stats = await fs.stat(filePath);
-    if (stats.isDirectory() && !file.startsWith('!')) return walk(filePath);
+    if (stats.isDirectory() && !path.basename(file).startsWith('!')) return walk(filePath);
     else if(stats.isFile()) return filePath;
   }));
   return files.reduce((all, folderContents) => all.concat(folderContents), []);
