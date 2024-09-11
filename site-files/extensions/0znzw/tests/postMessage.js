@@ -73,7 +73,7 @@
       MSG = Cast.toString(MSG);
       DOMAIN = Cast.toString(DOMAIN);
       PAR = (Cast.toString(PAR) === 'parent');
-      if (!validURL(DOMAIN)) return false;
+      if (DOMAIN !== '*' && !validURL(DOMAIN)) return false;
       if (PAR) {
         if (window.parent) window.parent.postMessage(MSG, DOMAIN);
       } else window.postMessage(MSG, DOMAIN);
