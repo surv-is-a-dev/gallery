@@ -176,13 +176,14 @@
       this.buffer.fill(byte);
     }
     concat(other) {
+      const otherBuff = other?.buff || other;
       // Allocate a buffer thats the length of both buffers
       const buff = Buffer.allocUnsafe(this.length + other.length);
       // Copy the buffers into the new buffer
       this.buffer.copy(buff, 0, 0, this.length);
-      other.copy(buff, this.length, 0, other.length);
+      otherBuff.copy(buff, this.length, 0, other.length);
       // Return a view
-      return new View(buff);
+      return new View(buff.slice(0).buffer);
     }
     // Data manipulation
     getInt8(idx, littleEndian = this.littleEndian) {
@@ -651,7 +652,7 @@
     // Usage
     setAtIdx({ IDX, NUM, LITTLE_ENDIAN }) {
       if (!this.view) return false;
-      IDX = clamp(Cast.toNumber(IDX), 1, this.view.byteLength);
+      IDX = clamp(Cast.toNumber(IDX), 1, this.view.length);
       NUM = Cast.toNumber(NUM);
       try {
         // Set the value
