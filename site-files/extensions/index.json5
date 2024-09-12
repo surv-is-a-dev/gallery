@@ -275,16 +275,16 @@
     "url": "https://scratch.mit.edu/users/0znzw/"
   }]
 }, {
-  "img": "", "id": "0znzw/ExtensionExposer",
+  "img": "", "id": "TheShovel/extexp",
   "name": "Extension Exposer",
   "description": "Run functions from other extensions.",
   "search_tags": ["advanced"], "requirements": [],
-  "new": true, "updated": false,
+  "new": true, "updated": true,
   "credits": [{
+    "name": "TheShovel",
+    "url": "https://github.com/TheShovel/"
+  }, {
     "name": "0znzw",
     "url": "https://scratch.mit.edu/users/0znzw/"
-  }, {
-    "name": "The original",
-    "url": "https://extensions.penguinmod.com/extensions/TheShovel/extexp.js"
   }]
 }]
