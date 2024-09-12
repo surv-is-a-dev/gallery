@@ -217,9 +217,9 @@
 }, {
   "img": "0znzw/EncodingV2.svg", "id": "0znzw/EncodingV2",
   "name": "Cryptography",
-  "description": "Encryption, encoding and more.",
+  "description": "Encryption, hashing, encoding and more.",
   "search_tags": ["advanced"], "requirements": [],
-  "new": false, "updated": false,
+  "new": false, "updated": true,
   "credits": [{
     "name": "0znzw",
     "url": "https://scratch.mit.edu/users/0znzw/"
@@ -269,9 +269,22 @@
   "name": "Buffers",
   "description": "Manipulate and read binary data.",
   "search_tags": ["advanced"], "requirements": [],
-  "new": false, "updated": false,
+  "new": false, "updated": true,
   "credits": [{
     "name": "0znzw",
     "url": "https://scratch.mit.edu/users/0znzw/"
+  }]
+}, {
+  "img": "", "id": "0znzw/ExtensionExposer",
+  "name": "Extension Exposer",
+  "description": "Run functions from other extensions.",
+  "search_tags": ["advanced"], "requirements": [],
+  "new": true, "updated": false,
+  "credits": [{
+    "name": "0znzw",
+    "url": "https://scratch.mit.edu/users/0znzw/"
+  }, {
+    "name": "The original",
+    "url": "https://extensions.penguinmod.com/extensions/TheShovel/extexp.js"
   }]
 }]
