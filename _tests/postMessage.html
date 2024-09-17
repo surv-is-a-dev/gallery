@@ -1,0 +1,18 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset=UTF-8>
+  <style>*{margin:0;padding:0;color:#fff;background:#000}</style>
+</head>
+
+<body>
+
+  
+  this is a communication frame so the gallery can load extensions into turbowarp :P
+  <div id=logs></div>
+
+  <script>let log=(e,o)=>{var a=document.createElement("span");a.textContent=e,o&&(a.style.color=o),a.appendChild(document.createElement("br")),logs.appendChild(a)},hasConfirmed=!1,auth=new URL(document.location.href).searchParams.get("auth"),hasLoaded=!1,died=!1,popup=window.open("/gallery/?TWunlocked");try{popup.onload=()=>{popup.postMessage({twu:!0,auth:auth})}}catch{log("Failed to set load-event (popups are most likely blocked)","#FF0000")}window.onbeforeunload=()=>{died=!0,popup.postMessage({killSelf:!0})},setTimeout(()=>{hasLoaded||(log("Failed to load, either your wifi is slow or popups are blocked,","#FF0000"),log("&nbsp; If this is the case either reload or enable popups,","#FF0000"))},2500),window.addEventListener("message",function(e){var o;died||((o=e.data).loaded?(log("Loaded successfully!"),hasLoaded=!0):"object"!=typeof o?(log("Received invalid data in POST-MESSAGE. (check the console)","#DDDD00"),console.warn("Received invalid data in POST-MESSAGE.",e)):o.myself||(o.kill?(died=!0,log("Gallery page killed.","#DD4411"),window.close()):hasConfirmed?o.url?(log("Received data: Cross-Posting message..","#FF00FF"),top.postMessage({myself:!0,url:o.url,postTo:"twu"},"*")):log("Extension URL was missing, wat?","#FF0000"):o.auth!==auth?(log("Authentication failed.","#FF0000"),popup.postMessage({killSelf:!0})):(log("Authenticated.","#00FF00"),hasConfirmed=!0)))})</script>
+
+</body>
+</html>
