@@ -160,6 +160,7 @@
               opcode: this.descendInputOfBlock(block, 'OPCODE').toType(InputType.STRING),
             });
           case `${extId}_use_preset_reporter`:
+            this.script.yields = true;
             return new IntermediateInput(InputOpcode[`${uExtId}_USE_PRESET_REPORTER`], InputType.ANY, {
               name: this.descendInputOfBlock(block, 'NAME').toType(InputType.STRING),
             });
@@ -168,6 +169,7 @@
               var: this.descendInputOfBlock(block, 'VAR'),
             });
           case `${extId}_call_fn_reporter`:
+            this.script.yields = true;
             return new IntermediateInput(InputOpcode[`${uExtId}_CALL_FN_REPORTER`], InputType.ANY, {
               name: this.descendInputOfBlock(block, 'NAME0').toType(InputType.STRING),
               args: descendPatchArgs.call(this, block),
@@ -211,6 +213,7 @@
               id: block.id,
             });
           case `${extId}_use_preset_command`:
+            this.script.yields = true;
             return new IntermediateStackBlock(StackOpcode[`${uExtId}_USE_PRESET_COMMAND`], {
               name: this.descendInputOfBlock(block, 'NAME').toType(InputType.STRING),
             });
@@ -218,12 +221,14 @@
             debugger;
             return new IntermediateStackBlock(StackOpcode[`${uExtId}_DEBUG_STATE`], {});
           case `${extId}_new_fn`:
+            this.script.yields = true;
             return new IntermediateStackBlock(StackOpcode[`${uExtId}_NEW_FN`], {
               name: this.descendInputOfBlock(block, 'NAME0').toType(InputType.STRING),
               stack: this.descendSubstack(block, Object.keys(block.inputs).find(key => key.startsWith('SUBSTACK'))),
               args: descendPatchArgs.call(this, block).map(arg => arg.toType(InputType.STRING)),
             });
           case `${extId}_call_fn_command`:
+            this.script.yields = true;
             return new IntermediateStackBlock(StackOpcode[`${uExtId}_CALL_FN_COMMAND`], {
               name: this.descendInputOfBlock(block, 'NAME0').toType(InputType.STRING),
               args: descendPatchArgs.call(this, block),
@@ -348,6 +353,7 @@
               opcode: this.descendInputOfBlock(block, 'OPCODE'),
             };
           case `${extId}_use_preset_reporter`:
+            this.script.yields = true;
             return {
               kind: `${extId}.presetReporter`,
               name: this.descendInputOfBlock(block, 'NAME'),
@@ -358,6 +364,7 @@
               var: this.descendInputOfBlock(block, 'VAR'),
             };
           case `${extId}_call_fn_reporter`:
+            this.script.yields = true;
             return {
               kind: `${extId}.callFnReporter`,
               name: this.descendInputOfBlock(block, 'NAME0'),
@@ -408,6 +415,7 @@
               id: block.id,
             };
           case `${extId}_use_preset_command`:
+            this.script.yields = true;
             return {
               kind: `${extId}.presetCommand`,
               name: this.descendInputOfBlock(block, 'NAME'),
@@ -418,6 +426,7 @@
               kind: `${extId}.debugState`,
             };
           case `${extId}_new_fn`:
+            this.script.yields = true;
             return {
               kind: `${extId}.newFn`,
               name: this.descendInputOfBlock(block, 'NAME0'),
@@ -425,6 +434,7 @@
               args: descendPatchArgs.call(this, block),
             };
           case `${extId}_call_fn_command`:
+            this.script.yields = true;
             return {
               kind: `${extId}.callFnCommand`,
               name: this.descendInputOfBlock(block, 'NAME0'),
