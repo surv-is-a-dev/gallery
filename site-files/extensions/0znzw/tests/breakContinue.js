@@ -1,7 +1,7 @@
 /**!
  * Break + Continue test
  * @author 0znzw https://scratch.mit.edu/users/0znzw/
- * @version 1.0
+ * @version 1.1
  * @copyright MIT & LGPLv3 License
  * Do not remove this comment
  */
@@ -53,10 +53,11 @@
         }],
       };
     }
-    _getLoopFrame(util) {
-      const thread = util.thread, stackFrames = thread.stackFrames, frameCount = stackFrames.length;
+    _getLoopFrame(thread) {
+      const stackFrames = thread.stackFrames, frameCount = stackFrames.length;
       let loopFrameBlock = null, loopFrameIndex = -1;
       for (let i = frameCount - 1; i >= 0; i--) {
+        if (i < 0) break;
         if (!stackFrames[i].isLoop) continue;
         loopFrameBlock = stackFrames[i].op.id;
         loopFrameIndex = i;
@@ -69,25 +70,24 @@
       const thread = util.thread, stackFrame = thread.peekStackFrame();
       if (!stackFrame._breakData) {
         let frameData = false;
-        if (!(frameData = this._getLoopFrame(util))) return console.warn('Not in a loop!');
+        if (!(frameData = this._getLoopFrame(thread))) return console.warn('Not in a loop!');
         const loopFrameBlock = frameData[0];
         const afterLoop = thread.blockContainer.getBlock(loopFrameBlock).next;
-        if (!afterLoop) return;
         stackFrame._breakData = { loopFrameBlock, afterLoop };
       }
       const { loopFrameBlock, afterLoop } = stackFrame._breakData;
       while(thread.stack.at(-1) !== loopFrameBlock) thread.popStack();
       thread.popStack();
-      thread.pushStack(afterLoop);
+      if (afterLoop) thread.pushStack(afterLoop);
     }
     continue(_, util) {
       const thread = util.thread, blocks = thread.blockContainer, stackFrame = thread.peekStackFrame();
       if (!stackFrame._continueData) {
         let frameData = false;
-        if (!(frameData = this._getLoopFrame(util))) return console.warn('Not in a loop!');
+        if (!(frameData = this._getLoopFrame(thread))) return console.warn('Not in a loop!');
         stackFrame._continueData = frameData[0];
       }
-      while(thread.stack.at(-1) !== stackFrame._continueData) thread.popStack();
+      while(thread.stack[0] && thread.stack.at(-1) !== stackFrame._continueData) thread.popStack();
       thread.status = thread.constructor.STATUS_YIELD;
     }
   }
