@@ -26,7 +26,7 @@
     "terser": "^5.34.1"
   },
   "devDependencies": {
-    "eslint": "^9.11.1"
+    "eslint": "^9.13.0"
   },
   "private": true
 }
