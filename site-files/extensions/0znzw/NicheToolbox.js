@@ -1,7 +1,7 @@
 /**!
  * Niche Toolbox
  * @author 0znzw https://scratch.mit.edu/users/0znzw/
- * @version 2.4
+ * @version 2.5
  * @copyright MIT & LGPLv3 License
  * Do not remove this comment
  */
@@ -207,6 +207,8 @@
     vm.refreshWorkspace();
     if (returnIds) return ids;
   }
+
+  const cryptoRandom = (m, l) => ((crypto.getRandomValues(new Uint8Array(1))[0] / 255) * (m - l) + l);
 
   class NicheToolbox {
     constructor() {
@@ -488,6 +490,33 @@
               },
             },
           },
+          {
+            opcode: 'NT_cryptographicRandom',
+            text: '(crypto) pick random [L] to [M]',
+            blockType: BlockType.REPORTER,
+            arguments: {
+              L: {
+                type: ArgumentType.NUMBER,
+                defaultValue: 1,
+              },
+              M: {
+                type: ArgumentType.NUMBER,
+                defaultValue: 10,
+              },
+            },
+          },
+          {
+            opcode: 'NT_cryptographicValues',
+            text: 'random numbers (1-255) count: [C]',
+            blockType: BlockType.REPORTER,
+            arguments: {
+              C: {
+                type: ArgumentType.NUMBER,
+                defaultValue: 1,
+              },
+            },
+            allowDropAnywhere: true,
+          },
         ],
         menus: {
           /* Dynamic Menus (sounds list etc...) */
@@ -758,6 +787,14 @@
         Object.prototype.toString
       }, 100);
       throw new Error(MESSAGE);
+    }
+    
+    NT_cryptographicRandom({ L, M }) {
+      return cryptoRandom(Cast.toNumber(M), Cast.toNumber(L));
+    }
+    NT_cryptographicValuess({ C }) {
+      C = Array.from(crypto.getRandomValues(new Uint8Array(Math.max(1, Cast.toString(C))));
+      return (Scratch.extensions.isUSB || Scratch.extensions.isNitroBolt) ? C : JSON.stringify(C);
     }
 
     /* ScratchGUIredux.js */
