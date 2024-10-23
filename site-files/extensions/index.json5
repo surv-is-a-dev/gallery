@@ -53,7 +53,7 @@
   "name": "0tils",
   "description": "My first ever extension.",
   "search_tags": [], "requirements": [],
-  "new": false, "updated": false,
+  "new": false, "updated": true,
   "credits": [{
     "name": "0znzw",
     "url": "https://scratch.mit.edu/users/0znzw/"
@@ -269,7 +269,7 @@
   "name": "Buffers",
   "description": "Manipulate and read binary data.",
   "search_tags": ["advanced"], "requirements": [],
-  "new": false, "updated": true,
+  "new": false, "updated": false,
   "credits": [{
     "name": "0znzw",
     "url": "https://scratch.mit.edu/users/0znzw/"
@@ -279,7 +279,7 @@
   "name": "Extension Exposer",
   "description": "Run functions from other extensions.",
   "search_tags": ["advanced"], "requirements": [],
-  "new": true, "updated": true,
+  "new": false, "updated": true,
   "credits": [{
     "name": "TheShovel",
     "url": "https://github.com/TheShovel/"
