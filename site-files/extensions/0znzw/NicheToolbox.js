@@ -792,8 +792,8 @@
     NT_cryptographicRandom({ L, M }) {
       return cryptoRandom(Cast.toNumber(M), Cast.toNumber(L));
     }
-    NT_cryptographicValuess({ C }) {
-      C = Array.from(crypto.getRandomValues(new Uint8Array(Math.max(1, Cast.toString(C))));
+    NT_cryptographicValues({ C }) {
+      C = Array.from(crypto.getRandomValues(new Uint8Array(Math.max(1, Cast.toString(C)))));
       return (Scratch.extensions.isUSB || Scratch.extensions.isNitroBolt) ? C : JSON.stringify(C);
     }
 
