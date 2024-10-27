@@ -1,7 +1,7 @@
 /**!
  * StarStorage
  * @author 0znzw https://scratch.mit.edu/users/0znzw/
- * @version 1.0
+ * @version 1.1
  * @copyright MIT & LGPLv3 License
  * Do not remove this comment
  */
@@ -145,9 +145,6 @@
             KEY: { type: ArgumentType.STRING, defaultValue: 'foo' },
             TYPE: { type: ArgumentType.STRING, menu: 'TYPES', defaultValue: 'localStorage' },
           },
-        }, {
-          blockType: BlockType.LABEL,
-          text: 'IndexedDB',
         }],
         menus: {
           TYPES: { items: ['localStorage', 'sessionStorage', 'cookies', 'indexedDB'], acceptReporters: true },
@@ -178,7 +175,7 @@
       switch(TYPE) {
         case 'sessionstorage': return sessionStorage.getItem(KEY) ?? '';
         case 'cookies': return getCookie(KEY) ?? '';
-        case 'indexeddb': return idb.readFromDatabase(KEY);
+        case 'indexeddb': return idb.readFromDatabase(KEY) ?? '';
         default:
         case 'localstorage': return localStorage.getItem(KEY) ?? '';
       }
