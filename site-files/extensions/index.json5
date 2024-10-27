@@ -279,12 +279,25 @@
   "name": "Extension Exposer",
   "description": "Run functions from other extensions.",
   "search_tags": ["advanced"], "requirements": [],
-  "new": false, "updated": true,
+  "new": false, "updated": false,
   "credits": [{
     "name": "TheShovel",
     "url": "https://github.com/TheShovel/"
   }, {
     "name": "0znzw",
     "url": "https://scratch.mit.edu/users/0znzw/"
+  }]
+}, {
+  "img": "", "id": "0znzw/StarStorage",
+  "name": "* Storage",
+  "description": "LocalStorage, SessionStorage, IndexedDB and Cookies all in 1 extension.",
+  "search_tags": [], "requirements": [],
+  "new": true, "updated": false,
+  "credits": [{
+    "name": "0znzw",
+    "url": "https://scratch.mit.edu/users/0znzw/"
+  }, {
+    "name": "Mistium",
+    "url": "https://mistium.com/"
   }]
 }]
