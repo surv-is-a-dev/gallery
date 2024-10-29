@@ -53,7 +53,7 @@
   "name": "0tils",
   "description": "My first ever extension.",
   "search_tags": [], "requirements": [],
-  "new": false, "updated": true,
+  "new": false, "updated": false,
   "credits": [{
     "name": "0znzw",
     "url": "https://scratch.mit.edu/users/0znzw/"
@@ -73,6 +73,17 @@
   }, {
     "name": "FurryR",
     "url": "https://github.com/FurryR/"
+  }]
+}, {
+  // Originally made for Unsandboxed but it works on TurboWarp (for now)
+  "img": "", "id": "0znzw/SwitchCaseUSB",
+  "name": "Switch Case",
+  "description": "",
+  "search_tags": ["advanced"], "requirements": [],
+  "new": true, "updated": false,
+  "credits": [{
+    "name": "0znzw",
+    "url": "https://scratch.mit.edu/users/0znzw/"
   }]
 }, {
   "img": "0znzw/PeriodicTable.svg", "id": "0znzw/PeriodicTable",
@@ -219,7 +230,7 @@
   "name": "Cryptography",
   "description": "Encryption, hashing, encoding and more.",
   "search_tags": ["advanced"], "requirements": [],
-  "new": false, "updated": true,
+  "new": false, "updated": false,
   "credits": [{
     "name": "0znzw",
     "url": "https://scratch.mit.edu/users/0znzw/"
