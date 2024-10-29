@@ -10,9 +10,8 @@
   // search_tags and requirements can both be empty, they are not required,
   // these are all the available tags.
   "search_tags": ("experimental", "advanced"), "requirements": ("internet", "hardware", "mobile"),
-  // If your extension is new or you just updated just add the string to the Set.
-  // Do the same with unsandboxed and sandboxed.
-  "mode": ("unsandboxed"),
+  // If your extension is new or you just updated then add them to this Set, same with if its unsandboxed.
+  "mode": ("new", "updated", "unsandboxed", "sandboxed"),
   // This is the little I-Card, you can use this for docs, or anything that makes sense.
   "iCard": {
     // (use # for the url if its not changing the url)
@@ -44,7 +43,7 @@
   "name": "NicheToolbox",
   "description": "Some blocks for niche use cases.",
   "search_tags": (), "requirements": (),
-  "mode": ("unsandboxed"),
+  "mode": ("updated"),
   "credits": ({
     "name": "0znzw",
     "url": "https://scratch.mit.edu/users/0znzw/"
@@ -54,7 +53,7 @@
   "name": "0tils",
   "description": "My first ever extension.",
   "search_tags": (), "requirements": (),
-  "mode": ("unsandboxed"),
+  "mode": (),
   "credits": ({
     "name": "0znzw",
     "url": "https://scratch.mit.edu/users/0znzw/"
@@ -64,7 +63,7 @@
   "name": "Script Management",
   "description": "Manage scripts and threads, allowing for better control of your project.",
   "search_tags": (), "requirements": (),
-  "mode": ("unsandboxed"),
+  "mode": (),
   "credits": ({
     "name": "0znzw",
     "url": "https://scratch.mit.edu/users/0znzw/"
@@ -77,12 +76,11 @@
   })
 }, {
   // Originally made for Unsandboxed but it works on TurboWarp (for now)
-  "img": "0znzw/SwitchCase.svg", "id": "0znzw/SwitchCaseUSB",
+  "img": "", "id": "0znzw/SwitchCaseUSB",
   "name": "Switch Case",
-  // Thanks cubester for the description, its hilarious lol
-  "description": '"this is the better way" -evil yandere dev',
+  "description": "",
   "search_tags": ("advanced"), "requirements": (),
-  "mode": ("unsandboxed", "new"),
+  "mode": ("new"),
   "credits": ({
     "name": "0znzw",
     "url": "https://scratch.mit.edu/users/0znzw/"
@@ -92,7 +90,7 @@
   "name": "Periodic Table",
   "description": "You can now get periodic table elements!",
   "search_tags": (), "requirements": (),
-  "mode": ("sandboxed"),
+  "mode": (),
   "credits": ({
     "name": "0znzw",
     "url": "https://scratch.mit.edu/users/0znzw/"
@@ -102,7 +100,7 @@
   "name": "Microbit Extended",
   "description": "Additions to the microbit extension!",
   "search_tags": [], "requirements": ["hardware"],
-  "mode": ("unsandboxed"),
+  "mode": (),
   "credits": ({
     "name": "0znzw",
     "url": "https://scratch.mit.edu/users/0znzw/"
@@ -112,7 +110,7 @@
   "name": "Since 2000",
   "description": "More since 2000 related block's.",
   "search_tags": (), "requirements": (),
-  "mode": ("unsandboxed"),
+  "mode": (),
   "credits": ({
     "name": "ION",
     "url": "https://scratch.mit.edu/users/IONSlayer/"
@@ -122,7 +120,7 @@
   "name": "Breaking Eternity",
   "description": "Its like big int but with decimals and more features!",
   "search_tags": (), "requirements": (),
-  "mode": ("unsandboxed"),
+  "mode": (),
   "credits": ({
     "name": "Yoreni",
     "url": "https://github.com/Yoreni/"
@@ -132,7 +130,7 @@
   "name": "Document Events",
   "description": "Some cool events ran on the document.",
   "search_tags": (), "requirements": (),
-  "mode": ("unsandboxed"),
+  "mode": (),
   "credits": ({
     "name": "0znzw",
     "url": "https://scratch.mit.edu/users/0znzw/"
@@ -142,7 +140,7 @@
   "name": "Spell Check",
   "description": "Oh yes, its spellcheck, bare bones spellcheck :).",
   "search_tags": (), "requirements": (),
-  "mode": ("unsandboxed"),
+  "mode": (),
   "credits": ({
     "name": "0znzw",
     "url": "https://scratch.mit.edu/users/0znzw/"
@@ -152,7 +150,7 @@
   "name": "MimeDB",
   "description": "Convert file types to their mime types and vice versa.",
   "search_tags": (), "requirements": (),
-  "mode": ("unsandboxed"),
+  "mode": (),
   "credits": [{
     "name": "0znzw",
     "url": "https://scratch.mit.edu/users/0znzw/"
@@ -162,7 +160,7 @@
   "name": "Browser",
   "description": "Browser utilities.",
   "search_tags": (), "requirements": ("internet"),
-  "mode": ("unsandboxed"),
+  "mode": (),
   "credits": ({
     "name": "adacraft",
     "url": "https://adacraft.org/"
@@ -172,7 +170,7 @@
   "name": "Right Click Menu",
   "description": "Disable and enable the right click menu.",
   "search_tags": (), "requirements": (),
-  "mode": ("unsandboxed"),
+  "mode": (),
   "credits": ({
     "name": "0znzw",
     "url": "https://scratch.mit.edu/users/0znzw/"
@@ -182,7 +180,7 @@
   "name": "DOMPurify",
   "description": "Sanitize user HTML.",
   "search_tags": (), "requirements": (),
-  "mode": ("unsandboxed"),
+  "mode": (),
   "credits": ({
     "name": "0znzw",
     "url": "https://scratch.mit.edu/users/0znzw/"
@@ -192,7 +190,7 @@
   "name": "HTML Entitys",
   "description": 'Encode user inputted HTML. (better version of "HTML Encode")',
   "search_tags": (), "requirements": (),
-  "mode": ("unsandboxed"),
+  "mode": (),
   "credits": ({
     "name": "0znzw",
     "url": "https://scratch.mit.edu/users/0znzw/"
@@ -202,7 +200,7 @@
   "name": "Image Blocks",
   "description": "They are blocks, but are they?",
   "search_tags": ("experimental"), "requirements": ("internet"),
-  "mode": ("unsandboxed"),
+  "mode": (),
   "credits": ({
     "name": "0znzw",
     "url": "https://scratch.mit.edu/users/0znzw/"
@@ -212,7 +210,7 @@
   "name": "More Buttons",
   "description": "Create your own buttons and manage the toolbox!",
   "search_tags": ("advanced"), "requirements": (),
-  "mode": ("unsandboxed"),
+  "mode": (),
   "credits": ({
     "name": "0znzw",
     "url": "https://scratch.mit.edu/users/0znzw/"
@@ -222,7 +220,7 @@
   "name": "Try Catch V2",
   "description": "Catch and throw REAL JavaScript errors.",
   "search_tags": ["advanced"], "requirements": [],
-  "mode": ("unsandboxed"),
+  "mode": (),
   "credits": ({
     "name": "0znzw",
     "url": "https://scratch.mit.edu/users/0znzw/"
@@ -232,7 +230,7 @@
   "name": "Cryptography",
   "description": "Encryption, hashing, encoding and more.",
   "search_tags": ("advanced"), "requirements": (),
-  "mode": ("unsandboxed"),
+  "mode": (),
   "credits": ({
     "name": "0znzw",
     "url": "https://scratch.mit.edu/users/0znzw/"
@@ -242,7 +240,7 @@
   "name": "Fake Crashes",
   "description": "Create and customize custom GUI crashes (and crash the vm :o).",
   "search_tags": ("experimental"), "requirements": (),
-  "mode": ("unsandboxed"),
+  "mode": (),
   "credits": ({
     "name": "0znzw",
     "url": "https://scratch.mit.edu/users/0znzw/"
@@ -252,7 +250,7 @@
   "name": "Compiler Injector",
   "description": "Inject JS into the compiled script and override existing blocks JS.",
   "search_tags": ("experimental", "advanced"), "requirements": (),
-  "mode": ("unsandboxed"),
+  "mode": (),
   "credits": ({
     "name": "0znzw",
     "url": "https://scratch.mit.edu/users/0znzw/"
@@ -262,7 +260,7 @@
   "name": "Web History API",
   "description": "Access the Web History API.",
   "search_tags": (), "requirements": ("internet"),
-  "mode": ("unsandboxed"),
+  "mode": (),
   "credits": ({
     "name": "Lemon",
     "url": "https://scratch.mit.edu/users/BludIsAnLemon/"
@@ -272,7 +270,7 @@
   "name": "More Fields",
   "description": "New experimental custom fields.",
   "search_tags": ("experimental", "advanced"), "requirements": (),
-  "mode": ("unsandboxed"),
+  "mode": (),
   "credits": ({
     "name": "0znzw",
     "url": "https://scratch.mit.edu/users/0znzw/"
@@ -282,7 +280,7 @@
   "name": "Buffers",
   "description": "Manipulate and read binary data.",
   "search_tags": ("advanced"), "requirements": (),
-  "mode": ("unsandboxed"),
+  "mode": (),
   "credits": ({
     "name": "0znzw",
     "url": "https://scratch.mit.edu/users/0znzw/"
@@ -292,7 +290,7 @@
   "name": "Extension Exposer",
   "description": "Run functions from other extensions.",
   "search_tags": ("advanced"), "requirements": (),
-  "mode": ("unsandboxed"),
+  "mode": (),
   "credits": ({
     "name": "TheShovel",
     "url": "https://github.com/TheShovel/"
@@ -305,23 +303,12 @@
   "name": "* Storage",
   "description": "LocalStorage, SessionStorage, IndexedDB and Cookies all in 1 extension.",
   "search_tags": (), "requirements": (),
-  "mode": ("unsandboxed", "new"),
+  "mode": ("new"),
   "credits": ({
     "name": "0znzw",
     "url": "https://scratch.mit.edu/users/0znzw/"
   }, {
     "name": "Mistium",
     "url": "https://mistium.com/"
-  })
-}, {
-  "img": "", "id": "0znzw/FetchButItsCooler",
-  "name": "Fetch",
-  // Please help me find a better description :sob:
-  "description": "Literally fetch, but its just better.",
-  "search_tags": (), "requirements": ("internet"),
-  "mode": ("unsandboxed", "new"),
-  "credits": ({
-    "name": "0znzw",
-    "url": "https://scratch.mit.edu/users/0znzw/"
   })
 })
