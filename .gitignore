@@ -11,3 +11,6 @@ site/*
 
 # error logs
 false
+
+# nano
+*.save
