@@ -7,10 +7,11 @@ GeneratorLoaded(
       document.write('Nerd.');
       throw 'Nerd.';
     }
+    const queryParams = new URL(document.location.href).searchParams;
     const SITE = {
-      dev_host: 'localhost:9000',
-      isDev: document.location.hostname.startsWith('localhost'), // Assume its dev IF we are using localhost
-      host: document.location.hostname, //If you want to manually specify this go ahead
+      dev_host: `${document.location.hostname}:${9000 /* The port */}`,
+      isDev: document.location.hostname.startsWith('localhost') || queryParams.has('surv:DEV'), // Assume its dev IF we are using localhost
+      host: document.location.hostname, // If you want to manually specify this go ahead
       // Use this if you are hosting on a subdomain
       subdomain: 'gallery',
       isSub: false,
@@ -256,14 +257,18 @@ GeneratorLoaded(
         updateImg.classList.add('extension-news-banner');
         updateImg.src = this.asset('@external/update-banner.svg');
         updateImg.alt = 'This extension was updated recently!';
-        if (meta.new) banner.appendChild(newImg);
-        if (meta.updated) banner.appendChild(updateImg);
+        if (meta.mode.has('new')) banner.appendChild(newImg);
+        if (meta.mode.has('updated')) banner.appendChild(updateImg);
         div.appendChild(banner);
         const title = document.createElement('h3');
         title.textContent = meta.name;
         div.appendChild(title);
         const description = document.createElement('p');
-        description.textContent = meta.description;
+        if ((meta.description || '') !== '') {
+          description.textContent = meta.description;
+        } else {
+          description.innerHTML = '<i>(No Description Provided)</i>';
+        }
         div.appendChild(description);
         const credits = document.createElement('div');
         credits.classList.add('extension-boxing-outer', 'credit-box');
@@ -275,6 +280,7 @@ GeneratorLoaded(
         innerCredits.appendChild(madeByText);
         innerCredits.appendChild(document.createElement('br'));
         let i = 0;
+        meta.credits = Array.from(meta.credits || []);
         for (const user of meta.credits) {
           const userHTML = document.createElement('p');
           const userLink = document.createElement('a');
@@ -287,13 +293,13 @@ GeneratorLoaded(
           userHTML.appendChild(document.createTextNode(after));
           innerCredits.appendChild(userHTML);
           i++;
-        }
+        };
         credits.appendChild(innerCredits);
         if (meta.credits.length > 0) div.appendChild(credits);
         const requirements = document.createElement('div');
         requirements.classList.add('extension-tags');
-        meta.requirements = meta.requirements || [];
-        if (meta.requirements.length > 1) {
+        meta.requirements = meta.requirements || new Set();
+        if (meta.requirements.size > 1) {
           const addRequirement = (name, imgSrc, title) => {
             const req = document.createElement('img');
             req.title = title ?? `Requires ${name}`;
@@ -302,14 +308,14 @@ GeneratorLoaded(
             req.width = 24;
             requirements.appendChild(req);
           };
-          if (meta.requirements.includes('hardware')) addRequirement('hardware', '@external/hardware-icon.svg');
-          if (meta.requirements.includes('internet')) addRequirement('internet', '@external/internet-icon.svg');
-          if (meta.requirements.includes('mobile')) addRequirement('mobile', '@external/mobile-icon.svg', 'Mobile-Only features');
+          if (meta.requirements.has('hardware')) addRequirement('hardware', '@external/hardware-icon.svg');
+          if (meta.requirements.has('internet')) addRequirement('internet', '@external/internet-icon.svg');
+          if (meta.requirements.has('mobile')) addRequirement('mobile', '@external/mobile-icon.svg', 'Mobile-Only features');
           div.appendChild(requirements);
         }
         const searchTags = document.createElement('div');
         searchTags.classList.add('extension-search-tags');
-        searchTags.dataset.tags = (meta.search_tags || []).join(',').toLowerCase();
+        searchTags.dataset.tags = (Array.from(meta.search_tags || [])).join(',').toLowerCase();
         div.appendChild(searchTags);
         const metaTags = document.createElement('meta');
         if (meta.meta) {
@@ -321,8 +327,8 @@ GeneratorLoaded(
         return div;
       };
       // Internals
-      const queryParams = new URL(document.location.href).searchParams;
       window.onmessage = (event) => {
+        if (!window.opener) return;
         window.opener.postMessage({ loaded: true });
         const obj = event.data;
         if (typeof obj !== 'object') {
@@ -340,6 +346,7 @@ GeneratorLoaded(
         window.opener.postMessage({ response: true, confirm: true, ...obj });
       };
       window.onbeforeunload = () => {
+        if (!window.opener) return;
         window.opener.postMessage({ kill: true });
       };
       window.TWUextensionPage = true;
