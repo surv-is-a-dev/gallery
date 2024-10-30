@@ -10,17 +10,17 @@ GeneratorLoaded(
     const queryParams = new URL(document.location.href).searchParams;
     const SITE = {
       dev_host: `${document.location.hostname}:${9000 /* The port */}`,
-      isDev: document.location.hostname.startsWith('localhost') || queryParams.has('surv:DEV'), // Assume its dev IF we are using localhost
-      host: 'miyo.lol', // If you want to manually specify this go ahead
-      // Use this if you are hosting on a subdomain
-      subdomain: 'gallery',
-      isSub: true,
-      // Otherwise this will be the path where the site is hosted
+      // Assume its dev IF we are using localhost
+      isDev: document.location.hostname.startsWith('localhost') || queryParams.has('surv:DEV_ADDR'),
+      host: 'miyo.lol',
+      dev_sub: '',
+      sub: 'gallery.',
       path: '/',
       dev_path: '/',
       // Gallery title
       gallery_title: 'Survs Gallery',
     };
+    if (queryParams.has('surv:DEV')) window.LeakedGenerator = this;
     const NOW = Date.now().toString(16);
     localStorage['surv:asked4ip'] = localStorage['surv:asked4ip'] ?? 0;
     localStorage['surv:ip'] = localStorage['surv:ip'] ?? 0;
@@ -41,10 +41,9 @@ GeneratorLoaded(
       DISABLE_IP_GRABBER = true;
     }
     this._site = SITE;
-    this.host = function () {
-      const host = (SITE.isSub ? SITE.subdomain : '') + (SITE.isDev ? SITE.dev_host : SITE.host);
-      return `http${SITE.isDev ? '' : 's'}://${host}${SITE.isSub ? '' : SITE.isDev ? SITE.dev_path : SITE.path}`;
-    };
+    this.host = () => (
+      `http${SITE.isDev ? '' : 's'}://${SITE.isDev ? SITE.dev_sub : SITE.sub}${SITE.isDev ? SITE.dev_host : SITE.host}${SITE.isDev ? SITE.dev_path : SITE.path}`
+    );
     this.asset = function (path, skipHost) {
       if (skipHost) return `${SITE.isDev ? SITE.dev_path : SITE.path}${path}`;
       return `${this.host()}${path}`;
