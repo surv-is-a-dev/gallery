@@ -152,7 +152,7 @@
       };
     }
     setStorageKey({ KEY }) {
-      KEY = `${key}${Cast.toString(KEY)}`;
+      KEY = `${Cast.toString(KEY)}`;
       runtime.extensionStorage[extId].key = KEY;
       idb.setDBName(KEY);
       key = KEY;
