@@ -14,7 +14,7 @@ GeneratorLoaded(
       host: document.location.hostname, // If you want to manually specify this go ahead
       // Use this if you are hosting on a subdomain
       subdomain: 'gallery',
-      isSub: false,
+      isSub: true,
       // Otherwise this will be the path where the site is hosted
       path: '/gallery/',
       dev_path: '/',
