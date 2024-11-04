@@ -1,7 +1,7 @@
 /**!
  * Bad Apple (Editor)
  * @author 0znzw https://scratch.mit.edu/users/0znzw/
- * @version 1.0
+ * @version 1.2
  * @copyright MIT & LGPLv3 License
  * Do not remove this comment
  */
@@ -10,32 +10,135 @@
   if (!Scratch.extensions.unsandboxed) {
     throw new Error(`"Bad Apple (Editor)" must be ran unsandboxed.`);
   }
-  const extId = '0znzwBadAppleEditor';
+  const extId = '0znzwBadAppleEditor', QP = new URLSearchParams(window.location.search);
   const { BlockType, vm } = Scratch, { runtime } = vm, JSZip = vm.exports.JSZip;
-  let ScratchBlocks;
-  if (!localStorage[`${extId}_BadAppleCache`]) {
-    try {
-      const data = await fetch('https://miyo.lol/bad_apple_manifest.lol');
-      localStorage[`${extId}_BadAppleCache`] = await data.text();
-    } catch {
-      throw new Error('Failed to get the Bad Apple data.');
+  let ScratchBlocks, audio, BIN, SIZE = 16;
+  const HQAudio = QP.has('HQAudio'), HQ = false && QP.has('HQ'), CACHE_KEY = `${extId}_BadApple${HQAudio ? 'HQAudio' : (
+    HQ ? 'HQ' : ''
+  )}`;
+  if (HQ) SIZE = 32;
+  const FRAME_SIZE = SIZE ** 2;
+  console.log('[BadApple] Loading cache');
+  const idb=new (class IndexedDBSimple {
+    constructor(key) {
+      this.dbVersion = 1;
+      if (key ?? false) this.setDBName(key);
     }
+    setDBName(NAME) {
+      this.dbName = NAME;
+      return this.initializeDatabase();
+    }
+    initializeDatabase() {
+      return new Promise((resolve, reject) => {
+        const request = indexedDB.open(this.dbName, this.dbVersion);
+        request.onerror = reject;
+        request.onsuccess = (event) => {
+          this.db = event.target.result;
+          resolve();
+        };
+        request.onupgradeneeded = (event) => {
+          this.db = event.target.result;
+          this.db.createObjectStore('data', {
+            keyPath: 'key'
+          });
+        };
+      });
+    }
+    writeToDatabase(KEY, VALUE) {
+      const transaction = this.db.transaction(['data'], 'readwrite');
+      const objectStore = transaction.objectStore('data');
+      objectStore.put({
+        key: KEY,
+        value: VALUE
+      });
+    }
+    async readFromDatabase(KEY) {
+      return new Promise((resolve, reject) => {
+        const transaction = this.db.transaction(['data'], 'readonly');
+        const objectStore = transaction.objectStore('data');
+        const request = objectStore.get(KEY);
+        request.onsuccess = function(event) {
+          resolve(event.target.result ? event.target.result.value : null);
+        };
+        request.onerror = function(event) {
+          reject('Error reading from database');
+        };
+      });
+    };
+    getAllKeys() {
+      return new Promise((resolve, reject) => {
+        const transaction = this.db.transaction(['data'], 'readonly');
+        const objectStore = transaction.objectStore('data');
+        const request = objectStore.getAllKeys();
+        request.onsuccess = function(event) {
+          const keysArray = event.target.result;
+          const keysJSON = JSON.stringify(keysArray);
+          resolve(keysJSON);
+        };
+        request.onerror = function(event) {
+          reject('Error getting keys from database');
+        };
+      });
+    }
+    async keyExists(KEY) {
+      const keys = await this.getAllKeys();
+      return keys.includes(KEY);
+    }
+    deleteFromDatabase(KEY) {
+      const transaction = this.db.transaction(['data'], 'readwrite');
+      const objectStore = transaction.objectStore('data');
+      objectStore.delete(KEY);
+    }
+  });
+  await idb.setDBName(CACHE_KEY);
+  const ReCACHE = QP.has('BA_RECACHE_DANGER');
+  if (!await idb.keyExists('BadAppleCached') || ReCACHE) {
+    let ZIP = await (() => new Promise((res, rej) => {
+      idb.readFromDatabase('BadApple').then(async (kex) => {
+        if (kex && !ReCACHE) return res(kex);
+        console.log('[BadApple] Constructing cache');
+        let data = await fetch(HQAudio ? `http://localhost:8000/bad_apple_manifest.hq_audio.lol?v=${Date.now()}` : (
+          HQ ? `http://localhost:8000/bad_apple_manifest.hq.lol?v=${Date.now()}`
+          : `https://miyo.lol/bad_apple_manifest.lol?v=${Date.now()}`)
+        );
+        data = await data.text();
+        await idb.writeToDatabase('BadApple', data);
+        res(data);
+      }).catch(rej);
+    }))();
+    console.log('[BadApple] Caching zip');
+    ZIP = await fetch(ZIP);
+    ZIP = await ZIP.blob();
+    ZIP = await JSZip.loadAsync(ZIP);
+    console.log('[BadApple] Caching audio');
+    const audioBlob = await ZIP.files.audio.async('blob');
+    audio = await (blob => new Promise(resolve => {
+      const fr = new FileReader();
+      fr.onload = e => resolve(e.target.result);
+      fr.readAsDataURL(blob);
+    }))(audioBlob);
+    await idb.writeToDatabase('BadAppleAudio', audio.replace('application/octet-stream', 'audio/mp3'));
+    console.log('[BadApple] Loading audio');
+    audio = new Audio(URL.createObjectURL(audioBlob));
+    console.log('[BadApple] Loading binary data');
+    BIN = (RLEData => {
+      console.log('[BadApple] Loading and decoding binary data');
+      return RLEData.replaceAll('@', ' @').replaceAll('!', ' !').split(' ').map(i => {
+        if (!i) return '';
+        return (i[0] === '!' ? '0' : '1').repeat(Number(i.slice(1)));
+      }).join('');
+    })(await ZIP.files.binary.async('string'));
+    console.log('[BadApple] Caching binary data');
+    await idb.writeToDatabase('BadAppleBinary', BIN);
+    ZIP = null;
+    await idb.writeToDatabase('BadAppleCached', true);
+  } else {
+    console.log('[BadApple] Loading cached audio');
+    audio = new Audio(await idb.readFromDatabase('BadAppleAudio'));
+    console.log('[BadApple] Loading cached binary data');
+    BIN = await idb.readFromDatabase('BadAppleBinary');
   }
-  console.log('[BadApple] Loading zip');
-  let ZIP = await fetch(localStorage[`${extId}_BadAppleCache`]);
-  ZIP = await ZIP.blob();
-  ZIP = await JSZip.loadAsync(ZIP);
-  console.log('[BadApple] Loading audio');
-  const audio = new Audio(URL.createObjectURL(new Blob([await ZIP.files.audio.async('arraybuffer')], { type: 'audio/mp3' })));
-  const BIN = (RLEData => {
-    console.log('[BadApple] Loading and decoding binary data');
-    return RLEData.replaceAll('@', ' @').replaceAll('!', ' !').split(' ').map(i => {
-      if (!i) return '';
-      return (i[0] === '!' ? '0' : '1').repeat(Number(i.slice(1)));
-    }).join('');
-  })(await ZIP.files.binary.async('string'));
   console.log('[BadApple] Ready');
-  ZIP = null;
   const alphaChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   const uid = function (len, soup) {
     const soup_ = soup ?? ('!#%()*+,-./:;=?@[]^_`{|}~' + alphaChars);
@@ -75,19 +178,19 @@
       return block;
     };
     setupBlocks() {
-      this.blocks = new Array(256);
+      this.blocks = new Array(FRAME_SIZE);
       this.wipeWS(false);
-      for (let i = 0; i < 256; i++) {
-        this.blocks[i] = this.constructor.createWsBlock(((i % 16) * 32.4), (Math.floor(i / 16) * 27)).id;
+      for (let i = 0; i < FRAME_SIZE; i++) {
+        this.blocks[i] = this.constructor.createWsBlock(((i % SIZE) * 32.4), (Math.floor(i / SIZE) * 27)).id;
       }
       vm.refreshWorkspace();
       console.log('[BadApple] Setup Workspace');
     }
     drawFrame() {
       this.frame++;
-      const frame = (this.frame - 1) * 256;
-      const frameData = BIN.slice(frame, frame + 256);
-      for (let i = 0; i < 256; i++) {
+      const frame = (this.frame - 1) * FRAME_SIZE;
+      const frameData = BIN.slice(frame, frame + FRAME_SIZE);
+      for (let i = 0; i < FRAME_SIZE; i++) {
         const block = ScratchBlocks.mainWorkspace.blockDB_[this.blocks[i]];
         const colour = frameData[i] == '0' ? '#000000' : '#FFFFFF';
         if (block.colour_ === colour) continue;
@@ -103,6 +206,11 @@
         id: extId,
         name: 'Bad Apple (Editor)',
         blocks: [{
+          blockType: BlockType.XML,
+          xml: `<sep gap="-12" /><label text="30FPS | ${HQAudio ? '16x16 HQAudio' : (
+            HQ ? '32x32 HQAudio' : '16x16'
+          )}" />`,
+        }, {
           blockType: BlockType.BUTTON,
           func: 'drawFrameBtn',
           text: 'draw frame',
