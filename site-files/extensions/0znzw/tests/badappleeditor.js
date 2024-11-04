@@ -101,7 +101,7 @@
     getInfo() {
       return {
         id: extId,
-        name: 'Bad Apple (Editor 1FPS)',
+        name: 'Bad Apple (Editor)',
         blocks: [{
           blockType: BlockType.BUTTON,
           func: 'drawFrameBtn',
