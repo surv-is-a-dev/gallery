@@ -1,7 +1,7 @@
 /**!
  * Bad Apple (Editor)
  * @author 0znzw https://scratch.mit.edu/users/0znzw/
- * @version 1.2
+ * @version 1.3
  * @copyright MIT & LGPLv3 License
  * Do not remove this comment
  */
@@ -97,8 +97,8 @@
       idb.readFromDatabase('BadApple').then(async (kex) => {
         if (kex && !ReCACHE) return res(kex);
         console.log('[BadApple] Constructing cache');
-        let data = await fetch(HQAudio ? `http://localhost:8000/bad_apple_manifest.hq_audio.lol?v=${Date.now()}` : (
-          HQ ? `http://localhost:8000/bad_apple_manifest.hq.lol?v=${Date.now()}`
+        let data = await fetch(HQAudio ? `https://miyo.lol/bad_apple_manifest.hq_audio.lol?v=${Date.now()}` : (
+          HQ ? `https://miyo.lol/bad_apple_manifest.hq.lol?v=${Date.now()}`
           : `https://miyo.lol/bad_apple_manifest.lol?v=${Date.now()}`)
         );
         data = await data.text();
