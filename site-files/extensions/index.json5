@@ -310,6 +310,8 @@
     "name": "0znzw",
     "url": "https://scratch.mit.edu/users/0znzw/"
   }, {
+    // This is just a formality for the indexedDB code,
+    // they didnt actually help lol
     "name": "Mistium",
     "url": "https://mistium.com/"
   })
@@ -317,9 +319,10 @@
   "img": "", "id": "0znzw/FetchButCooler",
   "name": "Fetch",
   // Please help me find a better description :sob:
-  "description": "Literally fetch, but its just better.",
+  "description": "Fetch but with a lot more stuff.",
   "search_tags": (), "requirements": ("internet"),
-  "mode": ("unsandboxed", "new"),
+  // RIP the double tag ngl
+  "mode": ("unsandboxed", "new", "updated"),
   "credits": ({
     "name": "0znzw",
     "url": "https://scratch.mit.edu/users/0znzw/"
