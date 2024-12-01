@@ -1,13 +1,14 @@
-// License: MIT, 2024-2024 0znzw
+// License: MIT, 2024-2024 0znzw, v1.0.2
 // This just re-enables the "upload" feature on my paint extension.
 (() => {
+  let playground;
   // @todo Update this ID when it gets changed.
   const playgroundAPI = vm.runtime.ext_0znzwUSBPaintTest.playgroundAPI;
   const oldDownloadImage = playgroundAPI.hooks.downloadImage;
   playgroundAPI.setHook('uploadImage', () => true);
-  playgroundAPI.setHook('downloadImage', (playground) => {
+  playgroundAPI.setHook('downloadImage', (thePlayground) => {
     playgroundAPI.setHook('downloadImage', oldDownloadImage);
-    window.playground = playground;
+    playground = thePlayground;
     return false;
   });
   const dlButton = document.querySelector('div[class^="paint-editor_editor-container"]').parentElement.lastElementChild;
