@@ -1,4 +1,7 @@
+// License: MIT, 2024-2024 0znzw
+// This just re-enables the "upload" feature on my paint extension.
 (() => {
+  // @todo Update this ID when it gets changed.
   const playgroundAPI = vm.runtime.ext_0znzwUSBPaintTest.playgroundAPI;
   const oldDownloadImage = playgroundAPI.hooks.downloadImage;
   playgroundAPI.setHook('uploadImage', () => true);
@@ -9,6 +12,7 @@
   });
   const dlButton = document.querySelector('div[class^="paint-editor_editor-container"]').parentElement.lastElementChild;
   dlButton.click();
+  // @todo Possibly just override getElementById to save the expensive scanning.
   const uploadInputId = Array.from(Array.from(document.styleSheets).find(sheet => sheet.ownerNode.textContent.includes(`#playground_fileInput`)).cssRules).find(rule => rule.selectorText.startsWith('#playground_fileInput_')).selectorText.slice(1);
   if (!document.getElementById(uploadInputId)) {
     const uploadButton = dlButton.previousElementSibling;
@@ -19,6 +23,7 @@
     uploadInput.type = 'file';
     uploadInput.name = 'name';
     dlButton.before(uploadInput);
+    // @todo Maybe find a way to hook with react?
     uploadInput.onchange = playground.onUploadImage.bind(playground);
   }
   console.log('Uploading enabled.');
