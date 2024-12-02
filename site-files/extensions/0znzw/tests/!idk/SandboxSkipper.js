@@ -1,7 +1,7 @@
 /**!
  * Sandbox Skipper
  * @author 0znzw https://scratch.mit.edu/users/0znzw/
- * @version 1.0
+ * @version 1.1
  * @copyright MIT License
  * Do not remove this comment
  */
@@ -13,7 +13,7 @@
   class extension {
     constructor() {
       this.doPatch(Scratch);
-      Scratch.vm.on('SETUP_UNSANDBOXED_EXTENSION_API', (Scratch) => {
+      Scratch.vm.on('CREATE_UNSANDBOXED_EXTENSION_API', (Scratch) => {
         this.doPatch(Scratch);
       });
     }
