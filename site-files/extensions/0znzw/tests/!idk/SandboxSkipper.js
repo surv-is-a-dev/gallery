@@ -31,7 +31,9 @@
       };
     }
     doPatch(Scratch) {
-      Scratch.extensions.unsandboxed = false;
+      Scratch.extensions.unsandboxed = true;
+      Scratch.extensions.sandboxed = false;
+      Scratch.extensions.premature = false;
       const vm = Scratch.vm;
       vm.securityManager.__proto__.getSandboxMode = async () => 'unsandboxed';
       vm.securityManager.getSandboxMode = async () => 'unsandboxed';
