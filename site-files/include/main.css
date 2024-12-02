@@ -331,36 +331,35 @@ h2, h3, p {
   border: none;
   font: inherit;
   cursor: pointer;
-  color: white;
+  color: white !important;
   text-decoration: none;
   pointer-events: auto;
   transition: filter 0.15s;
   filter: drop-shadow(0px 1px 3px #00000075);
+  margin: 0 8px 0 0;
+  user-select: none;
 }
 .extension-buttons > *:hover {
   filter: drop-shadow(0px 1px 7px black);
   z-index: 1;
 }
-.extension-buttons *:active {
+.extension-buttons > *:active {
   filter: brightness(0.85) drop-shadow(0px 1px 2px #00000075);
 }
-.extension-buttons *:disabled {
+.extension-buttons > *:visited {
+  color: white !important;
+}
+.extension-buttons > *:disabled {
   opacity: 0.5;
 }
-.extension-buttons .copy {
-  margin: 0 8px 0 0;
+.extension-buttons > a.open {
+  background-color: #FF4C4C;
 }
-.extension-buttons .open {
-  background-color: #ff4c4c;
-  color: white;
-}
-.extension-buttons .copy-url {
-  margin: 0 8px 0 0;
+.extension-buttons > button.copy-url {
   background-color: #FFAB19;
-  color: white;
 }
-.extension-buttons :disabled {
-  opacity: 0.5;
+.extension-buttons > a.download {
+  background-color: #FF4C4C;
 }
 
 footer {

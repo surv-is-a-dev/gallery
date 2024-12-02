@@ -199,7 +199,8 @@ GeneratorLoaded(
       // Adding extensions
       this.addExtension = (meta) => {
         meta.img = meta.img || 'unknown.svg';
-        const extUrl = this.asset(`extensions/${meta.id || 'Placeholder'}.js?v=${NOW}`);
+        meta.id ||= 'Placeholder';
+        const extUrl = this.asset(`extensions/${meta.id}.js?v=${NOW}`);
         const div = document.createElement('div');
         if (meta.noSearch) div.dataset.nosearch = true;
         div.classList.add('extension');
@@ -223,6 +224,11 @@ GeneratorLoaded(
         button_copycode.classList.add('copy-url');
         button_copycode.dataset.url = extUrl;
         button_copycode.textContent = 'Copy Code';
+        const button_download = document.createElement('a');
+        button_download.classList.add('download');
+        button_download.href = this.asset(`download.html?uri=${encodeURIComponent(extUrl)}&dn=${encodeURIComponent(`${meta.id}.js`)}`);
+        button_download.target = 'about:blank';
+        button_download.textContent = 'Download';
         const button_open = document.createElement('a');
         button_open.style.display = 'none';
         button_open.href = `#`;
@@ -230,6 +236,7 @@ GeneratorLoaded(
         button_open.textContent = 'Open extension';
         bannerButtons.appendChild(button_copycode);
         bannerButtons.appendChild(button_copyurl);
+        bannerButtons.appendChild(button_download);
         bannerButtons.appendChild(button_open);
         banner.appendChild(bannerImage);
         banner.appendChild(bannerButtons);

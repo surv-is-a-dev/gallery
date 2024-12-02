@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Closing...</title>
+  </head>
+  <body>
+    This page should automatically close.
+    <noscript>This site requires javascript to function</noscript>
+    <script>(async () => {
+      const download = (url, file) => new Promise((resolve) => {
+        // Doesn't work on safari
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = file;
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => {
+          document.body.removeChild(a);
+          resolve();
+        }, 0);
+      });
+      const qp = new URLSearchParams(window.location.search);
+      if (!qp.has('uri')) throw 'Fuck you.';
+      await download(decodeURIComponent(qp.get('uri')), decodeURIComponent((qp.has('dn') ? qp.get('dn') : 'raw.bin')));
+      window.close();
+      window.location.href = 'https://example.edu/';
+    })();</script>
+  </body>
+</html>
