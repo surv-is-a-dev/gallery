@@ -82,7 +82,7 @@
   // Thanks cubester for the description, its hilarious lol
   "description": '"this is the better way" -evil yandere dev',
   "search_tags": ("advanced"), "requirements": (),
-  "mode": ("unsandboxed", "new"),
+  "mode": ("unsandboxed"),
   "credits": ({
     "name": "0znzw",
     "url": "https://scratch.mit.edu/users/0znzw/"
@@ -305,7 +305,7 @@
   "name": "* Storage",
   "description": "LocalStorage, SessionStorage, IndexedDB and Cookies all in 1 extension.",
   "search_tags": (), "requirements": (),
-  "mode": ("unsandboxed", "new"),
+  "mode": ("unsandboxed"),
   "credits": ({
     "name": "0znzw",
     "url": "https://scratch.mit.edu/users/0znzw/"
@@ -322,7 +322,7 @@
   "description": "Fetch but with a lot more stuff.",
   "search_tags": (), "requirements": ("internet"),
   // RIP the double tag ngl
-  "mode": ("unsandboxed", "new", "updated"),
+  "mode": ("unsandboxed"),
   "credits": ({
     "name": "0znzw",
     "url": "https://scratch.mit.edu/users/0znzw/"
