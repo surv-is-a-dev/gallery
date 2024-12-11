@@ -31,7 +31,10 @@
   }, {
     "name": "Placeholder JR",
     "url": "#3"
-  })
+  }),
+  // This field is actually not required and can be a string, array or set!
+  // Just fill it with the supported mod names, if its missing one then it will default to turbowarp :3
+  "mod": ("turbowarp", "unsandboxed"),
 }, {
   "img": "TurboCharged.svg", "id": "TurboCharged",
   "name": "TurboCharged",
@@ -86,7 +89,8 @@
   "credits": ({
     "name": "0znzw",
     "url": "https://scratch.mit.edu/users/0znzw/"
-  })
+  }),
+  "mod": ("turbowarp", "unsandboxed"),
 }, {
   "img": "0znzw/PeriodicTable.svg", "id": "0znzw/PeriodicTable",
   "name": "Periodic Table",
@@ -327,4 +331,15 @@
     "name": "0znzw",
     "url": "https://scratch.mit.edu/users/0znzw/"
   })
+}, {
+  "img": "", "id": "0znzw/USBPause",
+  "name": "USB Pause",
+  "description": "Lets you pause the project. (uses USB's built in apis!)",
+  "search_tags": ("advanced"), "requirements": (),
+  "mode": ("unsandboxed"),
+  "credits": ({
+    "name": "0znzw",
+    "url": "https://scratch.mit.edu/users/0znzw/"
+  }),
+  "mod": ("unsandboxed"),
 })

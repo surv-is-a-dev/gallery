@@ -184,7 +184,8 @@ GeneratorLoaded(
       document.body.appendChild(ConstructExtensionHolder());
       // Adding search tags
       this.addSearchTags = (...tags) => {
-        const holder = document.querySelector('div.search-outer');
+        tags = tags.reverse();
+        const holder = document.querySelector('div.search-outer > input');
         for (const tag of tags) {
           const tagHTML = document.createElement('div');
           tagHTML.dataset.active = '0';
@@ -193,11 +194,33 @@ GeneratorLoaded(
           const tagText = document.createElement('span');
           tagText.textContent = tag;
           tagHTML.appendChild(tagText);
+          holder.after(tagHTML);
+        }
+      };
+      // Adding mods the extensions can be filtered by
+      this.addMods = (...tags) => {
+        const holder = document.querySelector('div.search-outer');
+        for (const tag of tags) {
+          const tagHTML = document.createElement('div');
+          tagHTML.dataset.active = '0';
+          tagHTML.dataset.mod = tag.toLowerCase();
+          tagHTML.classList.add('mod-tag');
+          const tagText = document.createElement('span');
+          tagText.textContent = tag;
+          tagHTML.appendChild(tagText);
           holder.appendChild(tagHTML);
         }
       };
+      this.addMods('TurboWarp');
+      this.mod = 'turbowarp';
+      document.querySelector('.mod-tag[data-mod="turbowarp"]').setAttribute('data-active', '1');
       // Adding extensions
       this.addExtension = (meta) => {
+        meta.mod ||= ['turbowarp'];
+        if (meta.mod instanceof Set) {
+          meta.mod = Array.from(meta.mod);
+        } else if (!Array.isArray(meta.mod)) meta.mod = [meta.mod];
+        meta.mod = meta.mod.join(',').toLowerCase();
         meta.img = meta.img || 'unknown.svg';
         meta.id ||= 'Placeholder';
         const extUrl = this.asset(`extensions/${meta.id}.js?v=${NOW}`);
@@ -328,7 +351,9 @@ GeneratorLoaded(
           meta.meta = meta.meta.toString();
           metaTags.textContent = meta.meta;
         }
+        div.dataset.mod = meta.mod;
         div.appendChild(metaTags);
+        if (div.dataset.mod.indexOf(this.mod) === -1) div.style.display = 'none';
         document.body.querySelector('div.extensions').appendChild(div);
         return div;
       };
@@ -409,6 +434,24 @@ GeneratorLoaded(
             e.target.setAttribute('data-active', '0');
           } else e.target.setAttribute('data-active', '1');
           searchViaTags();
+          return;
+        }
+        const modTag = e.target.getAttribute('data-mod');
+        if (modTag) {
+          const tagActive = parseInt(e.target.getAttribute('data-active'));
+          if (tagActive > 0) {
+            e.target.setAttribute('data-active', '0');
+            document.querySelector('.mod-tag[data-mod="turbowarp"]').setAttribute('data-active', '1');
+            generator.mod = 'turbowarp';
+          } else {
+            document.querySelectorAll('.mod-tag[data-mod]').forEach(tag => {
+              tag.setAttribute('data-active', '0');
+            });
+            e.target.setAttribute('data-active', '1');
+            generator.mod = modTag;
+          }
+          searchViaTags();
+          return;
         }
       });
       const search = function (query) {
@@ -444,6 +487,10 @@ GeneratorLoaded(
         document.querySelectorAll('div.extension').forEach((div) => {
           if (div.dataset.nosearch) return;
           div.style.display = '';
+          if (div.dataset.mod.indexOf(generator.mod) === -1) {
+            div.style.display = 'none';
+            return;
+          }
           if (activeTags.length < 1) return;
           let myTags = div.querySelector('div.extension-search-tags');
           if (!myTags || myTags == null) {

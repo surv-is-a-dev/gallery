@@ -10,6 +10,7 @@ async function GeneratorLoaded(generator) {
   generator.addFooterLinks(...footerLinks);
   generator.setUsage('gallery');
   generator.addSearchTags('experimental', 'advanced');
+  generator.addMods('Unsandboxed');
   await generator.import(generator.asset('include/JSON5.min.js'));
   const NOW = Date.now().toString(16);
   let req, extensions;

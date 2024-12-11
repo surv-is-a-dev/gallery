@@ -201,7 +201,7 @@ h2, h3, p {
   color: white;
 }
 
-.search-tag {
+.search-tag, .mod-tag {
   padding-left: 1%;
   padding-right: 1%;
   margin-left: 1.5%;
@@ -211,28 +211,31 @@ h2, h3, p {
   color: black;
   user-select: none;
 }
-:root.darkMode .search-tag {
+:root.darkMode .search-tag, :root.darkMode .mod-tag {
   color: white;
 }
+.mod-tag {
+  float: right;
+}
 
-.search-tag * {
+.search-tag *, .mod-tag * {
   pointer-events: none;
 }
 
-.search-tag[data-active="1"] {
+.search-tag[data-active="1"], .mod-tag[data-active="1"] {
   border-color: #999999;
   background-color: #aaaaaa;
 }
-:root.darkMode .search-tag[data-active="1"] {
+:root.darkMode .search-tag[data-active="1"], :root.darkMode .mod-tag[data-active="1"] {
   border-color: #272727;
   background-color: #454545;
 }
 
-.search-tag[data-active="0"] {
+.search-tag[data-active="0"], .mod-tag[data-active="0"] {
   border-color: #ababab;
   background-color: #bbbbbb;
 }
-:root.darkMode .search-tag[data-active="0"] {
+:root.darkMode .search-tag[data-active="0"], :root.darkMode .mod-tag[data-active="0"] {
   border-color: #1e1e1e;
   background-color: #2a2a2a;
 }
