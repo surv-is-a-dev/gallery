@@ -13,6 +13,7 @@
         generator.addFooterLinks(['Special Packager', './special packager']);
         generator.setUsage('gallery');
         generator.addSearchTags('experimental');
+        generator.addMods('Unsandboxed');
         generator.addExtension({
           img: '', id: '0znzw/tests/addonBlockCreator',
           name: 'Addon block creator',
@@ -102,6 +103,19 @@
             name: '0znzw',
             url: 'https://scratch.mit.edu/users/0znzw/',
           }]),
+          mod: ('unsandboxed'),
+        });
+        generator.addExtension({
+          img: '', id: '0znzw/tests/MotionClone',
+          name: 'Motion Category',
+          description: 'Fully (basically :eyeroll:) working remake of the motion category.',
+          search_tags: new Set(['experimental']), requirements: new Set([]),
+          mode: new Set([]),
+          credits: new Set([{
+            name: '0znzw',
+            url: 'https://scratch.mit.edu/users/0znzw/',
+          }]),
+          mod: ('unsandboxed'),
         });
       }
     </script>
