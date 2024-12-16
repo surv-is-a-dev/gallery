@@ -1,11 +1,11 @@
 /**!
  * More Fields
  * @author 0znzw https://scratch.mit.edu/users/0znzw/
- * @version 1.4
+ * @version 1.5
  * @copyright MIT & LGPLv3 License
  * Do not remove this comment
  */
-(async function (Scratch) {
+(function (Scratch) {
   'use strict';
 
   if (!Scratch.extensions.unsandboxed) {
@@ -18,12 +18,11 @@
 
   // Some checks
   const DOOMcheck = (vm.runtime.ioDevices.userData._username === 'DOOM1997');
-  const searchParams = new URLSearchParams(window.location.search);
-  const hideInlineTextarea = !searchParams.has('MoreFields_InlineTextarea');
+  const searchParams = new URLSearchParams(globalThis.location.search);
+  const _hideInlineTextarea = !searchParams.has('MoreFields_InlineTextarea');
 
   // "Constants"
-  const padding = JSON.parse(localStorage['tw:addons'] || JSON.stringify(window.scratchAddons ? scratchAddons.globalState.addonSettings : {'custom-block-shape': { cornerSize: 100, notchSize: 100, paddingSize: 100 }}))['custom-block-shape'] || { cornerSize: 100, notchSize: 100, paddingSize: 100 };
-  console.log(padding);
+  const padding = JSON.parse(localStorage['tw:addons'] || JSON.stringify(globalThis.scratchAddons ? scratchAddons.globalState.addonSettings : {'custom-block-shape': { cornerSize: 100, notchSize: 100, paddingSize: 100 }}))['custom-block-shape'] || { cornerSize: 100, notchSize: 100, paddingSize: 100 };
   const customFieldTypes = {};
   let Blockly = null; // Blockly is used cause Its easier than ScratchBlocks imo, it does not make a difference.
 
@@ -86,7 +85,7 @@
     return bcfi(fieldName, fieldInfo, extensionId, categoryInfo, ...args);
   };
   runtime._buildCustomFieldTypeForScratchBlocks = function(fieldName, output, outputShape, categoryInfo, ...args) {
-    let res = bcftfsb(fieldName, output, outputShape, categoryInfo, ...args);
+    const res = bcftfsb(fieldName, output, outputShape, categoryInfo, ...args);
     if (fi) {
       if (fi.color1) res.json.colour = fi.color1;
       if (fi.color2) res.json.colourSecondary = fi.color2;
@@ -116,7 +115,7 @@
   ArgumentType.INLINEDATE = 'DateInline';
   ArgumentType.FILE = 'FileInput';
 
-  let implementations = {
+  const implementations = {
     FieldTextarea: null,
     FieldInlineTextarea: null,
     FieldSnapBoolean: null,
@@ -192,7 +191,7 @@
   };
 
   // Main try thing
-  function tryUseScratchBlocks(_sb) {
+  function gotBlockly(_sb) {
     Blockly = _sb;
     const BlockSvg = Blockly.BlockSvg;
 
@@ -290,7 +289,7 @@
         const textarea = document.createElement('textarea');
         textarea.value = this.getValue() ?? '';
         textarea.addEventListener('input', () => this._onInput());
-        textarea.addEventListener('mouseup', (e) => this._resizeHolder());
+        textarea.addEventListener('mouseup', () => this._resizeHolder());
         if (this.fieldGroup_) {
           this.fieldGroup_.insertAdjacentElement('afterend', textareaHolder);
           textareaHolder.appendChild(textarea);
@@ -372,7 +371,7 @@
       // State management
       updateState(value, toggle) {
         let n = Number(value);
-        if (toggle) n = Number(!Boolean(Number(this.getValue())));
+        if (toggle) n = Number(!(Number(this.getValue())));
         this.setValue(n);
       }
       showEditor_() {
@@ -387,7 +386,7 @@
           this.updateWidth();
 
           // Update text centering, based on newly calculated width.
-          var centerTextX = (this.size_.width - this.arrowWidth_) / 2;
+          let centerTextX = (this.size_.width - this.arrowWidth_) / 2;
           if (this.sourceBlock_.RTL) {
             centerTextX += this.arrowWidth_;
           }
@@ -397,12 +396,12 @@
           // visible field (FIELD_WIDTH), center it there instead,
           // unless there is a drop-down arrow.
           if (this.sourceBlock_.isShadow() && !this.positionArrow) {
-            var minOffset = Blockly.BlockSvg.FIELD_WIDTH / 2;
+            const minOffset = Blockly.BlockSvg.FIELD_WIDTH / 2;
             if (this.sourceBlock_.RTL) {
               // X position starts at the left edge of the block, in both RTL and LTR.
               // First offset by the width of the block to move to the right edge,
               // and then subtract to move to the same position as LTR.
-              var minCenter = this.size_.width - minOffset;
+              const minCenter = this.size_.width - minOffset;
               centerTextX = Math.min(minCenter, centerTextX);
             } else {
               // (width / 2) should exceed Blockly.BlockSvg.FIELD_WIDTH / 2
@@ -484,7 +483,7 @@
         this.setValue(val);
       }
       _onSliderInput() {
-        if (!!this._valInput) this._valInput.value = Number(this._slider.value);
+        if (this._valInput) this._valInput.value = Number(this._slider.value);
         const val = `${this._slider.value},${this._slider.min},${this._slider.max}`;
         this.setValue(val);
       }
@@ -534,7 +533,7 @@
         if (!!this.textNode__ && this.sourceBlock_.parentBlock_) _fixColours.call(this, true, this.sourceBlock_.parentBlock_.colour_, this.sourceBlock_.parentBlock_.colour_);
       }
       showEditor_(...showArgs) {
-        if (!!this.textNode__) _delCssNattr(this.textNode__, 'fill');
+        if (this.textNode__) _delCssNattr(this.textNode__, 'fill');
         Blockly.FieldTextInput.prototype.showEditor_.call(this, ...showArgs);
       }
     }
@@ -575,7 +574,7 @@
       init(...initArgs) {
         Blockly.FieldNumber.prototype.init.call(this, ...initArgs);
         this.textNode__ = this.sourceBlock_.svgPath_.parentNode.querySelector('g.blocklyEditableText text');
-        if (!!this.textNode__) {
+        if (this.textNode__) {
           this.textNode__.style.display = 'none';
           if (this.sourceBlock_.parentBlock_) _fixColours.call(this, false, this.sourceBlock_.parentBlock_.colour_);
         }
@@ -645,7 +644,7 @@
         this._delim = '\n';
         Blockly.FieldTextInput.prototype.init.call(this, ...initArgs);
         this.textNode__ = this.sourceBlock_.svgPath_.parentNode.querySelector('g.blocklyEditableText text');
-        if (!!this.textNode__) {
+        if (this.textNode__) {
           this.textNode__.style.display = 'none';
           if (this.sourceBlock_.parentBlock_) _fixColours.call(this, false, this.sourceBlock_.parentBlock_.colour_);
         }
@@ -695,7 +694,7 @@
         }
       }
       _saveFileData(skipLoad) {
-        if (!Boolean(skipLoad ?? false)) this._loadData(1);
+        if (!(skipLoad ?? false)) this._loadData(1);
         this.showEditor_(true);
         this._onInput(this._fileData);
         Blockly.DropDownDiv.hideWithoutAnimation();
@@ -731,7 +730,7 @@
             if (fileList.length < 0) noFileErr = () => fiErr(true, 'No file uploaded?');
             return true;
           };
-          window.addEventListener('focus', unfe, {once: true});
+          globalThis.addEventListener('focus', unfe, {once: true});
           if (unfe() && noFileErr()) return;
           // Ok done crying.
           const reader = new FileReader();
@@ -759,7 +758,7 @@
         fileInput.click();
       }
       _getFileData() {
-        if (!!this._fileData) return this._fileData;
+        if (this._fileData) return this._fileData;
         this._loadData(1);
         const fileData = this._fileData ?? '';
         this._fileData = null;
@@ -775,7 +774,7 @@
         return { select, optValues };
       }
       showEditor_(forceShow) {
-        if (!Boolean(forceShow ?? false)) return;
+        if (!(forceShow ?? false)) return;
         Blockly.DropDownDiv.clearContent();
         const div = Blockly.DropDownDiv.getContentDiv();
         if (!div) return;
@@ -785,7 +784,7 @@
         const fileLimiter = document.createElement('input');
         fileLimiter.addEventListener('input', () => this._onInput());
         const clearBtn = document.createElement('button');
-        if (!!this._getFileData().at(0)) {
+        if (this._getFileData().at(0)) {
           clearBtn.addEventListener('click', () => {
             this._fileData = null;
             this._onInput('');
@@ -837,7 +836,7 @@
         this.inlineDblRender = true;
         Blockly.Field.prototype.init.call(this, ...initArgs);
         this.textNode__ = this.sourceBlock_.svgPath_.parentNode.querySelector('g.blocklyEditableText text');
-        if (!!this.textNode__) {
+        if (this.textNode__) {
           this.textNode__.style.display = 'none';
           if (this.sourceBlock_.parentBlock_) _fixColours.call(this, false, this.sourceBlock_.parentBlock_.colour_);
         }
@@ -856,7 +855,7 @@
         this._addDOOM();
       }
       _addDOOM() {
-        let frame = document.createElement('iframe');
+        const frame = document.createElement('iframe');
         frame.width = 640;
         frame.height = 400;
         frame.id = 'DOOM';
@@ -871,39 +870,240 @@
       }
     }
 
+    gotBlockly._registerFields();
+  }
+  gotBlockly._on = new Set();
+  gotBlockly.when = function(callback) {
+    if (Blockly) {
+      callback(Blockly);
+      return;
+    }
+    gotBlockly._on.add(() => callback(Blockly));
+  };
+  gotBlockly._registerFields = function() {
     while (toRegisterOnBlocklyGot.length > 0) {
       const [name, impl] = toRegisterOnBlocklyGot.shift();
       Blockly.Field.register(name, impl);
     }
-
-    // Attempt to reload the workspace and what not.
-    // https://github.com/TurboWarp/addons/blob/tw/addons/custom-block-shape/update-all-blocks.js
+    gotBlockly._hardRefresh();
+  };
+  gotBlockly._hardRefresh = function() {
+    vm.extensionManager.refreshBlocks();
     const eventsOriginallyEnabled = Blockly.Events.isEnabled(), workspace = Blockly.getMainWorkspace();
-    Blockly.Events.disable();
-    if (workspace) {
-      if (vm.editingTarget) vm.emitWorkspaceUpdate();
-      const flyout = workspace.getFlyout();
-      if (flyout) {
-        const flyoutWorkspace = flyout.getWorkspace();
-        Blockly.Xml.clearWorkspaceAndLoadFromXml(
-          Blockly.Xml.workspaceToDom(flyoutWorkspace),
-          flyoutWorkspace
-        );
-        workspace.getToolbox().refreshSelection();
-        workspace.toolboxRefreshEnabled_ = true;
+    try {
+      // Attempt to reload the workspace and what not.
+      // https://github.com/TurboWarp/addons/blob/tw/addons/custom-block-shape/update-all-blocks.js
+      Blockly.Events.disable();
+      if (workspace) {
+        if (vm.editingTarget) vm.emitWorkspaceUpdate();
+        const flyout = workspace.getFlyout();
+        if (flyout) {
+          const flyoutWorkspace = flyout.getWorkspace();
+          Blockly.Xml.clearWorkspaceAndLoadFromXml(
+            Blockly.Xml.workspaceToDom(flyoutWorkspace),
+            flyoutWorkspace
+          );
+          workspace.getToolbox().refreshSelection();
+          workspace.toolboxRefreshEnabled_ = true;
+        }
       }
+    } catch(err) {
+      console.error('Error while refreshing toolbox and workspace.', err);
+    } finally {
+      if (eventsOriginallyEnabled) Blockly.Events.enable();
     }
-    if (eventsOriginallyEnabled) Blockly.Events.enable();
   }
+  gotBlockly._badRefresh = function(ws) {
+    try {
+      ws.getFlyout().clearOldBlocks_();
+      vm.extensionManager.refreshBlocks();
+      ws.refreshToolboxSelection_();
+    } catch {/**/}
+  };
 
-  // Passes "Blockly" to tryUseScratchBlocks if Scratch.gui is a object.
-  if (typeof Scratch?.gui === 'object') Scratch.gui.getBlockly().then((Blockly) => tryUseScratchBlocks(Blockly));
+  // Passes "Blockly" to gotBlockly if Scratch.gui is a object.
+  if (typeof Scratch?.gui === 'object') Scratch.gui.getBlockly().then((Blockly) => gotBlockly(Blockly));
 
-  // Actual "extension" part
-  class extension {
+  const xmlEscape = (unsafe) => unsafe.replace(/[<>&'"]/g, c => {
+    switch (c) {
+      case '<': return '&lt;';
+      case '>': return '&gt;';
+      case '&': return '&amp;';
+      case '\'': return '&apos;';
+      case '"': return '&quot;';
+    }
+  });
+
+  // The MoreFields API
+  class extensionAPI {
     static get customFieldTypes() {
       return customFieldTypes;
     }
+    static get fieldInfo() {
+      return fi;
+    }
+    static PRIV_extensionField(args, util, blockJSON) {
+      return (
+        this._registered[blockJSON.fieldInfo.name.toUpperCase()]
+      ).getValue(args, util, blockJSON);
+    }
+    static hideDropdown() {
+      if (!Blockly) return;
+      if (!Blockly.DropDownDiv.isVisible()) return;
+      Blockly.DropDownDiv.clearContent();
+      Blockly.DropDownDiv.hide();
+    }
+    static fixDropdown(self) {
+      if (!Blockly) return;
+      if (Blockly.DropDownDiv.isVisible()) return;
+      if (self.sourceBlock_.parentBlock) {
+        Blockly.DropDownDiv.setColour(self.sourceBlock_.parentBlock_.getColour(), self.sourceBlock_.parentBlock_.getColourTertiary());
+        Blockly.DropDownDiv.setCategory(self.sourceBlock_.parentBlock_.getCategory());
+      }
+      _moveDropdown.call(self, true);
+    }
+    static setPathColour(self, colour) {
+      const fg_ = self.fieldGroup_;
+      if (!fg_) return;
+      const path = fg_?.previousElementSibling;
+      if (path?.nodeName !== 'path') return;
+      path.setAttribute('stroke', colour);
+      path.setAttribute('fill', colour);
+    }
+    static fixTextNode(self, textColour) {
+      if (!self.sourceBlock_) return;
+      if (!(self.textNode__ = (
+        self.sourceBlock_.svgPath_.parentNode.querySelector('g.blocklyEditableText text')
+      ))) return
+      _setCssNattr(self.textNode__, 'fill', textColour ?? '#FFFFFF');
+    }
+    static _registered = Object.create(null);
+    static _register = new Set();
+    static _patch = new Set();
+    constructor() {
+      vm.on('CREATE_UNSANDBOXED_EXTENSION_API', (Scratch) => {
+        const register = Scratch.extensions.register;
+        Scratch.extensions.register = (clss) => {
+          if (this.constructor._patch.has(clss.getInfo().id)) {
+            clss['extensionField'] = this.constructor.PRIV_extensionField.bind(this);
+          }
+          return register(clss);
+        };
+      });
+    }
+    static register(newExtId, opts, getValue, getField) {
+      const onu = opts.name.toUpperCase();
+      if (this._register.has(onu)) {
+        throw new Error(`"${opts.name}" already exists.`);
+      }
+      this._register.add(onu);
+      this._patch.add(newExtId);
+      ArgumentType[onu] = onu;
+      opts.blockType ??= BlockType.REPORTER;
+      opts.defaultValue ??= '';
+      opts.text ??= '[FIELD]';
+      opts.xml ??= '';
+      opts.output ??= null;
+      opts.outputShape ??= 3;
+      opts.color1 ??= '#9566d3';
+      opts.color2 ??= opts.color1;
+      opts.color3 ??= opts.color1;
+      opts.color4 ??= opts.color1;
+      implementations[`ceb${onu}`] = null;
+      const fi = customFieldTypes[onu] = opts.fi = {
+        name: onu,
+        output: opts.output,
+        color1: opts.color1,
+        color2: opts.color2,
+        color3: opts.color3,
+        color4: opts.color4,
+        outputShape: opts.outputShape,
+        implementation: {
+          fromJson: (...args) => new implementations[`ceb${onu}`](...args),
+        },
+      };
+      this._registered[onu] = {
+        getValue,
+        getField,
+        opts,
+        fi,
+      };
+      gotBlockly.when((Blockly) => {
+        Blockly.defineBlocksWithJsonArray([{
+          type: `${extId}_${onu}`,
+          message0: '%1',
+          inputsInline: true,
+          output: opts.output,
+          colour: opts.color1,
+          colourSecondary: opts.color2,
+          colourTertiary: opts.color3,
+          outputShape: opts.outputShape,
+          args0: [{
+            name: `field_${extId}_${onu}`,
+            type: `field_${extId}_${onu}`,
+          }],
+        }]);
+        const field = getField(Blockly);
+        implementations[`ceb${onu}`] = field;
+        this._register.delete(onu);
+        if (this._register.size === 0) {
+          runtime.emit('BLOCKINFO_UPDATE', runtime[`ext_${extId}`].getInfo());
+          gotBlockly._registerFields();
+          if (globalThis.ReduxStore) { setTimeout(() => {
+            const ws = Blockly.getMainWorkspace();
+            vm.clearFlyoutBlocks();
+            runtime.flyoutBlocks.resetCache();
+            ws.updateToolbox(ReduxStore.getState().scratchGui.toolbox.toolboxXML);
+            gotBlockly._badRefresh(ws);
+            setTimeout(() => gotBlockly._badRefresh(ws), 100);
+          }, 250); }
+        }
+      });
+      vm.emit('EXTENSION_FIELD_ADDED', Object.assign(fi, {
+        name: `field_${extId}_${onu}`,
+      }));
+      return [{
+        fieldInfo: opts,
+        blockType: opts.blockType,
+        outputShape: opts.outputShape,
+        blockShape: opts.outputShape,
+        func: 'extensionField',
+        opcode: `ceb${onu}`,
+        text: opts.text,
+        arguments: {
+          FIELD: {
+            type: onu,
+            defaultValue: opts.defaultValue,
+          },
+        },
+        allowDropAnywhere: (opts.output === null),
+        hideFromPalette: true,
+      }, {
+        blockType: BlockType.XML,
+        xml: (`<block type="${newExtId}_ceb${onu}">${
+          opts.xml
+        }<value name="FIELD"><shadow type="${
+          extId
+        }_${onu}"><field name="field_${extId}_${onu}">${
+          xmlEscape(opts.defaultValue)
+        }</field></shadow></value></block>`),
+      }];
+    }
+  }
+
+  // Actual "extension" part
+  class extension extends extensionAPI {
+    static exports = {
+      hasOwn,
+      _LDC,
+      _setCssNattr,
+      _delCssNattr,
+      _fixColours,
+      _moveDropdown,
+      extensionAPI,
+      xmlEscape,
+      get padding() { return padding; },
+    };
     getInfo() {
       const getInfo = ({
         id: extId,
@@ -1071,7 +1271,7 @@
     }
     date(args) {
       try {
-        let date = new Date(Scratch.Cast.toString(args.DATE).replaceAll('-', '/'));
+        const date = new Date(Scratch.Cast.toString(args.DATE).replaceAll('-', '/'));
         return (date.getTime());
       } catch {
         return '';
@@ -1087,9 +1287,12 @@
         return '';
       }
     }
-    DOOM(args) {
+    DOOM() {
       return '';
     }
   }
-  Scratch.extensions.register(runtime[`ext_${extId}`] = new extension());
+  const inst = runtime[`ext_${extId}`] = new extension();
+  Scratch.extensions.register(inst);
+  vm._events['MOREFIELDS_REGISTERED'] = (() => {});
+  vm.emit('MOREFIELDS_REGISTERED', inst, extension);
 })(Scratch);
