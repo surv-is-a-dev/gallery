@@ -1,7 +1,7 @@
 /**!
  * Bad Apple (Editor)
  * @author 0znzw https://scratch.mit.edu/users/0znzw/
- * @version 1.3
+ * @version 1.4
  * @copyright MIT & LGPLv3 License
  * Do not remove this comment
  */
@@ -13,6 +13,7 @@
   const extId = '0znzwBadAppleEditor', QP = new URLSearchParams(window.location.search);
   const { BlockType, vm } = Scratch, { runtime } = vm, JSZip = vm.exports.JSZip;
   let ScratchBlocks, audio, BIN, SIZE = 16;
+  const SERVER = QP.has('BAServer') ? QP.get('BAServer') : 'https://miyo.lol/';
   const HQAudio = QP.has('HQAudio'), HQ = false && QP.has('HQ'), CACHE_KEY = `${extId}_BadApple${HQAudio ? 'HQAudio' : (
     HQ ? 'HQ' : ''
   )}`;
@@ -97,9 +98,9 @@
       idb.readFromDatabase('BadApple').then(async (kex) => {
         if (kex && !ReCACHE) return res(kex);
         console.log('[BadApple] Constructing cache');
-        let data = await fetch(HQAudio ? `https://miyo.lol/bad_apple_manifest.hq_audio.lol?v=${Date.now()}` : (
-          HQ ? `https://miyo.lol/bad_apple_manifest.hq.lol?v=${Date.now()}`
-          : `https://miyo.lol/bad_apple_manifest.lol?v=${Date.now()}`)
+        let data = await fetch(HQAudio ? `${SERVER}bad_apple_manifest.hq_audio.lol?v=${Date.now()}` : (
+          HQ ? `${SERVER}bad_apple_manifest.hq.lol?v=${Date.now()}`
+          : `${SERVER}bad_apple_manifest.lol?v=${Date.now()}`)
         );
         data = await data.text();
         await idb.writeToDatabase('BadApple', data);
