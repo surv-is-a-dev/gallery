@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2020",
+    "module": "ES2020",
     "noEmit": true,
     "allowJs": true,
     "checkJs": true,
@@ -19,5 +20,7 @@
   "include": [
     "node_modules/@turbowarp/types/types/scratch-vm-extension.d.ts",
     "node_modules/@turbowarp/types/types/scratchx-extension.d.ts",
-    "extensions/**/*"]
+    "site-files/extensions/**/*", "site-files/extensions/*",
+    "site-files/u/0znzw/typedExports/*",
+  ]
 }

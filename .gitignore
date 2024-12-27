@@ -3,8 +3,6 @@ node_modules
 
 # build files
 site
-site/
-site/*
 
 # vscode
 .vscode
