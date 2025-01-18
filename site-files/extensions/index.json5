@@ -341,5 +341,20 @@
     "name": "0znzw",
     "url": "https://scratch.mit.edu/users/0znzw/"
   }),
-  "mod": ("unsandboxed"),
+  "mod": ("unsandboxed")
+}, {
+  // The code for this extension is not based on TurboWarp's.
+  "img": "", "id": "0znzw/ClipboardV2",
+  "name": "Clipboard V2",
+  "description": "Read and write from the system clipboard. (But improved!)",
+  "search_tags": (), "requirements": (),
+  "mode": ("unsandboxed"),
+  "credits": ({
+    "name": "0znzw",
+    "url": "https://scratch.mit.edu/users/0znzw/"
+  }),
+  "iCard": {
+    "url": "https://extensions.turbowarp.org/clipboard.js",
+    "description": "Original extension by TurboWarp."
+  }
 })
