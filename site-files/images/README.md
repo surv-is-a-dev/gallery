@@ -97,3 +97,6 @@ All images in this folder are licensed under the [GNU General Public License ver
 
 ## baq23future/normal.webp
  - Created by [@Baqirbeard](https://github.com/baqirbeard/)
+
+## 0znzw/ClipboardV2.svg
+ - Created by [@Skyhigh173](https://github.com/Skyhigh173) in https://github.com/TurboWarp/extensions/issues/90#issuecomment-1751679667

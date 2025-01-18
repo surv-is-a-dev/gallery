@@ -344,7 +344,7 @@
   "mod": ("unsandboxed")
 }, {
   // The code for this extension is not based on TurboWarp's.
-  "img": "", "id": "0znzw/ClipboardV2",
+  "img": "0znzw/ClipboardV2.svg", "id": "0znzw/ClipboardV2",
   "name": "Clipboard V2",
   "description": "Read and write from the system clipboard. (But improved!)",
   "search_tags": (), "requirements": (),
