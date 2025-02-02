@@ -7,6 +7,8 @@
   "name": "Placeholder",
   // A description so people know what your extension is for.
   "description": "A placeholder for people to use when adding extensions :P",
+  // You can only have 1 of these tags on at a time
+  // "new": false, "updated": false,
   // search_tags and requirements can both be empty, they are not required,
   // these are all the available tags.
   "search_tags": ("experimental", "advanced"), "requirements": ("internet", "hardware", "mobile"),
@@ -225,6 +227,7 @@
   "img": "0znzw/TryCatchV2.svg", "id": "0znzw/TryCatchV2",
   "name": "Try Catch V2",
   "description": "Catch and throw REAL JavaScript errors.",
+  "updated": true,
   "search_tags": ["advanced"], "requirements": [],
   "mode": ("unsandboxed"),
   "credits": ({
