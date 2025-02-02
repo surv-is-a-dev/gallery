@@ -1,7 +1,7 @@
 /**!
  * Try Catch
  * @author 0znzw https://scratch.mit.edu/users/0znzw/
- * @version 2.0
+ * @version 2.1
  * @copyright MIT & LGPLv3 License
  * Do not remove this comment
  */
@@ -10,9 +10,7 @@
     throw new Error(`"Try Catch V2" extension must be ran unsandboxed.`);
   }
 
-  // Extension based on https://surv.is-a.dev/gallery/0znzw/tests/ErrorStop.js
   const vm = Scratch.vm, { exports, runtime } = vm;
-
   const extId = '0znzwTryCatchV2';
   const THREAD_HOOK = Symbol('TryCatch.Capture');
   const THREAD_ERR = Symbol('TryCatch.Error');
@@ -152,8 +150,12 @@
     }
     caught(args, util) {
       const error = util.thread?.[THREAD_ERR];
-      if (!error) return '';
-      return String(error?.message ?? error?.name ?? error);
+      if (!error) return '{"message":"","name":"","stack":""}';
+      return JSON.stringify({
+        message: error?.message ?? '',
+        name: error?.name ?? '',
+        stack: error?.stack ?? '',
+      });
     }
     async attempt(args, util) {
       const { target, thread } = util, blocks = target.blocks;
@@ -169,87 +171,24 @@
     }
   }
 
-  // Some classes and compiler constants we need
-  const TYPE_NUMBER = 1;
-  const TYPE_STRING = 2;
-  const TYPE_BOOLEAN = 3;
-  const TYPE_UNKNOWN = 4;
-  const TYPE_NUMBER_NAN = 5;
-  class Frame {
-    constructor(isLoop) {
-      this.isLoop = isLoop;
-      this.isLastBlock = false;
-    }
-  }
-  class TypedInput {
-    constructor (source, type) {
-      // for debugging
-      if (typeof type !== 'number') throw new Error('type is invalid');
-      this.source = source;
-      this.type = type;
-    }
-
-    asNumber () {
-      if (this.type === TYPE_NUMBER) return this.source;
-      if (this.type === TYPE_NUMBER_NAN) return `(${this.source} || 0)`;
-      return `(+${this.source} || 0)`;
-    }
-
-    asNumberOrNaN () {
-      if (this.type === TYPE_NUMBER || this.type === TYPE_NUMBER_NAN) return this.source;
-      return `(+${this.source})`;
-    }
-
-    asString () {
-      if (this.type === TYPE_STRING) return this.source;
-      return `("" + ${this.source})`;
-    }
-
-    asBoolean () {
-      if (this.type === TYPE_BOOLEAN) return this.source;
-      return `toBoolean(${this.source})`;
-    }
-
-    asColor () {
-      return this.asUnknown();
-    }
-
-    asUnknown () {
-      return this.source;
-    }
-
-    asSafe () {
-      return this.asUnknown();
-    }
-
-    isAlwaysNumber () {
-      return this.type === TYPE_NUMBER;
-    }
-
-    isAlwaysNumberOrNaN () {
-      return this.type === TYPE_NUMBER || this.type === TYPE_NUMBER_NAN;
-    }
-
-    isNeverNumber () {
-      return false;
-    }
-  }
-  // Custom functions for "compiler"
-  function sanitizeForEmbed(wrap, string) {
-    // @ts-ignore
-    return String(string).replaceAll(wrap, `\\${wrap}`).replace(/\//, '\\');
-  }
-  function descendTillSource(input, san) {
-    let des = this.descendInput(input), src = false;
-    if (des.constantValue?.value) return san(des.constantValue.value);
-    des = this.descendInput(des.constantValue);
-    if (des.constantValue?.value) return san(des.constantValue.value);
-    src = true;
-    if (des?.source ?? des?.constantValue?.source) return des?.source ?? des?.constantValue?.source;
-    throw new Error('Unable to descend input');
-  }
-
+  let TYPE_UNKNOWN, Frame, TypedInput;
   // TurboWarp and CST's exports support.
+  const errors = new (function generator() {
+    'use strict';
+    this.$i = 0;
+    this.now = () => `Perr${this.$i}`;
+    this.next = () => `Perr${++this.$i}`;
+  });
+  function getError() {
+    if ((this.currentFrame ?? '') === '') return '(\'\')';
+    let i = -1, j = this.frames.findIndex(same => same === this.currentFrame);
+    let k = this.currentFrame;
+    while(true) {
+      k = this.frames[j - (++i)];
+      if (k === undefined || k[THREAD_ERR]) break;
+    }
+    return `(${(k || {})[THREAD_ERR] ?? '\'\''})`;
+  }
   // @ts-ignore
   const iwnafhwtb = exports?.i_will_not_ask_for_help_when_these_break;
   let JSG, STG, IRG;
@@ -258,6 +197,7 @@
     JSG = temp.JSGenerator;
     STG = temp.ScriptTreeGenerator;
     IRG = temp.IRGenerator;
+    void({ TYPE_STRING, Frame, TypedInput } = JSG.unstable_exports);
   } else {
     // @ts-ignore
     IRG = exports?.IRGenerator;
@@ -265,8 +205,9 @@
       // @ts-ignore
       JSG = exports.JSGenerator;
       STG = IRG.exports.ScriptTreeGenerator;
+      void({ TYPE_UNKNOWN, Frame, TypedInput } = JSG.exports);
     } else {
-      console.error('Failed register compiler "hacks". VM is outdated.');
+      console.error('Failed register compiler patches. VM is outdated.');
     }
   }
   if (JSG) {
@@ -277,38 +218,31 @@
     // Patching JSG and STG
     cst_patch(JSGP, {
       descendStackedBlock(originalFn, node) {
-        var src;
         switch(node.kind) {
           case `${extId}.caught`:
-            src = '\n(\'\');';
-            this.source += src;
-            return src;
+            this.source += '\nvoid(\'\');';
+            break;
           case `${extId}.error`:
-            const san = (toSan) => `'${sanitizeForEmbed('\'', toSan)}'`;
-            src = `\nthrow new Error(${descendTillSource.call(this, node.error, san)});`;
-            this.source += src;
-            return src;
+            this.source += `\nthrow new Error(${this.descendInput(node.error).asString()});`;
+            break;
           case `${extId}.attempt`:
-            let oldSrc;
-            oldSrc = this.source;
+            this.source += '\ntry {\n';
             this.descendStack(node.toTry, new Frame(false));
-            const trySrc = this.source.substring(oldSrc.length);
-            this.source = oldSrc;
-            oldSrc = this.source;
+            this.currentFrame[THREAD_ERR] = errors.next();
+            this.source += `\n} catch(${this.currentFrame[THREAD_ERR]}) {\n`;
             this.descendStack(node.onCaught, new Frame(false));
-            const catchSrc = this.source.substring(oldSrc.length);
-            this.source = oldSrc;
-            src = `\ntry {\n${trySrc}\n} catch(error) {\n${catchSrc}\n};`;
-            this.source += src;
-            return src;
+            this.source += `\n};`;
+            break;
           default:
             return originalFn(node);
         }
       },
       descendInput(originalFn, node) {
         switch(node.kind) {
-          case `${extId}.caught`:
-            return new TypedInput(`(String(error?.message ?? error?.name ?? error))`, TYPE_UNKNOWN);
+          case `${extId}.caught`: {
+            const e = getError.call(this);
+            return new TypedInput(`(JSON.stringify({message:${e}?.message??'',name:${e}?.name??'',stack:${e}?.stack??''}))`, TYPE_STRING);
+          };
           default:
             return originalFn(node);
         }
@@ -324,10 +258,7 @@
           case `${extId}_error`:
             return {
               kind: `${extId}.error`,
-              error: {
-                kind: 'constant',
-                value: this.descendInputOfBlock(block, 'ERROR'),
-              },
+              error: this.descendInputOfBlock(block, 'ERROR'),
             };
           case `${extId}_attempt`:
             return {
