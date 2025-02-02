@@ -13,7 +13,7 @@
     if (Scratch.extensions.isUSB) {
       alert('Unsandboxed may break at any time use this with caution!');
     } else if (Scratch.extensions.isPenguinMod) {
-      alert('The compiler patches do not work in PenguinMod.\nThis extension will be ran in compatibility layer.');
+      alert('The compiler patches do not work in PenguinMod.\nThis extension may break at any time.\nDo not submit a bug report on PM.');
     }
   }
   const extId = '0znzwSwitchCaseUSB';
@@ -21,7 +21,8 @@
   const showDevBlocks = true, patchAnyways = true;
   let patchThread = (t) => undefined;
   if (patchAnyways || !Scratch.extensions.isUSB) {
-    // Code from: 
+    // This code is used in the Unsandboxed virtual machine as'well,
+    // It was originally written here and added to the VM later on.
     patchThread = function patchThread(t) {
       if (patchThread.patched) return;
       patchThread.patched = true;
@@ -320,7 +321,6 @@
       }
     }
     static patchCompiler() {
-      vm.enableDebug();
       if (!vm.exports.i_will_not_ask_for_help_when_these_break) return;
       const iwnafhwtb = vm.exports.i_will_not_ask_for_help_when_these_break();
       if (iwnafhwtb.IntermediateStackedBlock) return;
