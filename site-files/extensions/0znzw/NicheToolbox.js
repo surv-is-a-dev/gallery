@@ -1,7 +1,7 @@
 /**!
  * Niche Toolbox
  * @author 0znzw https://scratch.mit.edu/users/0znzw/
- * @version 2.5
+ * @version 2.6
  * @copyright MIT & LGPLv3 License
  * Do not remove this comment
  */
@@ -461,6 +461,16 @@
             },
           },
           {
+            opcode: 'NT_projectToDataURL',
+            blockType: BlockType.REPORTER,
+            text: 'export project (dataURL) and compress ids [COMPRESS]',
+            arguments: {
+              COMPRESS: {
+                type: ArgumentType.BOOLEAN,
+              },
+            },
+          },
+          {
             opcode: 'NT_runInProject',
             blockType: BlockType.CONDITIONAL,
             text: ['load project from [URL] and run in sprite [SPRITE]', 'delete script when finished [DEL]'],
@@ -722,6 +732,31 @@
     NT_unclampedFPS(args) {
       runtime.frameLoop.framerate = Cast.toNumber(args.FPS);
       runtime.frameLoop._restart();
+    }
+
+    async NT_projectToDataURL(args) {
+      args.COMPRESS = Cast.toBoolean(args.COMPRESS);
+      const toJSON = vm.toJSON;
+      vm.toJSON = function(_, opts, ...args) {
+        opts ||= {};
+        opts.allowOptimization = args.COMPRESS;
+        return toJSON.call(this, _, opts, ...args);
+      };
+      let project = '';
+      try {
+        project = await vm.saveProjectSb3();
+        project = await new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = _e => resolve(reader.result);
+          reader.onerror = _e => reject(reader.error);
+          reader.onabort = _e => reject(new Error("Read aborted"));
+          reader.readAsDataURL(project);
+        });
+      } catch(e) {
+        console.error('Failed to save project', e);
+      }
+      vm.toJSON = toJSON;
+      return String(project);
     }
 
     NT_runInProject(args, util, json) {
