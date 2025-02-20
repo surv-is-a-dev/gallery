@@ -2,7 +2,7 @@
  * Scope Variables (Compiled)
  * @author 0znzw https://scratch.mit.edu/users/0znzw/
  * @version 1.0
- * @copyright MIT License
+ * @license MIT
  * Original Idea: SinanShiki & SkyHigh173
  * Do not remove this comment
  */

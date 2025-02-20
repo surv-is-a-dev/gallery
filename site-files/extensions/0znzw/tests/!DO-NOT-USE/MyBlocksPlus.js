@@ -3,7 +3,7 @@
  * @author 0znzw https://scratch.mit.edu/users/0znzw/
  * @author CST1229 https://scratch.mit.edu/users/CST1229/
  * @version 1.0
- * @copyright MIT License
+ * @license MIT
  * Do not remove this comment
  */
 (function (Scratch) {

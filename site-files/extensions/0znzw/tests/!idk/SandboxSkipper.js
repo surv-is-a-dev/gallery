@@ -2,7 +2,7 @@
  * Sandbox Skipper
  * @author 0znzw https://scratch.mit.edu/users/0znzw/
  * @version 1.1
- * @copyright MIT License
+ * @license MIT
  * Do not remove this comment
  */
 (function (Scratch) {

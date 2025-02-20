@@ -4,7 +4,7 @@
  * @author CST1229 https://scratch.mit.edu/users/CST1229/
  * @author FurryR https://github.com/FurryR/
  * @version 2.1
- * @copyright MIT License
+ * @license MIT
  * Do not remove this comment, also do not update on sharkpools gallery
  */
 (function (Scratch) {

@@ -2,7 +2,7 @@
  * More Fields
  * @author 0znzw https://scratch.mit.edu/users/0znzw/
  * @version 1.6
- * @copyright MIT & LGPLv3 License
+ * @license MIT AND LGPL-3.0
  * Do not remove this comment
  */
 (function (Scratch) {

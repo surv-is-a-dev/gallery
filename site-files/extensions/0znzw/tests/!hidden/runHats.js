@@ -2,7 +2,7 @@
  * Run hats test 1
  * @author 0znzw https://scratch.mit.edu/users/0znzw/
  * @version 1.0
- * @copyright MIT & LGPLv3 License
+ * @license MIT AND LGPL-3.0
  * Do not remove this comment
  */
 (function(Scratch) {

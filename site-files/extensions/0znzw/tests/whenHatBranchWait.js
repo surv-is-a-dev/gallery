@@ -2,7 +2,7 @@
  * Funny hat
  * @author 0znzw https://scratch.mit.edu/users/0znzw/
  * @version 1.0
- * @copyright MIT and LGPLv3 Licenses
+ * @license MIT AND LGPL-3.0
  * Do not remove this comment
  */
 (function (Scratch) {

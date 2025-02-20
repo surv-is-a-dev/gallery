@@ -2,7 +2,7 @@
  * 0tils
  * @author 0znzw https://scratch.mit.edu/users/0znzw/
  * @version 9.0
- * @copyright MIT License
+ * @license MIT
  * Do not remove this comment
  */
 (function(Scratch) {

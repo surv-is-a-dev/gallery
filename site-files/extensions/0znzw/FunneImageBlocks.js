@@ -3,7 +3,7 @@
  * @author 0znzw https://scratch.mit.edu/users/0znzw/
  * @author CST1229 https://scratch.mit.edu/users/CST1229/
  * @version 1.0
- * @copyright MIT & LGPLv3 License
+ * @license MIT AND LGPL-3.0
  * Do not remove this comment
  * Inspired by TheShovel and her among us blocks, along with inline blocks.
  */

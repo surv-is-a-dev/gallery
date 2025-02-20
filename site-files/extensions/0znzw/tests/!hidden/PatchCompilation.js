@@ -2,7 +2,7 @@
  * Patches Test
  * @author 0znzw https://scratch.mit.edu/users/0znzw/
  * @version 1.1
- * @copyright MIT and LGPLv3 Licenses
+ * @license MIT AND LGPL-3.0
  * Some Patch authors:
  * @author CST1229 https://scratch.mit.edu/users/CST1229/
  * @author LilyMakesThings https://scratch.mit.edu/users/CST1229/

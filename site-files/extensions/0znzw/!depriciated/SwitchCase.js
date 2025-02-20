@@ -2,7 +2,7 @@
  * Switch-Case
  * @author 0znzw https://scratch.mit.edu/users/0znzw/
  * @version 1.4.3b
- * @copyright MIT & LGPLv3 License
+ * @license MIT AND LGPL-3.0
  * Do not remove this comment
  * IF YOU USE THE SWITCH CASE CODE PLEASE PROVIDE CREDIT!!
  */

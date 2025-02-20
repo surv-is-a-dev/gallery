@@ -2,7 +2,7 @@
  * Custom Block Shape
  * @author 0znzw https://scratch.mit.edu/users/0znzw/
  * @version 1.0
- * @copyright MIT & LGPLv3 License
+ * @license MIT AND LGPL-3.0
  * Do not remove this comment
  */
 (function(Scratch) {
@@ -14,7 +14,7 @@
    * Custom block shape patch
    * @author 0znzw https://scratch.mit.edu/users/0znzw/
    * @version 2.0
-   * @copyright MIT & LGPLv3 License
+   * @license MIT AND LGPL-3.0
    * This allows you to add your own custom BlockType/ArgumentType/BlockShape.
    * Do not remove this comment
    */
