@@ -17,7 +17,9 @@
     "url": "https://github.com/surv-is-a-dev/gallery/issues"
   },
   "homepage": "https://github.com/surv-is-a-dev/gallery#readme",
-  "dependencies": {
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "^9.20.1",
     "@turbowarp/types": "git+https://github.com/TurboWarp/types-tw.git#tw",
     "clean-css": "^5.3.3",
     "fs-extra": "^11.3.0",
@@ -25,9 +27,6 @@
     "json5": "github:surv-is-a-dev/json5-sm-support",
     "rimraf": "^6.0.1",
     "terser": "^5.39.0"
-  },
-  "devDependencies": {
-    "eslint": "^9.20.1"
   },
   "private": true
 }
