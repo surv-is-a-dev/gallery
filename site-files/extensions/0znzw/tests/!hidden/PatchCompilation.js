@@ -1,12 +1,12 @@
 /**!
  * Patches Test
- * @author 0znzw https://scratch.mit.edu/users/0znzw/
+ * @author 0znzw <meow@miyo.lol> (@link https://scratch.mit.edu/users/0znzw/)
  * @version 1.1
  * @license MIT AND LGPL-3.0
  * Some Patch authors:
- * @author CST1229 https://scratch.mit.edu/users/CST1229/
- * @author LilyMakesThings https://scratch.mit.edu/users/CST1229/
- * @author Xeltalliv https://github.com/Xeltalliv/
+ * @author CST1229 (@link https://scratch.mit.edu/users/CST1229/)
+ * @author LilyMakesThings (@link https://scratch.mit.edu/users/CST1229/)
+ * @author Xeltalliv (@link https://github.com/Xeltalliv/)
  * Do not remove this comment
  */
 (function (Scratch) {
@@ -192,7 +192,7 @@
     !(function (t, o) {
       /**
        * Tooltip Utility
-       * @author 0znzw https://scratch.mit.edu/users/0znzw/
+       * @author 0znzw <meow@miyo.lol> (@link https://scratch.mit.edu/users/0znzw/)
        * Please do not remove this comment
        * https://raw.githubusercontent.com/surv-is-a-dev/gallery/main/extensions/0znzw/TooltipUtil/1.0/production.js
        */ const e = t.vm,

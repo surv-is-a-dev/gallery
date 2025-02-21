@@ -1,7 +1,7 @@
 /**!
  * My Blocks+
- * @author 0znzw https://scratch.mit.edu/users/0znzw/
- * @author CST1229 https://scratch.mit.edu/users/CST1229/
+ * @author 0znzw <meow@miyo.lol> (@link https://scratch.mit.edu/users/0znzw/)
+ * @author CST1229 (@link https://scratch.mit.edu/users/CST1229/)
  * @version 1.0
  * @license MIT
  * Do not remove this comment

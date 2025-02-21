@@ -3,6 +3,13 @@
 // Description: Manipulate binary data.
 // By: 0znzw <https://scratch.mit.edu/users/0znzw/>
 // License: MIT AND LGPL-3.0
+/**!
+ * Buffers
+ * @author 0znzw <meow@miyo.lol> (@link https://scratch.mit.edu/users/0znzw/)
+ * @version 1.0
+ * @license MIT AND LGPL-3.0
+ * Do not remove this comment
+ */
 (function (Scratch) {
   "use strict";
   if (!Scratch.extensions.unsandboxed) {

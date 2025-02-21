@@ -1,6 +1,6 @@
 /**!
  * Bad Apple (Editor)
- * @author 0znzw https://scratch.mit.edu/users/0znzw/
+ * @author 0znzw <meow@miyo.lol> (@link https://scratch.mit.edu/users/0znzw/)
  * @version 1.4
  * @license MIT AND LGPL-3.0
  * Do not remove this comment

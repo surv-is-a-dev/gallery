@@ -1,4 +1,4 @@
-/**
+/**!
  * v9.3
  * Idea by LilyMakesThings.
  * XML Injection based on Xeltallivs and LilyMakesThings XML Injectors.

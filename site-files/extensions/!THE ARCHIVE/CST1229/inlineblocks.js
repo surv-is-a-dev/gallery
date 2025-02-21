@@ -1,4 +1,4 @@
-/**
+/**!
  * SEE PULL REQUEST: https://github.com/TurboWarp/extensions/issues/568#issuecomment-1614953456
  * Made by CST1229, Original non-functional proof of concept by LilyMakesThings.
  */

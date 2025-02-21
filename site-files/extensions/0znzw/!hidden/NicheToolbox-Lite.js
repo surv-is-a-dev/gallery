@@ -1,4 +1,4 @@
-/**
+/**!
  * Niche Toolbox LITE extension v1.0, All Code by 0znzw (English Version) || licensed under MIT license.
  * https://scratch.mit.edu/users/0znzw/
  * Do not remove this comment

@@ -3,6 +3,10 @@
 // Description: Convert values between types.
 // By: LilyMakesThings <https://scratch.mit.edu/users/LilyMakesThings/>
 // var ws = ScratchBlocks.getMainWorkspace(), block = ws.getBlockById('2q8_N=)SAhM9J$-P[czt');
+/**!
+ * Cast
+ * @author LilyMakesThings (@link https://scratch.mit.edu/users/LilyMakesThings/)
+ */
 
 (function (Scratch) {
   'use strict';

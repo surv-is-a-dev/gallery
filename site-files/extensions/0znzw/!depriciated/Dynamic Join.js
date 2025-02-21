@@ -1,4 +1,4 @@
-  /*@0znzw || DO NOT REMOVE THIS COMMENT || v1.0
+  /*! @0znzw || DO NOT REMOVE THIS COMMENT || v1.0
   LICENSED UNDER Creative Commons Attribution 4.0 International.
   https://creativecommons.org/licenses/by/4.0/deed.en
   https://creativecommons.org/licenses/by/4.0/legalcode.en
@@ -6,7 +6,7 @@
 (function(Scratch) {
     'use strict';
 const ProjectStore = class {
-  /*@0znzw || DO NOT REMOVE THIS COMMENT || v1.3
+  /*! @0znzw || DO NOT REMOVE THIS COMMENT || v1.3
   LICENSED UNDER Creative Commons Attribution 4.0 International.
   https://creativecommons.org/licenses/by/4.0/deed.en
   https://creativecommons.org/licenses/by/4.0/legalcode.en

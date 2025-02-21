@@ -1,6 +1,6 @@
 /**!
  * Sandbox Skipper
- * @author 0znzw https://scratch.mit.edu/users/0znzw/
+ * @author 0znzw <meow@miyo.lol> (@link https://scratch.mit.edu/users/0znzw/)
  * @version 1.1
  * @license MIT
  * Do not remove this comment

@@ -1,6 +1,6 @@
 /**!
  * Try Catch
- * @author 0znzw https://scratch.mit.edu/users/0znzw/
+ * @author 0znzw <meow@miyo.lol> (@link https://scratch.mit.edu/users/0znzw/)
  * @version 2.1
  * @license MIT AND LGPL-3.0
  * Do not remove this comment

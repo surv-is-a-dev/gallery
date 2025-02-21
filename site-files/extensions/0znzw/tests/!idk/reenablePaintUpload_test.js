@@ -1,4 +1,4 @@
-// License: MIT, 2024-2024 0znzw, v1.0.2
+/**! @license: MIT @copyright 2024-2024 0znzw @version v1.0.2 */
 // This just re-enables the "upload" feature on my paint extension.
 (() => {
   let playground;

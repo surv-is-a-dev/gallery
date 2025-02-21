@@ -1,7 +1,7 @@
 (function(Scratch, extId) {
-    /**
+    /**!
      * Tooltip Utility
-     * @author 0znzw https://scratch.mit.edu/users/0znzw/
+     * @author 0znzw <meow@miyo.lol> (@link https://scratch.mit.edu/users/0znzw/)
      * Please do not remove this comment
      */
     const vm = Scratch.vm, runtime = vm.runtime, tooltips = {};

@@ -1,5 +1,5 @@
 //if you are going to use this please add the following comment to the file:
-/*
+/*!
  *
  * if you use this add this comment to your file!!
  * Button system updated by @0znzw.
@@ -12,7 +12,7 @@
  */
 
 
-/*
+/*!
 * v1 | Created by @0znzw.
 * Do not remove this comment
 */

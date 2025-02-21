@@ -1,5 +1,5 @@
 const ProjectStore = class {
-    /*
+    /*!
      * @0znzw || DO NOT REMOVE THIS COMMENT || v1.4
      * LICENSED UNDER Creative Commons Attribution 4.0 International.
      * https://creativecommons.org/licenses/by/4.0/deed.en

@@ -1,8 +1,8 @@
-let terser, htmlminifier, cleancss, JSON5;
+const terser = require('terser')
+let htmlminifier, cleancss, JSON5;
 const production = process.argv.slice(2)[0] === 'production';
 if (production) {
   console.log('BUILD: Running in production mode!');
-  terser = require('terser');
   htmlminifier = require('html-minifier');
   cleancss = new (require('clean-css'))({
     level: 2,
@@ -51,6 +51,7 @@ new Promise(async (resolveShare) => {
     const map = new XMLDoc();
     map.attrs['x-build-time'] = Date.now();
     while (file = files.shift()) {
+      file = file.replace(/\\/g, '/');
       if (file.endsWith('.html')) {
         await new Promise((resolve) => {
           fs.readFile(file).catch((err) => console.error(`BUILD: Failed to inject generator ${file}\n`, err)).then(async (data) => {
@@ -87,6 +88,18 @@ new Promise(async (resolveShare) => {
             });
           });
         }
+      }
+      const fileName = path.basename(file);
+      if (file.startsWith('site/extensions/') && fileName.endsWith('.js') && !fileName.endsWith('.min.js') && !fileName.startsWith('.')) {
+        console.log(`BUILD: Minifying extension ${file}`);
+        await new Promise((resolve) => {
+          fs.readFile(file).catch((err) => console.error(`BUILD: Failed to minify extension ${file}\n`, err)).then(async (data) => {
+            data = (await terser.minify(data.toString(), {
+              sourceMap: false,
+            })).code;
+            fs.writeFile(file.substring(0, file.length - 2) + 'min.js', data, 'utf8').catch((err) => console.error(`BUILD: Failed to minify extension ${file}\n`, err)).then(() => resolve(console.log(`BUILD: Minified extension ${file}`)));
+          });
+        });
       }
       const node = new XMLNode('x-file');
       node.attrs['path'] = file.replace('site/', '');

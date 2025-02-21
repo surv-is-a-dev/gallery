@@ -2,8 +2,14 @@
 // ID: 0znzwVarsExtended
 // Description: Better variable control.
 // By: 0znzw <https://scratch.mit.edu/users/0znzw/>
-// License: LGPL-3.0
+// License: MIT AND LGPL-3.0
 // Version: 1.1
+/**
+ * Variables Extended
+ * @author 0znzw <meow@miyo.lol> (@link https://scratch.mit.edu/users/0znzw/)
+ * @license MIT AND LGPL-3.0
+ * Do not remove this comment
+ */
 (function(Scratch) {
     'use strict';
     const vm = Scratch.vm, runtime = vm.runtime;
