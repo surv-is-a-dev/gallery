@@ -316,11 +316,6 @@
   "credits": ({
     "name": "0znzw",
     "url": "https://scratch.mit.edu/users/0znzw/"
-  }, {
-    // This is just a formality for the indexedDB code,
-    // they didnt actually help lol
-    "name": "Mistium",
-    "url": "https://mistium.com/"
   })
 }, {
   "img": "", "id": "0znzw/FetchButCooler",
