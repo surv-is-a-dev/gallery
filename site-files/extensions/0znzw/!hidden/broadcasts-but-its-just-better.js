@@ -1,7 +1,7 @@
 /**!
  * Broadcasts but better
  * @author 0znzw <meow@miyo.lol> (@link https://scratch.mit.edu/users/0znzw/)
- * @version 1.2
+ * @version 1.3
  * @license MIT AND LGPL-3.0
  * Do not remove this comment
  */
@@ -13,6 +13,7 @@
   const extId = '0znzwBroadcastButBetter';
   const { vm, BlockType, ArgumentType, Cast } = Scratch, runtime = vm.runtime;
 
+  const waiters = new Set();
   const runHats = (opcode) => {
     // https://github.com/surv-is-a-dev/gallery/blob/main/site-files/extensions/0znzw/tests/hidden/runHats.js
     const threads = [];
@@ -26,6 +27,8 @@
   const broadcast = (args, util, todo) => {
     todo = todo || { forEach: () => {}, skipNormal: false };
     let threads = [];
+    waiters.add(args.BROADCAST_OPTION);
+    runtime.once('AFTER_EXECUTE', ()=>waiters.delete(args.BROADCAST_OPTION));
     return(threads = [...runHats(`${extId}_receive`), ...(todo.skipNormal ? [] : util.startHats('event_whenbroadcastreceived', {
       BROADCAST_OPTION: args.BROADCAST_OPTION,
     }))], threads.forEach(thread => {
@@ -123,6 +126,21 @@
           color3: ScratchBlocks.Colours.event.tertiary,
         } : {}),
         blocks: [{
+          opcode: 'wasBroadcasted',
+          blockType: BlockType.BOOLEAN,
+          text: 'was [BROADCAST_OPTION] broadcasted?',
+          arguments: {
+            BROADCAST_OPTION: {
+              type: ArgumentType.STRING,
+              defaultValue: 'message1',
+            },
+          },
+          extensions: ['colours_event'],
+          hideFromPalette: true,
+        }, {
+          blockType: BlockType.XML,
+          xml: `<block type="${extId}_wasBroadcasted"><value name="BROADCAST_OPTION"><shadow type="event_broadcast_menu"></shadow></value></block>`,
+        }, {
           opcode: 'receive',
           blockType: BlockType.HAT,
           text: 'when I receive [BROADCAST_OPTION]',
@@ -329,6 +347,9 @@
     }
     getData(_, { thread }) {
       return thread.receivedData ?? '';
+    }
+    wasBroadcasted(args) {
+      return waiters.has(Cast.toString(args.BROADCAST_OPTION));
     }
   }
   Scratch.extensions.register(new extension());
