@@ -78,19 +78,19 @@ async function GeneratorLoaded(generator) {
           img: 'baq23future/normal.webp', id: 'baq23future/normal',
           name: 'Completely normal behaviour',
           description: 'A completely normal extension. NOT STRANGE AT ALL :P',
-          search_tags: ['experimental', 'baq'], requirements: [],
-          new: true, updated: false,
+          search_tags: new Set(['experimental', 'baq']), requirements: new Set(),
+          mode: new Set(),
           iCard: {
             url: generator.asset('?baq'),
             description: 'Completely normal...',
           },
-          credits: [{
+          credits: new Set([{
             name: 'baqirbeard',
             url: 'https://github.com/baqirbeard/',
           }, {
             name: '0znzw',
             url: 'https://scratch.mit.edu/users/0znzw/',
-          }],
+          }]),
           // SPECIAL meta tags for THIS SPECIFIC extension DO NOT ask for your own.
           meta: ['baq 2 3 future', 'back to the future'],
         });
