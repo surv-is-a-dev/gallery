@@ -1,7 +1,7 @@
 /**!
  * Fetch
  * @author 0znzw <meow@miyo.lol> (@link https://scratch.mit.edu/users/0znzw/)
- * @version 1.0
+ * @version 1.1
  * @license MIT AND LGPL-3.0
  * Do not remove this comment
  */
@@ -123,6 +123,9 @@
       }
       async binary() {
         return (await Array.fromAsync(this.buffer)).map((byte) => byte.toString(0).padStart(8, '0')).join('');
+      }
+      async dataurl() {
+        return `data:${(this.response.headers.get('content-type') || 'application/octet-stream').split(';')[0]};base64,${await this.base64()}`;
       }
     };
     static /* @private */ sleeping = new Map();
@@ -401,7 +404,7 @@
     }
     static FETCH_INSTANCE_ID = `${extension.id}InstanceId`;
     /* @private */ _resType(resType, _) {
-      const types = ['text', 'json', 'base64', 'hex', 'binary'];
+      const types = ['text', 'json', 'base64', 'hex', 'binary', 'dataurl'];
       if (this.showArrayBuffer) types.push('arraybuffer');
       if ((_ || '') !== extension.check) return types;
       resType = Cast.toString(resType).toLowerCase();
