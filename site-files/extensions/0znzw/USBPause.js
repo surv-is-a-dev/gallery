@@ -17,7 +17,7 @@
   let ScratchBlocks;
   if (Scratch.gui) Scratch.gui.getBlockly().then(Blockly => ScratchBlocks = Blockly);
   // Thanks CST1229 for this function.
-  // Sourced from: https://gallery.miyo.lol/extensions/0znzw/MoreButtons.js
+  // Sourced from: https://github.com/surv-is-a-dev/gallery/blob/dfe44a322a125d441c35696d01e82925b304bdda/site-files/extensions/0znzw/MoreButtons.js
   function getCurrentBlockArgs() {
     if (!ScratchBlocks) return {};
     const source = ScratchBlocks.selected;

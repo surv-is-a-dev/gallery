@@ -4,6 +4,8 @@
  * @version 2.1
  * @license MIT AND LGPL-3.0
  * Do not remove this comment
+ * 
+ * @todo Fix this in Unsandboxed.
  */
 (function(Scratch) {
   if (!Scratch.extensions.unsandboxed) {

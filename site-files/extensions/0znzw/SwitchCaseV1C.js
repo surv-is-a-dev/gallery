@@ -4,6 +4,8 @@
  * @version 1.0
  * @license MIT AND LGPL-3.0
  * Do not remove this comment
+ * 
+ * pls dont use this, its very bad :3 use my new one
  */
 (function(Scratch) {
   'use strict';

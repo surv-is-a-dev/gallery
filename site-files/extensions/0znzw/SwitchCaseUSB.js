@@ -4,6 +4,8 @@
  * @version 1.1
  * @license MIT AND LGPL-3.0
  * Do not remove this comment
+ * 
+ * @todo Fix this in Unsandboxed.
  */
 (function(Scratch) {
   if (!Scratch.extensions.unsandboxed) {
@@ -11,7 +13,7 @@
   }
   if (!('scaffolding' in window)) {
     if (Scratch.extensions.isUSB) {
-      alert('Unsandboxed may break at any time use this with caution!');
+      alert('Unsandboxed is broken as of now :(');
     } else if (Scratch.extensions.isPenguinMod) {
       alert('The compiler patches do not work in PenguinMod.\nThis extension may break at any time.\nDo not submit a bug report on PM.');
     }

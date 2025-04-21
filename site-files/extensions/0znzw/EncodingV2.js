@@ -4,6 +4,8 @@
  * @version 1.0
  * @license MIT AND LGPL-3.0
  * Do not remove this comment
+ * 
+ * @todo Seperate into multiple extensions.
  */
 (async function(Scratch) {
   'use strict';

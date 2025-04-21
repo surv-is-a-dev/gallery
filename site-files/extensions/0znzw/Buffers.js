@@ -9,6 +9,8 @@
  * @version 1.0
  * @license MIT AND LGPL-3.0
  * Do not remove this comment
+ * 
+ * @todo Remake this whole thing.
  */
 (function (Scratch) {
   "use strict";

@@ -4,6 +4,8 @@
  * @version 1.5
  * @license MIT AND LGPL-3.0
  * Do not remove this comment
+ * 
+ * @todo Support Unsandboxed.
  */
 (function(Scratch) {
   if (!Scratch.extensions.unsandboxed) {

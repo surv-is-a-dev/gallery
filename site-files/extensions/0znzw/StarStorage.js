@@ -4,6 +4,8 @@
  * @version 1.1
  * @license MIT AND LGPL-3.0
  * Do not remove this comment
+ * 
+ * @todo Swap out the indexed DB handler.
  */
 (function(Scratch) {
   'use strict';
