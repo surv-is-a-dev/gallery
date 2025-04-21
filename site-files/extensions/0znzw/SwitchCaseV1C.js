@@ -1,7 +1,7 @@
 /**!
  * Switch Case Compiled
  * @author 0znzw <meow@miyo.lol> (@link https://scratch.mit.edu/users/0znzw/)
- * @version 1.0
+ * @version 1.2
  * @license MIT AND LGPL-3.0
  * Do not remove this comment
  * 
@@ -12,9 +12,7 @@
   if (!Scratch.extensions.unsandboxed) {
     throw new Error(`"Switch Case v1c" needs to be ran unsandboxed.`);
   }
-
   const vm = Scratch.vm, runtime = vm.runtime;
-
   // For the lols this is gonna be un-used for now.
   const onBlockly = (Blockly) => {
     const ConProto = Blockly.Connection.prototype;
@@ -116,7 +114,6 @@
     };
   };
   // if (!!Scratch?.gui) Scratch.gui.getBlockly().then(Blockly => onBlockly(Blockly));
-
   class extension {
     getInfo() {
       return {
@@ -159,12 +156,10 @@
     defaut_() {}
     break_() {}
   }
-
   function sanitizeForEmbed(wrap, string) {
     // @ts-ignore Overdated syntax
     return String(string).replaceAll('\\', '\\\\').replaceAll(wrap, `\\${wrap}`);
   }
-
   const sanitize = string => {
     if (typeof string !== 'string') {
       console.warn(`sanitize got unexpected type: ${typeof string}`);
@@ -172,21 +167,18 @@
     }
     return JSON.stringify(string).slice(1, -1);
   };
-
   class Frame {
     constructor(isLoop) {
       this.isLoop = isLoop;
       this.isLastBlock = false;
     }
   }
-
   // @ts-ignore
   const JSG = vm.exports.i_will_not_ask_for_help_when_these_break().JSGenerator;
   // @ts-ignore
   const STG = vm.exports.i_will_not_ask_for_help_when_these_break().ScriptTreeGenerator;
   const JSGP = JSG.prototype;
   const STGP = STG.prototype;
-
   const PATCHES_ID = '0zSwCc';
   const cst_patch = (obj, functions) => {
     if (obj[PATCHES_ID]) return;
@@ -206,7 +198,6 @@
       }
     }
   };
-
   function caseSanitize(case_) {
     if (typeof case_ == 'string') return `"${sanitize(case_)}"`;
     if (typeof case_ == 'number') return String(case_);
@@ -222,7 +213,6 @@
     if (des?.source ?? des?.constantValue?.source) return des?.source ?? des?.constantValue?.source;
     throw new Error('Unable to descend input');
   }
-
   cst_patch(JSGP, {
     descendStackedBlock(originalFn, node) {
       console.log(this, node);
@@ -261,7 +251,6 @@
       }
     },
   });
-
   cst_patch(STGP, {
     descendStackedBlock(originalFn, block) {
       switch(block.opcode) {

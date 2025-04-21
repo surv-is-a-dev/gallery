@@ -1,7 +1,7 @@
 /**!
  * Try Catch
  * @author 0znzw <meow@miyo.lol> (@link https://scratch.mit.edu/users/0znzw/)
- * @version 2.1
+ * @version 2.2
  * @license MIT AND LGPL-3.0
  * Do not remove this comment
  * 
@@ -11,14 +11,11 @@
   if (!Scratch.extensions.unsandboxed) {
     throw new Error(`"Try Catch V2" extension must be ran unsandboxed.`);
   }
-
   const vm = Scratch.vm, { exports, runtime } = vm;
   const extId = '0znzwTryCatchV2';
   const THREAD_HOOK = Symbol('TryCatch.Capture');
   const THREAD_ERR = Symbol('TryCatch.Error');
-
   const hasOwn = (obj, key) => Object.prototype.hasOwnProperty.call(obj, key);
-
   // Thanks CST1229
   const shadowColors = {caught: '#891900'};
   // @ts-ignore
@@ -82,7 +79,6 @@
       }
     }
   };
-
   // Improved version of my one in "Error Stop"
   const prims = runtime._primitives;
   runtime._primitives = new Proxy(prims, {
@@ -103,7 +99,6 @@
       }; else return tprop;
     }
   });
-
   const xml = {
     attemptBlock: `<block type="${extId}_attempt"><value name="ERROR"><shadow type="${extId}_caught"></shadow></value></block>`
   };
@@ -172,7 +167,6 @@
       throw new Error(args.ERROR);
     }
   }
-
   let TYPE_UNKNOWN, Frame, TypedInput;
   // TurboWarp and CST's exports support.
   const errors = new (function generator() {
@@ -216,7 +210,6 @@
     const JSGP = JSG.prototype;
     const STGP = STG.prototype;
     const IRGP = IRG.prototype;
-
     // Patching JSG and STG
     cst_patch(JSGP, {
       descendStackedBlock(originalFn, node) {
@@ -284,7 +277,5 @@
       },
     });
   }
-
-  // @ts-ignore
   Scratch.extensions.register(new extension());
 })(Scratch);

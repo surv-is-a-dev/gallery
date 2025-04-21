@@ -5,7 +5,7 @@
  * @license MIT AND LGPL-3.0
  * Do not remove this comment
  */
-(function(Scratch) {
+(function (Scratch) {
     'use strict';
     const canvas = Scratch.vm.renderer.canvas;
     const runtime = Scratch.vm.runtime;

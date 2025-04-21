@@ -7,11 +7,10 @@
  * 
  * @todo Support Unsandboxed.
  */
-(function(Scratch) {
+(function (Scratch) {
   if (!Scratch.extensions.unsandboxed) {
     throw new Error(`"Compiler Injector" extension must be ran unsandboxed!`);
   }
-  
   const { vm, BlockType, ArgumentType } = Scratch, { runtime } = vm, extId = '0znzwCompilerPatching', uExtId = extId.toUpperCase();
   const hasOwn = (obj, key) => Object.prototype.hasOwnProperty.call(obj, key);
   const referr = 'Non-variable was passed to asRef';
@@ -76,7 +75,6 @@
     const id = src.slice(src.indexOf('["') + 2, src.length - 2);
     return target.variables[id]?.value;
   };
-
   runtime.patchedOpcodes = new Map(), runtime.patchPresets = new Map();
   runtime.MioFunctions = new Map();
   runtime.patchedOpcodes.setOpcode = (function(opcode, position, js) {
@@ -89,7 +87,6 @@
     }
     runtime.patchedOpcodes.get(opcode)[position] = js;
   }).bind(runtime.patchedOpcodes);
-  
   const PATCHES_ID = `__patches_${extId}__`;
   const cst_patch = (obj, functions) => {
     if (obj[PATCHES_ID]) return;
@@ -109,7 +106,6 @@
       }
     }
   };
-
   const { asRaw, asRef, STGP, JSGP, Frame } = exports;
   const descendPatchArgs = function(block) {
     let inputs = block?.inputs;
@@ -529,7 +525,6 @@
       }
     });
   }
-  
   class extension {
     getInfo() {
       return {
@@ -710,7 +705,6 @@
       runtime.visualReport(blockId, util.thread.isCompiled ? 'How did we get here...' : err);
     }
   }
-
   // https://github.com/TurboWarp/extensions/pull/1254/files
   const cbfsb = runtime._convertBlockForScratchBlocks.bind(runtime);
   runtime._convertBlockForScratchBlocks = function (blockInfo, categoryInfo) {
@@ -720,7 +714,6 @@
   };
   if (Scratch.gui) Scratch.gui.getBlockly().then(ScratchBlocks => {
     const allExtensions = ScratchBlocks.Extensions.ALL_;
-
     const leftArrowIcon = `data:image/svg+xml;base64,PHN2ZyBkYXRhLW5hbWU9IkxheWVyIDEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmlld0JveD0iMCAwIDEwIDEzIiB0cmFuc2Zvcm09InNjYWxlKC0xLCAxKSI+PHBhdGggZD0iTTMuNjUuMTQ1YTIuNDEgMi40MSAwIDAgMSAxLjcyLjcxbDMuOTIgMy45MmEyLjQ1IDIuNDUgMCAwIDEgMCAzLjQ1bC0zLjkyIDMuOTFhMi40MiAyLjQyIDAgMCAxLTEuNzIuNzIgMi40OCAyLjQ4IDAgMCAxLTEuNzMtLjcxYy0uMjQtLjI5LS43MS0uNzItLjcxLTUuNjUgMC00LjkzLjQ2LTUuMzkuNzEtNS42NGEyLjQ0IDIuNDQgMCAwIDEgMS43My0uNzF6IiBmaWxsPSIjMjMxZjIwIiBvcGFjaXR5PSIuMSIvPjxwYXRoIGQ9Ik04Ljk4NSA2LjUxYTEuNDMgMS40MyAwIDAgMS0uNDIgMWwtMy45MiAzLjk0YTEuNDQgMS40NCAwIDAgMS0yIDBjLS41Ni0uNTYtLjU2LTkuMzEgMC05Ljg3YTEuNDQgMS40NCAwIDAgMSAyIDBsMy45MiAzLjkyYTEuNDMgMS40MyAwIDAgMSAuNDIgMS4wMXoiIGZpbGw9IiNmZmYiLz48L3N2Zz4=`;
     const rightArrowIcon = `data:image/svg+xml;base64,PHN2ZyBkYXRhLW5hbWU9IkxheWVyIDEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmlld0JveD0iMCAwIDEwIDEzIj48cGF0aCBkPSJNMy42NS4xNDVhMi40MSAyLjQxIDAgMCAxIDEuNzIuNzFsMy45MiAzLjkyYTIuNDUgMi40NSAwIDAgMSAwIDMuNDVsLTMuOTIgMy45MWEyLjQyIDIuNDIgMCAwIDEtMS43Mi43MiAyLjQ4IDIuNDggMCAwIDEtMS43My0uNzFjLS4yNC0uMjktLjcxLS43Mi0uNzEtNS42NSAwLTQuOTMuNDYtNS4zOS43MS01LjY0YTIuNDQgMi40NCAwIDAgMSAxLjczLS43MXoiIGZpbGw9IiMyMzFmMjAiIG9wYWNpdHk9Ii4xIi8+PHBhdGggZD0iTTguOTg1IDYuNTFhMS40MyAxLjQzIDAgMCAxLS40MiAxbC0zLjkyIDMuOTRhMS40NCAxLjQ0IDAgMCAxLTIgMGMtLjU2LS41Ni0uNTYtOS4zMSAwLTkuODdhMS40NCAxLjQ0IDAgMCAxIDIgMGwzLjkyIDMuOTJhMS40MyAxLjQzIDAgMCAxIC40MiAxLjAxeiIgZmlsbD0iI2ZmZiIvPjwvc3ZnPg==`;
     const arrowWidth = 16;
@@ -1105,6 +1098,5 @@
       this.inputCount = 0;
     });
   });
-
   Scratch.extensions.register(new extension());
 })(Scratch);

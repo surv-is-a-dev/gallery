@@ -7,7 +7,7 @@
  * TurboWarp's: https://extensions.turbowarp.org/clipboard.js
  * This extension's code is not based on the source code of TurboWarp's.
  */
-(function(Scratch) {
+(function (Scratch) {
   'use strict';
   if (!Scratch.extensions.unsandboxed) {
     throw new Error(`"Clipboard" extension must be ran unsandboxed.`);

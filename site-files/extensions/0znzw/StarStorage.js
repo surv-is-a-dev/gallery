@@ -7,23 +7,19 @@
  * 
  * @todo Swap out the indexed DB handler.
  */
-(function(Scratch) {
+(function (Scratch) {
   'use strict';
-
   if (!Scratch.extensions.unsandboxed) {
     throw new Error(`"* Storage" must run unsandboxed.`);
   }
-
   const extId = '0znzwStarStorage';
   const { BlockType, ArgumentType, Cast, vm } = Scratch, { runtime } = vm;
   runtime.extensionStorage ??= {};
   runtime.extensionStorage[extId] ??= {};
   runtime.extensionStorage[extId].key ??= (Math.floor(Math.random() * 10000) + Date.now()).toString(36);
   let key = runtime.extensionStorage[extId].key;
-
   function setCookie(e,t,n){const o=new Date;o.setTime(o.getTime()+24*n*60*60*1e3);let i="expires="+o.toUTCString();document.cookie=e+"="+t+";"+i+";path=/"}
   function getCookie(e){let t=e+"=",n=decodeURIComponent(document.cookie).split(";");for(let e=0;e<n.length;e++){let o=n[e];for(;" "==o.charAt(0);)o=o.substring(1);if(0==o.indexOf(t))return o.substring(t.length,o.length)}return""}
-
   const idb = new (class IndexedDBsimple {
     // Thanks to Mistium (https://mistium.com/) for making the original extension code.
     // Code copied from PawedLoader.
@@ -100,7 +96,6 @@
     }
   });
   idb.setDBName(key);
-
   class extension {
     getInfo() {
       return {

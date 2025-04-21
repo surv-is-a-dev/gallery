@@ -1,7 +1,7 @@
 /**!
  * Right Click Menu
  * @author 0znzw <meow@miyo.lol> (@link https://scratch.mit.edu/users/0znzw/)
- * @version 1.1
+ * @version 1.2
  * @license MIT AND LGPL-3.0
  * Do not remove this comment
  */

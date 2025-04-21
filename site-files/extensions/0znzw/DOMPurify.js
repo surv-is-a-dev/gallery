@@ -7,7 +7,7 @@
  * 
  * @todo Update librarys.
  */
-(function(Scratch) {
+(function (Scratch) {
     if (!Scratch.extensions.unsandboxed) {
         throw new Error(`"DOMPurify" extension must be ran unsandboxed.`);
     }

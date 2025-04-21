@@ -1,7 +1,7 @@
 /**!
  * Switch Case (extension)
  * @author 0znzw <meow@miyo.lol> (@link https://scratch.mit.edu/users/0znzw/)
- * @version 1.1
+ * @version 1.2
  * @license MIT AND LGPL-3.0
  * Do not remove this comment
  * 
@@ -29,7 +29,6 @@
       if (patchThread.patched) return;
       patchThread.patched = true;
       const Thread = t.constructor;
-      
       /**
        * Get the stackframe of the current loop.
        * @param {Thread} thread 
@@ -38,7 +37,6 @@
       Thread.getLoopFrame = (patchAnyways ? undefined : Thread.getLoopFrame) ?? function(thread, iter) {
         const stackFrames = thread.stackFrames, frameCount = stackFrames.length;
         let loopFrameBlock = null, loopFrameIndex;
-
         for (let i = frameCount - 1; i >= 0; i--) {
           // This check should literally never pass, 
           // but as GarboMuffin once said, "just in case".
@@ -50,21 +48,17 @@
           loopFrameIndex = i;
           break;
         }
-
         if (!loopFrameBlock) {
           // We are not inside of a loop block.
           return false;
         }
-
         return [loopFrameBlock, loopFrameIndex];
       };
-
       /**
        * Break the current executing loop.
        */
       Thread.prototype.breakCurrentLoop = (patchAnyways ? undefined : Thread.prototype.breakCurrentLoop) ?? function() {
         const blocks = this.blockContainer, stackFrame = this.peekStackFrame();
-
         if (!stackFrame._breakData) {
           let frameData = false;
           if (!(frameData = Thread.getLoopFrame(this, false))) return;
@@ -72,9 +66,7 @@
           const afterLoop = blocks.getBlock(loopFrameBlock).next;
           stackFrame._breakData = { loopFrameBlock, afterLoop };
         }
-
         const { loopFrameBlock, afterLoop } = stackFrame._breakData;
-
         // Remove any remaining blocks within the remaining stack
         // until we reach the loop block. 
         let _;
@@ -83,32 +75,26 @@
           if (blocks.getBlock(_)?.opcode === 'procedures_call') return;
           this.popStack();
         }
-
         // Remove the remaining loop block.
         this.popStack();
-
         // If there's a block after the loop, continue
         // from there.
         if (afterLoop) {
           this.pushStack(afterLoop);
         }
-
         // Clear breakData because it is stoopid
         delete stackFrame._breakData;
       };
-
       /**
        * Continue the current running loop onto the next iteration.
        */
       Thread.prototype.continueCurrentLoop = (patchAnyways ? undefined : Thread.prototype.continueCurrentLoop) ?? function() {
         const blocks = this.blockContainer, stackFrame = this.peekStackFrame();
-
         if (!stackFrame._continueData) {
           let frameData = false;
           if (!(frameData = Thread.getLoopFrame(this, true))) return;
           stackFrame._continueData = frameData[0];
         }
-
         // Pop the stack until we are at the loop block
         // (we make sure to check if the stack exists though to prevent errors)
         let _;
@@ -117,7 +103,6 @@
           if (blocks.getBlock(_)?.opcode === 'procedures_call') return;
           this.popStack();
         }
-
         // "run util.yield", and restart the loop block
         this.status = Thread.STATUS_YIELD;
       };
