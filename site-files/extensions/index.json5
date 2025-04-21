@@ -132,6 +132,7 @@
   "name": "Spell Check",
   "description": "Oh yes, its spellcheck, bare bones spellcheck :).",
   "search_tags": (), "requirements": (),
+  "updated": true,
   "mode": ("unsandboxed"),
   "credits": ({
     "name": "0znzw",
