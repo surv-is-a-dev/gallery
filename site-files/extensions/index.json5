@@ -38,26 +38,9 @@
   // Just fill it with the supported mod names, if its missing one then it will default to turbowarp :3
   "mod": ("turbowarp", "unsandboxed"),
 }, {
-  "img": "TurboCharged.svg", "id": "TurboCharged",
-  "name": "TurboCharged",
-  "description": "Override and modify the base categorys. (credits in extension)",
-  "search_tags": ("advanced"), "requirements": (),
-  "mode": ("unsandboxed"),
-  "credits": ()
-}, {
   "img": "0znzw/NicheToolbox.svg", "id": "0znzw/NicheToolbox",
   "name": "NicheToolbox",
   "description": "Some blocks for niche use cases.",
-  "search_tags": (), "requirements": (),
-  "mode": ("unsandboxed"),
-  "credits": ({
-    "name": "0znzw",
-    "url": "https://scratch.mit.edu/users/0znzw/"
-  })
-}, {
-  "img": "0znzw/0tils.png", "id": "0znzw/0tils",
-  "name": "0tils",
-  "description": "My first ever extension.",
   "search_tags": (), "requirements": (),
   "mode": ("unsandboxed"),
   "credits": ({
@@ -92,7 +75,7 @@
     "name": "0znzw",
     "url": "https://scratch.mit.edu/users/0znzw/"
   }),
-  "mod": ("turbowarp", "unsandboxed"),
+  "mod": ("turbowarp", "unsandboxed")
 }, {
   "img": "0znzw/PeriodicTable.svg", "id": "0znzw/PeriodicTable",
   "name": "Periodic Table",
@@ -107,7 +90,7 @@
   "img": "0znzw/MatrixPlus.svg", "id": "0znzw/MatrixPlus",
   "name": "Microbit Extended",
   "description": "Additions to the microbit extension!",
-  "search_tags": [], "requirements": ["hardware"],
+  "search_tags": (), "requirements": ("hardware"),
   "mode": ("unsandboxed"),
   "credits": ({
     "name": "0znzw",
@@ -159,19 +142,9 @@
   "description": "Convert file types to their mime types and vice versa.",
   "search_tags": (), "requirements": (),
   "mode": ("unsandboxed"),
-  "credits": [{
+  "credits": ({
     "name": "0znzw",
     "url": "https://scratch.mit.edu/users/0znzw/"
-  }]
-}, {
-  "img": "adacraft/browser.png", "id": "adacraft/browser",
-  "name": "Browser",
-  "description": "Browser utilities.",
-  "search_tags": (), "requirements": ("internet"),
-  "mode": ("unsandboxed"),
-  "credits": ({
-    "name": "adacraft",
-    "url": "https://adacraft.org/"
   })
 }, {
   "img": "0znzw/RightClickMenu.svg", "id": "0znzw/RightClickMenu",

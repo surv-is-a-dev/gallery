@@ -1,11 +1,7 @@
-# Survs Gallery
+# Miyo's Gallery
 
 Please don't take any files from this gallery to put in someone else's gallery without the prior permission of the creator of the extension itself.
 If they allow this see if they have a README.md file in their folder (see the site-files/extensions folder for people).
-
-## Contributing
-
-See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 

@@ -10,20 +10,8 @@ All images in this folder are licensed under the [GNU General Public License ver
  - Hammers icon from https://svgsilh.com/image/312334.html under [![PublicDomain](https://licensebuttons.net/p/zero/1.0/80x15.png)](https://creativecommons.org/publicdomain/zero/1.0/).
  - For [@0znzw](https://scratch.mit.edu/users/0znzw)
 
-## THE ARCHIVE/SharkPool/canvasEffects2.svg
- - Created by @Pizzalover4783 in https://github.com/TurboWarp/extensions/issues/90#issuecomment-1526886264.
- - For the CanvasEffects extension
-
 ## 0znzw/PeriodicTable.svg
  - Created by [@0znzw](https://scratch.mit.edu/users/0znzw)
-
-## THE ARCHIVE/0znzw/QueryParams.svg
- - Created by [@CST1229](https://github.com/CST1229) and [@BlueDome77](https://github.com/BlueDome77) in https://github.com/TurboWarp/extensions/issues/90#issuecomment-1596177193
- - For the SearchAPI extension
-
-## THE ARCHIVE/CST1229/inlineblocks.svg
- - Created by [@SharkPool](https://www.youtube.com/c/SharkPoolthe1)
- - For [@0znzw](https://scratch.mit.edu/users/0znzw)
 
 ## 0znzw/MatrixPlus.svg
  - Created by [@SharkPool](https://www.youtube.com/c/SharkPoolthe1)
@@ -56,7 +44,7 @@ All images in this folder are licensed under the [GNU General Public License ver
 
 ## 0znzw/MimeDB.svg
  - Created by [@0znzw](https://scratch.mit.edu/users/0znzw)
- - File icons based on https://icon-icons.com/icon/file-pdf/153412 under CC BY 4.0
+ - File icons based* on https://icon-icons.com/icon/file-pdf/153412 under CC BY 4.0
  - Font used is [Lato-Bold](https://fonts.google.com/specimen/Lato/)
 
 ## 0znzw/EncodingV2.svg

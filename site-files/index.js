@@ -78,8 +78,8 @@ async function GeneratorLoaded(generator) {
           img: 'baq23future/normal.webp', id: 'baq23future/normal',
           name: 'Completely normal behaviour',
           description: 'A completely normal extension. NOT STRANGE AT ALL :P',
-          search_tags: new Set(['experimental', 'baq']), requirements: new Set(),
-          mode: new Set(),
+          search_tags: new Set(['experimental', 'baq']), requirements: new Set([]),
+          mode: new Set([]),
           iCard: {
             url: generator.asset('?baq'),
             description: 'Completely normal...',
