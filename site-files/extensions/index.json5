@@ -81,6 +81,7 @@
   "name": "Periodic Table",
   "description": "You can now get periodic table elements!",
   "search_tags": (), "requirements": (),
+  "updated": true,
   "mode": ("sandboxed"),
   "credits": ({
     "name": "0znzw",
@@ -200,7 +201,6 @@
   "img": "0znzw/TryCatchV2.svg", "id": "0znzw/TryCatchV2",
   "name": "Try Catch V2",
   "description": "Catch and throw REAL JavaScript errors.",
-  "updated": true,
   "search_tags": ["advanced"], "requirements": [],
   "mode": ("unsandboxed"),
   "credits": ({
