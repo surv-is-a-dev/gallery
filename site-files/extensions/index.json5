@@ -153,6 +153,7 @@
   "name": "Right Click Menu",
   "description": "Disable and enable the right click menu.",
   "search_tags": (), "requirements": (),
+  "updated": true,
   "mode": ("unsandboxed"),
   "credits": ({
     "name": "0znzw",
