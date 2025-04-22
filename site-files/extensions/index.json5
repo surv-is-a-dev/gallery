@@ -103,10 +103,13 @@
   "description": "More since 2000 related block's.",
   "search_tags": (), "requirements": (),
   "updated": true,
-  "mode": ("unsandboxed"),
+  "mode": ("sandboxed"),
   "credits": ({
     "name": "ION",
     "url": "https://scratch.mit.edu/users/IONSlayer/"
+  }, {
+    "name": "0znzw",
+    "url": "https://scratch.mit.edu/users/0znzw/"
   })
 }, {
   "img": "Yoreni/breakEternityScratch.svg", "id": "Yoreni/breakEternityScratch",
