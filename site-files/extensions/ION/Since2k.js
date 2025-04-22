@@ -1,11 +1,16 @@
-(function(Scratch){
-//Made by ION, Based on improving scratches days since 2000 block.
-class Since2000 {
-    constructor() {}
-  
+/**!
+ * Cryptography
+ * @author ION (@link https://scratch.mit.edu/users/ionslayer/)
+ * @version 1.3
+ * @license Unlicense
+ */
+(function (Scratch) {
+  const { BlockType, ArgumentType, Cast } = Scratch;
+  const extId = 'since2000';
+  class extension {
     getInfo() {
       return {
-        id: 'since2000',
+        id: extId,
         name: 'Since 2000',
         color1: '#15b9a4',
         color2: '#13a895',
@@ -14,125 +19,128 @@ class Since2000 {
           {
             hideFromPalette: true,
             opcode: 'millisecondsSince2000',
-            blockType: 'reporter',
+            blockType: BlockType.REPORTER,
             text: 'milliseconds since 2000',
           },
           /* "Removed" cause it was broken */
           {
             hideFromPalette: true,
             opcode: 'microsecondsSince2000',
-            blockType: 'reporter',
+            blockType: BlockType.REPORTER,
             text: 'microseconds since 2000',
           },
           {
             hideFromPalette: true,
             opcode: 'secondsSince2000',
-            blockType: 'reporter',
+            blockType: BlockType.REPORTER,
             text: 'seconds since 2000',
           },
           {
             hideFromPalette: true,
             opcode: 'minutesSince2000',
-            blockType: 'reporter',
+            blockType: BlockType.REPORTER,
             text: 'minutes since 2000',
           },
           {
             hideFromPalette: true,
             opcode: 'hoursSince2000',
-            blockType: 'reporter',
+            blockType: BlockType.REPORTER,
             text: 'hours since 2000',
           },
           {
             hideFromPalette: true,
             opcode: 'daysSince2000',
-            blockType: 'reporter',
+            blockType: BlockType.REPORTER,
             text: 'days since 2000',
           },
           {
             hideFromPalette: true,
             opcode: 'weeksSince2000',
-            blockType: 'reporter',
+            blockType: BlockType.REPORTER,
             text: 'weeks since 2000',
           },
           {
             hideFromPalette: true,
             opcode: 'monthsSince2000',
-            blockType: 'reporter',
+            blockType: BlockType.REPORTER,
             text: 'months since 2000',
           },
           {
             hideFromPalette: true,
             opcode: 'yearsSince2000',
-            blockType: 'reporter',
+            blockType: BlockType.REPORTER,
             text: 'years since 2000',
           },
           {
             hideFromPalette: true,
             opcode: 'decadesSince2000',
-            blockType: 'reporter',
+            blockType: BlockType.REPORTER,
             text: 'decades since 2000',
           },
           {
             hideFromPalette: true,
             opcode: 'centuriesSince2000',
-            blockType: 'reporter',
+            blockType: BlockType.REPORTER,
             text: 'centuries since 2000',
           },
           {
             hideFromPalette: true,
             opcode: 'millenniumsSince2000',
-            blockType: 'reporter',
+            blockType: BlockType.REPORTER,
             text: 'millenniums since 2000',
           },
           /* New block */
           {
             opcode: 'Since2000',
-            blockType: 'reporter',
+            blockType: BlockType.REPORTER,
             text: '[menu] since 2000',
             arguments: {
               menu: {
-                type: Scratch.ArgumentType.STRING,
+                type: ArgumentType.STRING,
                 menu: 'since2k',
-                defaultValue: 'seconds'
-              }
-            }
+                defaultValue: 'seconds',
+              },
+            },
           },
-        ], menus: {
+        ],
+        menus: {
           since2k: {
             acceptReporters: true,
-            items: ['milliseconds', 'seconds',
-                    'minutes', 'hours', 'days',
-                    'weeks', 'months', 'years',
-                    'decades', 'centuries',
-                    'millenniums']
-          }
-        }
+            items: [
+              'milliseconds',
+              'seconds',
+              'minutes',
+              'hours',
+              'days',
+              'weeks',
+              'months',
+              'years',
+              'decades',
+              'centuries',
+              'millenniums',
+            ],
+          },
+        },
       };
     }
-  
     millisecondsSince2000() {
       const now = new Date();
       //@ts-ignore
       const since2000 = now - new Date('2000-01-01');
       return since2000;
     }
-  
     microsecondsSince2000() {
       return this.millisecondsSince2000() * 1000;
     }
-  
     secondsSince2000() {
       return this.millisecondsSince2000() / 1000;
     }
-  
     minutesSince2000() {
       return this.secondsSince2000() / 60;
     }
-  
     hoursSince2000() {
       return this.minutesSince2000() / 60;
     }
-  
     daysSince2000() {
       const now = new Date();
       const startDate = new Date('2000-01-01');
@@ -140,42 +148,33 @@ class Since2000 {
       const days = (now - startDate) / (1000 * 60 * 60 * 24);
       return days;
     }
-  
     weeksSince2000() {
       return this.daysSince2000() / 7;
     }
-  
     monthsSince2000() {
       const now = new Date();
       const startDate = new Date('2000-01-01');
       let months = 0;
-  
       while (startDate < now) {
         months++;
         startDate.setMonth(startDate.getMonth() + 1);
       }
-  
       return months - 1;
     }
-  
     yearsSince2000() {
       return this.monthsSince2000() / 12;
     }
-  
     decadesSince2000() {
       return this.yearsSince2000() / 10;
     }
-  
     centuriesSince2000() {
       return this.yearsSince2000() / 100;
     }
-  
     millenniumsSince2000() {
       return this.yearsSince2000() / 1000;
     }
-
     Since2000({ menu }) {
-      switch (menu) {
+      switch (Cast.toString(menu).toLowerCase()) {
         case 'milliseconds':
           return this.millisecondsSince2000();
         case 'microseconds':
@@ -197,6 +196,8 @@ class Since2000 {
           return this.yearsSince2000();
         case 'decades':
           return this.decadesSince2000();
+        case 'centuries':
+          return this.centuriesSince2000();
         case 'millenniums':
           return this.millenniumsSince2000();
         default:
@@ -204,6 +205,9 @@ class Since2000 {
       }
     }
   }
-  //@ts-ignore
-  Scratch.extensions.register(new Since2000());
+  const ext = new extension();
+  if (Scratch.extensions.unsandboxed) {
+    Scratch.vm.runtime[`cext_${extId}`] = ext;
+  }
+  Scratch.extensions.register(ext);
 })(Scratch);

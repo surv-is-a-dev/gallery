@@ -102,6 +102,7 @@
   "name": "Since 2000",
   "description": "More since 2000 related block's.",
   "search_tags": (), "requirements": (),
+  "updated": true,
   "mode": ("unsandboxed"),
   "credits": ({
     "name": "ION",
