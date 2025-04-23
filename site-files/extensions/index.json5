@@ -114,10 +114,13 @@
 }, {
   "img": "Yoreni/breakEternityScratch.svg", "id": "Yoreni/breakEternityScratch",
   "name": "Breaking Eternity",
-  "description": "Its like big int but with decimals and more features!",
+  "description": "",
   "search_tags": (), "requirements": (),
   "mode": ("unsandboxed"),
   "credits": ({
+    "name": "0znzw",
+    "url": "https://scratch.mit.edu/users/0znzw/"
+  }, {
     "name": "Yoreni",
     "url": "https://github.com/Yoreni/"
   })
