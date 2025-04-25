@@ -11,47 +11,104 @@
   if (!Scratch.extensions.unsandboxed) {
     throw new Error(`"Try Catch V2" extension must be ran unsandboxed.`);
   }
-  const { BlockType, ArgumentType, vm } = Scratch, { exports, runtime } = vm;
-  const extId = '0znzwTryCatchV2';
+  const { BlockType, ArgumentType, vm } = Scratch, { runtime } = vm;
+  const extId = '0znzwTryCatchV2', exports = vm.exports ?? {};
   const THREAD_HOOK = Symbol('TryCatch.Capture');
   const THREAD_ERR = Symbol('TryCatch.Error');
   const hasOwn = (obj, key) => Object.prototype.hasOwnProperty.call(obj, key);
   if (Scratch?.gui) Scratch.gui.getBlockly().then(Blockly => {
     const LightenDarkenColor = (r,n) => {var a=!1;"#"==r[0]&&(r=r.slice(1),a=!0);var t=parseInt(r,16),e=(t>>16)+n;e>255?e=255:e<0&&(e=0);var i=(t>>8&255)+n;i>255?i=255:i<0&&(i=0);var o=(255&t)+n;return o>255?o=255:o<0&&(o=0),(a?"#":"")+(o|i<<8|e<<16).toString(16)};
-    const BSP_updateColour = Blockly.BlockSvg.prototype.updateColour;
-    Blockly.BlockSvg.prototype.updateColour = function(...args) {
-      const renderDuplicate = this.isShadow() && Blockly.scratchBlocksUtils.isShadowArgumentReporter(this);
-      if (renderDuplicate && this.type === `${extId}_caught`) {
-        const t_getColourTertiary = this.getColourTertiary;
-        this.getColourTertiary = function(...args) {
-          const parent = this.getParent();
-          if (!parent) return t_getColourTertiary.apply(this, args);
-          return parent.getColourTertiary.apply(parent, args);
-        };
-        const getName = this.isGlowingBlock_ ? `getColourSecondary` : `getColour`;
-        const getColour = this[getName];
-        this[getName] = function(...args) {
-          const myColour = getColour.apply(this, args);
-          const parent = this.getParent();
-          if (!parent) return myColour;
-          return LightenDarkenColor(parent[getName].apply(parent, args), -12);
-        };
-        const t_getOpacity = this.getOpacity;
-        this.getOpacity = function(...args) {
-          const parent = this.getParent();
-          if (parent) return parent.getOpacity.apply(parent, args);
-          return t_getOpacity.apply(this, args);
+    if (Blockly.registry) {
+      class DupDrag {
+        constructor(block) {
+          this.block = block;
+          this.altStrat = new Blockly.dragging.BlockDragStrategy(this.block);
+          this._updateDupe();
+          this.draggable = null;
+        }
+        _updateDupe() {
+          const parent = this.block.getParent();
+          this.shouldDuplicate = parent && parent.type === `${extId}_attempt`;
+        }
+        isMovable() { return true; }
+        startDrag(ev) {
+          this._updateDupe();
+          if (!this.shouldDuplicate) return this.altStrat.startDrag(ev);
+          const copyable = this.block.toCopyData();
+          this.draggable = Blockly.clipboard.paste(copyable, this.block.workspace);
+          this.draggable.startDrag(ev);
+        }
+        drag(ev) {
+          if (this.shouldDuplicate && this.draggable) {
+            this.block.workspace.getGesture(ev).getCurrentDragger().setDraggable(this.draggable);
+            this.draggable.drag(ev);
+          } else {
+            this.block.workspace.getGesture(ev).getCurrentDragger().setDraggable(this.block);
+            this.altStrat.drag(ev);
+          }
+        }
+        endDrag(ev) {
+          if (this.shouldDuplicate && this.draggable) {
+            this.draggable.endDrag(ev);
+          } else {
+            this.altStrat.endDrag(ev);
+          }
+        }
+        revertDrag() {
+          if (this.shouldDuplicate && this.draggable) {
+            this.draggable.dispose();
+            this.draggable = null;
+          } else {
+            this.altStrat.revertDrag();
+          }
+        }
+      }
+      function dupdraggable(op) {
+        const b = Blockly.Blocks[op];
+        const init = b.init;
+        b.init = function(...args) {
+          const r = init.apply(this, args);
+          this.setDragStrategy(new DupDrag(this));
+          return r;
         };
       }
-      return BSP_updateColour.apply(this, args);
-    };
-    const SBU_isShadowArgumentReporter = Blockly.scratchBlocksUtils.isShadowArgumentReporter;
-    Blockly.scratchBlocksUtils.isShadowArgumentReporter = function(block) {
-      if (SBU_isShadowArgumentReporter.call(this, block)) return true;
-      if (block.isShadow() && block.type == `${extId}_caught`) {
-        return true;
-      } else return false;
-    };
+      dupdraggable(`${extId}_caught`);
+    } else {
+      const SBU_isShadowArgumentReporter = Blockly.scratchBlocksUtils.isShadowArgumentReporter;
+      Blockly.scratchBlocksUtils.isShadowArgumentReporter = function(block) {
+        if (SBU_isShadowArgumentReporter.call(this, block)) return true;
+        if (block.isShadow() && block.type == `${extId}_caught`) {
+          return true;
+        } else return false;
+      };
+      const BSP_updateColour = Blockly.BlockSvg.prototype.updateColour;
+      Blockly.BlockSvg.prototype.updateColour = function(...args) {
+        const renderDuplicate = this.isShadow() && Blockly.scratchBlocksUtils.isShadowArgumentReporter(this);
+        if (renderDuplicate && this.type === `${extId}_caught`) {
+          const t_getColourTertiary = this.getColourTertiary;
+          this.getColourTertiary = function(...args) {
+            const parent = this.getParent();
+            if (!parent) return t_getColourTertiary.apply(this, args);
+            return parent.getColourTertiary.apply(parent, args);
+          };
+          const getName = this.isGlowingBlock_ ? `getColourSecondary` : `getColour`;
+          const getColour = this[getName];
+          this[getName] = function(...args) {
+            const myColour = getColour.apply(this, args);
+            const parent = this.getParent();
+            if (!parent) return myColour;
+            return LightenDarkenColor(parent[getName].apply(parent, args), -12);
+          };
+          const t_getOpacity = this.getOpacity;
+          this.getOpacity = function(...args) {
+            const parent = this.getParent();
+            if (parent) return parent.getOpacity.apply(parent, args);
+            return t_getOpacity.apply(this, args);
+          };
+        }
+        return BSP_updateColour.apply(this, args);
+      };
+    }
   });
   const PATCHES_ID = extId;
   const cst_patch = (obj, functions) => {
@@ -92,7 +149,7 @@
     }
   });
   const xml = {
-    attemptBlock: `<block type="${extId}_attempt"><value name="ERROR"><shadow type="${extId}_caught"></shadow></value></block>`
+    attemptBlock: `<block type="${extId}_attempt"><value name="ERROR"><shadow type="${extId}_caught"></shadow><block type="${extId}_caught"></block></value></block>`
   };
   class extension {
     getInfo() {
@@ -102,6 +159,7 @@
         color1: '#ff3104',
         blocks: [{
           hideFromPalette: true,
+          disableMonitor: true,
           opcode: 'caught',
           text: 'error',
           blockType: BlockType.REPORTER,
