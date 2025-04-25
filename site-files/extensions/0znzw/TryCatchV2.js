@@ -1,7 +1,7 @@
 /**!
  * Try Catch
  * @author 0znzw <meow@miyo.lol> (@link https://scratch.mit.edu/users/0znzw/)
- * @version 2.5
+ * @version 2.6
  * @license MIT AND LGPL-3.0
  * Do not remove this comment
  * 
@@ -11,7 +11,7 @@
   if (!Scratch.extensions.unsandboxed) {
     throw new Error(`"Try Catch V2" extension must be ran unsandboxed.`);
   }
-  const { BlockType, ArgumentType, vm = } Scratch, { exports, runtime } = vm;
+  const { BlockType, ArgumentType, vm } = Scratch, { exports, runtime } = vm;
   const extId = '0znzwTryCatchV2';
   const THREAD_HOOK = Symbol('TryCatch.Capture');
   const THREAD_ERR = Symbol('TryCatch.Error');
