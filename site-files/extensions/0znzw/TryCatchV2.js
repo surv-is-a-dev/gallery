@@ -1,11 +1,11 @@
 /**!
  * Try Catch
  * @author 0znzw <meow@miyo.lol> (@link https://scratch.mit.edu/users/0znzw/)
- * @version 2.2
+ * @version 2.3
  * @license MIT AND LGPL-3.0
  * Do not remove this comment
  * 
- * @todo Fix this in Unsandboxed.
+ * @todo Fix this in TW new compiler.
  */
 (function(Scratch) {
   if (!Scratch.extensions.unsandboxed) {
@@ -190,10 +190,51 @@
   let JSG, STG, IRG;
   if (iwnafhwtb) {
     const temp = iwnafhwtb();
-    JSG = temp.JSGenerator;
-    STG = temp.ScriptTreeGenerator;
-    IRG = temp.IRGenerator;
-    void({ TYPE_STRING, Frame, TypedInput } = JSG.unstable_exports);
+    if (runtime.compilerData) {((compilerData, {
+      IntermediateStackBlock,
+      IntermediateInput,
+      InputType,
+      Frame,
+    }) => {
+      compilerData.registerBlock(`${extId}_attempt`, function (stg, block) {
+        return new IntermediateStackBlock(this.ir_opcode, {
+          toTry: stg.descendSubstack(block, 'SUBSTACK'),
+          onCaught: stg.descendSubstack(block, 'SUBSTACK2'),
+        });
+      }, function (jsg, block) {
+        jsg.source += '\ntry {\n';
+        jsg.descendStack(block.inputs.toTry, new Frame(false));
+        jsg.currentFrame[THREAD_ERR] = errors.next();
+        jsg.source += `\n} catch(${jsg.currentFrame[THREAD_ERR]}) {\n`;
+        jsg.descendStack(block.inputs.onCaught, new Frame(false));
+        jsg.source += `\n};`;
+      }, {
+        input: false,
+      });
+      compilerData.registerBlock(`${extId}_error`, function (stg, block) {
+        return new IntermediateStackBlock(this.ir_opcode, {
+          error: stg.descendInputOfBlock(block, 'VALUE'),
+        });
+      }, function (jsg, block) {
+        jsg.source += `\nthrow new Error(${jsg.descendInput(block.inputs.error)});`;
+      }, {
+        input: false,
+      });
+      compilerData.registerBlock(`${extId}_caught`, function (stg, block) {
+        return new IntermediateStackBlock(this.ir_opcode, this.type);
+      }, function (jsg, block) {
+        const e = getError.call(jsg);
+        return `(JSON.stringify({message:${e}?.message??'',name:${e}?.name??'',stack:${e}?.stack??''}))`;
+      }, {
+        input: true,
+        type: InputType.STRING,
+      });
+    })(runtime.compilerData, runtime.compilerData.exports)} else {
+      JSG = temp.JSGenerator;
+      STG = temp.ScriptTreeGenerator;
+      IRG = temp.IRGenerator;
+      void({ TYPE_STRING, Frame, TypedInput } = JSG.unstable_exports);
+    }
   } else {
     // @ts-ignore
     IRG = exports?.IRGenerator;
