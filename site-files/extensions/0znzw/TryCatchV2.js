@@ -16,45 +16,38 @@
   const THREAD_HOOK = Symbol('TryCatch.Capture');
   const THREAD_ERR = Symbol('TryCatch.Error');
   const hasOwn = (obj, key) => Object.prototype.hasOwnProperty.call(obj, key);
-  // Thanks CST1229
-  const shadowColors = {caught: '#891900'};
-  // @ts-ignore
-  if (Scratch?.gui) Scratch.gui.getBlockly().then(ScratchBlocks => {
-    const sbuisar = ScratchBlocks.scratchBlocksUtils.isShadowArgumentReporter;
-    const bspssc = ScratchBlocks.BlockSvg.prototype.setShadowColour;
-    const bspuc = ScratchBlocks.BlockSvg.prototype.updateColour;
-    const gpdod_ = ScratchBlocks.Gesture.prototype.duplicateOnDrag_;
-    ScratchBlocks.BlockSvg.prototype.setShadowColour = function(color) {
-      if (this.type == `${extId}_caught`) {
-        return bspssc.call(this, shadowColors.caught);
-      } else return bspssc.call(this, color);
-    };
-    ScratchBlocks.BlockSvg.prototype.updateColour = function() {
-      if (this.type == `${extId}_caught`) {
-        (()=>{
+  if (Scratch?.gui) Scratch.gui.getBlockly().then(Blockly => {
+    const LightenDarkenColor = (r,n) => {var a=!1;"#"==r[0]&&(r=r.slice(1),a=!0);var t=parseInt(r,16),e=(t>>16)+n;e>255?e=255:e<0&&(e=0);var i=(t>>8&255)+n;i>255?i=255:i<0&&(i=0);var o=(255&t)+n;return o>255?o=255:o<0&&(o=0),(a?"#":"")+(o|i<<8|e<<16).toString(16)};
+    const BSP_updateColour = Blockly.BlockSvg.prototype.updateColour;
+    Blockly.BlockSvg.prototype.updateColour = function(...args) {
+      const renderDuplicate = this.isShadow() && Blockly.scratchBlocksUtils.isShadowArgumentReporter(this);
+      if (renderDuplicate && this.type === `${extId}_caught`) {
+        const t_getColourTertiary = this.getColourTertiary;
+        this.getColourTertiary = function(...args) {
           const parent = this.getParent();
-          if (!parent) return;
-          // preferably I should not have to check the parent block type.
-          if (parent.type !== `${extId}_attempt`) return;
-          const input = parent.getInputWithBlock(this);
-          if (!input) return;
-          const shadowDom_ = input.connection?.shadowDom_;
-          if (!shadowDom_) return;
-          this.colour_ = shadowColors.caught;
-        })();
+          if (!parent) return t_getColourTertiary.apply(this, args);
+          return parent.getColourTertiary.apply(parent, args);
+        };
+        const getName = this.isGlowingBlock_ ? `getColourSecondary` : `getColour`;
+        const getColour = this[getName];
+        this[getName] = function(...args) {
+          const myColour = getColour.apply(this, args);
+          const parent = this.getParent();
+          if (!parent) return myColour;
+          return LightenDarkenColor(parent[getName].apply(parent, args), -12);
+        };
+        const t_getOpacity = this.getOpacity;
+        this.getOpacity = function(...args) {
+          const parent = this.getParent();
+          if (parent) return parent.getOpacity.apply(parent, args);
+          return t_getOpacity.apply(this, args);
+        };
       }
-      bspuc.call(this);
-    }
-    ScratchBlocks.Gesture.prototype.duplicateOnDrag_ = function() {
-      if (this.type == `${extId}_caught`) {
-        this.targetBlock_.colour_ = shadowColors.caught;
-        this.targetBlock_.updateColour();
-      }
-      gpdod_.call(this);
-    }
-    ScratchBlocks.scratchBlocksUtils.isShadowArgumentReporter = function(block) {
-      const result = sbuisar(block);
-      if (result) return result;
+      return BSP_updateColour.apply(this, args);
+    };
+    const SBU_isShadowArgumentReporter = Blockly.scratchBlocksUtils.isShadowArgumentReporter;
+    Blockly.scratchBlocksUtils.isShadowArgumentReporter = function(block) {
+      if (SBU_isShadowArgumentReporter.call(this, block)) return true;
       if (block.isShadow() && block.type == `${extId}_caught`) {
         return true;
       } else return false;
@@ -82,11 +75,11 @@
   // Improved version of my one in "Error Stop"
   const prims = runtime._primitives;
   runtime._primitives = new Proxy(prims, {
-    get(target, prop, reciver) {
+    get(target, prop) {
       // @ts-ignore
       const tprop = target[prop];
       if (typeof tprop == 'function') return function(...all) {
-        const args = all[0], util = all[1], { thread } = util;
+        const util = all[1], { thread } = util;
         if (!hasOwn(thread, THREAD_HOOK)) return tprop(...all);
         const hook = thread[THREAD_HOOK];
         try {
