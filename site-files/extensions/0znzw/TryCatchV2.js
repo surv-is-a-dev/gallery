@@ -1,7 +1,7 @@
 /**!
  * Try Catch
  * @author 0znzw <meow@miyo.lol> (@link https://scratch.mit.edu/users/0znzw/)
- * @version 2.3
+ * @version 2.5
  * @license MIT AND LGPL-3.0
  * Do not remove this comment
  * 
@@ -11,7 +11,7 @@
   if (!Scratch.extensions.unsandboxed) {
     throw new Error(`"Try Catch V2" extension must be ran unsandboxed.`);
   }
-  const vm = Scratch.vm, { exports, runtime } = vm;
+  const { BlockType, ArgumentType, vm = } Scratch, { exports, runtime } = vm;
   const extId = '0znzwTryCatchV2';
   const THREAD_HOOK = Symbol('TryCatch.Capture');
   const THREAD_ERR = Symbol('TryCatch.Error');
@@ -76,7 +76,6 @@
   const prims = runtime._primitives;
   runtime._primitives = new Proxy(prims, {
     get(target, prop) {
-      // @ts-ignore
       const tprop = target[prop];
       if (typeof tprop == 'function') return function(...all) {
         const util = all[1], { thread } = util;
@@ -105,27 +104,26 @@
           hideFromPalette: true,
           opcode: 'caught',
           text: 'error',
-          blockType: Scratch.BlockType.REPORTER,
+          blockType: BlockType.REPORTER,
           color1: '#c52300', // differentiate the block
         }, {
           hideFromPalette: true,
           opcode: 'attempt',
           text: ['try', 'catch [ERROR]'],
-          blockType: Scratch.BlockType.CONDITIONAL,
+          blockType: BlockType.CONDITIONAL,
           arguments: {
-            ERROR: {type: Scratch.ArgumentType.STRING}
+            ERROR: { type: null },
           },
           branchCount: 2,
         }, {
-          // @ts-ignore
-          blockType: Scratch.BlockType.XML,
+          blockType: BlockType.XML,
           xml: `${xml.attemptBlock}`,
         }, {
           opcode: 'error',
           text: 'throw [ERROR]',
-          blockType: Scratch.BlockType.COMMAND,
+          blockType: BlockType.COMMAND,
           arguments: {
-            ERROR: {type: Scratch.ArgumentType.STRING}
+            ERROR: { type: ArgumentType.STRING },
           },
           isTerminal: true,
         }]
@@ -138,7 +136,7 @@
       };
       return new Promise(poll);
     }
-    caught(args, util) {
+    caught(_, util) {
       const error = util.thread?.[THREAD_ERR];
       if (!error) return '{"message":"","name":"","stack":""}';
       return JSON.stringify({
@@ -147,7 +145,7 @@
         stack: error?.stack ?? '',
       });
     }
-    async attempt(args, util) {
+    async attempt(_, util) {
       const { target, thread } = util, blocks = target.blocks;
       const id = thread.peekStack();
       const tryBranch = blocks.getBranch(id, 1), catchBranch = blocks.getBranch(id, 2) ?? false;
@@ -156,11 +154,11 @@
       tryThread[THREAD_HOOK] = catchBranch;
       await this.until(_ => !runtime.isActiveThread(tryThread));
     }
-    error(args, util) {
+    error(args) {
       throw new Error(args.ERROR);
     }
   }
-  let TYPE_UNKNOWN, Frame, TypedInput;
+  let Frame, TypedInput;
   // TurboWarp and CST's exports support.
   const errors = new (function generator() {
     'use strict';
@@ -178,11 +176,11 @@
     }
     return `(${(k || {})[THREAD_ERR] ?? '\'\''})`;
   }
-  // @ts-ignore
-  const iwnafhwtb = exports?.i_will_not_ask_for_help_when_these_break;
+  const iwnafhwtb = exports.i_will_not_ask_for_help_when_these_break;
   let JSG, STG, IRG;
   if (iwnafhwtb) {
     const temp = iwnafhwtb();
+    // Unsandboxed support
     if (runtime.compilerData) {((compilerData, {
       IntermediateStackBlock,
       IntermediateInput,
@@ -229,10 +227,8 @@
       void({ TYPE_STRING, Frame, TypedInput } = JSG.unstable_exports);
     }
   } else {
-    // @ts-ignore
     IRG = exports?.IRGenerator;
     if (IRG) {
-      // @ts-ignore
       JSG = exports.JSGenerator;
       STG = IRG.exports.ScriptTreeGenerator;
       void({ TYPE_UNKNOWN, Frame, TypedInput } = JSG.exports);
@@ -243,8 +239,6 @@
   if (JSG) {
     const JSGP = JSG.prototype;
     const STGP = STG.prototype;
-    const IRGP = IRG.prototype;
-    // Patching JSG and STG
     cst_patch(JSGP, {
       descendStackedBlock(originalFn, node) {
         switch(node.kind) {
