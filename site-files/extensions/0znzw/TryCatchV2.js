@@ -11,12 +11,12 @@
   if (!Scratch.extensions.unsandboxed) {
     throw new Error(`"Try Catch V2" extension must be ran unsandboxed.`);
   }
-  const { BlockType, ArgumentType, vm } = Scratch, { runtime } = vm;
+  const { BlockType, ArgumentType, vm } = Scratch, runtime = vm.runtime;
   const extId = '0znzwTryCatchV2', exports = vm.exports ?? {};
   const THREAD_HOOK = Symbol('TryCatch.Capture');
   const THREAD_ERR = Symbol('TryCatch.Error');
   const hasOwn = (obj, key) => Object.prototype.hasOwnProperty.call(obj, key);
-  if (Scratch?.gui) Scratch.gui.getBlockly().then(Blockly => {
+  if (Scratch.gui) Scratch.gui.getBlockly().then(Blockly => {
     const LightenDarkenColor = (r,n) => {var a=!1;"#"==r[0]&&(r=r.slice(1),a=!0);var t=parseInt(r,16),e=(t>>16)+n;e>255?e=255:e<0&&(e=0);var i=(t>>8&255)+n;i>255?i=255:i<0&&(i=0);var o=(255&t)+n;return o>255?o=255:o<0&&(o=0),(a?"#":"")+(o|i<<8|e<<16).toString(16)};
     if (Blockly.registry) {
       class DupDrag {
