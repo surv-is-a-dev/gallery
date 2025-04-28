@@ -147,7 +147,7 @@
       elm = Cast.toString(elm).toLowerCase();
       if (!Object.prototype.hasOwnProperty.call(table, elm)) {
         if (!Object.prototype.hasOwnProperty.call(name2table, elm)) return '';
-        elm = table[name2table[elm]];
+        elm = name2table[elm];
       }
       return this._safeStringify(table[elm]);
     }
