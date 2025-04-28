@@ -1,7 +1,7 @@
 /**!
  * Periodic Table
  * @author 0znzw <meow@miyo.lol> (@link https://scratch.mit.edu/users/0znzw/)
- * @version 1.2
+ * @version 1.3
  * @license MIT AND LGPL-3.0
  * Do not remove this comment
  * 
