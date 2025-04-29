@@ -306,6 +306,7 @@
   // Please help me find a better description :sob:
   "description": "Fetch but with a lot more stuff.",
   "search_tags": (), "requirements": ("internet"),
+  "updated": true,
   // RIP the double tag ngl
   "mode": ("unsandboxed"),
   "credits": ({
