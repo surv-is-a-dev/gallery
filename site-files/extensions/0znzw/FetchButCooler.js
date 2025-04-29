@@ -1,7 +1,7 @@
 /**!
  * Fetch
  * @author 0znzw <meow@miyo.lol> (@link https://scratch.mit.edu/users/0znzw/)
- * @version 1.1
+ * @version 1.2
  * @license MIT AND LGPL-3.0
  * Do not remove this comment
  */
@@ -225,8 +225,8 @@
     static id = '0znzwFetch';
     constructor() {
       this.showArrayBuffer = false;
-      runtime.on('PROJECT_STOP_ALL', this.clear);
-      runtime.on('PROJECT_START', this.clear);
+      runtime.on('PROJECT_STOP_ALL', this.clear.bind(this));
+      runtime.on('PROJECT_START', this.clear.bind(this));
       this.clear();
     }
     /* @private */ clear() {
