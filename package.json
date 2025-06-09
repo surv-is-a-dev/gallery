@@ -26,7 +26,7 @@
     "html-minifier": "^4.0.0",
     "json5": "github:surv-is-a-dev/json5-sm-support",
     "rimraf": "^6.0.1",
-    "terser": "^5.39.0"
+    "terser": "^5.42.0"
   },
   "private": true
 }
