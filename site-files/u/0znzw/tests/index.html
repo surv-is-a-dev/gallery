@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Miyo's Gallery - Tests</title>
+    <title>Miyos Gallery - Tests</title>
     <meta name="theme-color" content="#ff4c4c">
   </head>
   <body>
@@ -13,7 +13,6 @@
         generator.addFooterLinks(['Special Packager', './special packager']);
         generator.setUsage('gallery');
         generator.addSearchTags('experimental');
-        generator.addMods('Unsandboxed');
         generator.addExtension({
           img: '', id: '0znzw/tests/addonBlockCreator',
           name: 'Addon block creator',
@@ -115,7 +114,8 @@
             name: '0znzw',
             url: 'https://scratch.mit.edu/users/0znzw/',
           }]),
-          mod: ('unsandboxed'),
+          // @todo: This is probably wrong
+          mod: (),
         });
         generator.addExtension({
           img: '', id: '0znzw/tests/dynamicShape',
