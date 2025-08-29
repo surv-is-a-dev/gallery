@@ -4,13 +4,13 @@ async function GeneratorLoaded(generator) {
   const funnyMode = window.location.href.includes('?funny-is-allowed');
   if (funnyMode) {
     generator._site.gallery_title += ' (Funny mode)';
-    footerLinks.push(['GoofyWarp gallery', 'https://goofywarp.github.io/gallery/']);
+    // footerLinks.push(['GoofyWarp gallery', 'https://goofywarp.github.io/gallery/']);
   }
   document.head.querySelector('title').textContent = generator._site.gallery_title;
   generator.addFooterLinks(...footerLinks);
   generator.setUsage('gallery');
   generator.addSearchTags('experimental', 'advanced');
-  generator.addMods('Unsandboxed');
+  // generator.addMods('PenguinMod');
   await generator.import(generator.asset('include/JSON5.min.js'));
   const NOW = Date.now().toString(16);
   let req, extensions;
