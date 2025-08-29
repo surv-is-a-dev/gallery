@@ -22,7 +22,7 @@
     "eslint": "^9.34.0",
     "@turbowarp/types": "git+https://github.com/TurboWarp/types-tw.git#tw",
     "clean-css": "^5.3.3",
-    "fs-extra": "^11.3.0",
+    "fs-extra": "^11.3.1",
     "html-minifier": "^4.0.0",
     "json5": "github:surv-is-a-dev/json5-sm-support",
     "rimraf": "^6.0.1",
