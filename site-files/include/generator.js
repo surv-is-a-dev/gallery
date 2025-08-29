@@ -11,14 +11,14 @@ GeneratorLoaded(
     const SITE = {
       dev_host: `${document.location.hostname}:${9000 /* The port */}`,
       // Assume its dev IF we are using localhost
-      isDev: document.location.hostname.startsWith('localhost') || queryParams.has('surv:DEV_ADDR'),
+      isDev: document.location.hostname.startsWith('localhost') || queryParams.has('miyo:DEV_ADDR'),
       host: 'miyo.lol',
       dev_sub: '',
       sub: 'gallery.',
       path: '/',
       dev_path: '/',
       // Gallery title
-      gallery_title: 'Survs Gallery',
+      gallery_title: 'Miyos Gallery',
     };
     if (queryParams.has('surv:DEV')) window.LeakedGenerator = this;
     const NOW = Date.now().toString(16);
@@ -37,7 +37,7 @@ GeneratorLoaded(
       SITE.gallery_title = 'The completely normal behaviour gallery';
       DISABLE_IP_GRABBER = true;
     } else if (window.location.href.includes('?derp') || window.location.href.includes('?cats')) {
-      SITE.gallery_title = 'Survs cats gallery';
+      SITE.gallery_title = 'Miyos cats gallery';
       DISABLE_IP_GRABBER = true;
     }
     this._site = SITE;
@@ -71,7 +71,7 @@ GeneratorLoaded(
     };
     let special = '';
     if (window.location.href.includes('?derp')) special = 'derpy';
-    if (window.location.href.includes('?dominic')) {
+    /*if (window.location.href.includes('?dominic')) {
       DISABLE_IP_GRABBER = true;
       special = 'MiningAwayIdontKnowWhatToSayIllMineThisAnywaysMineDiamondsIllMineThem';
       const _stoneCss = document.createElement('style');
@@ -102,7 +102,7 @@ GeneratorLoaded(
       };
       document.body.appendChild(_stone);
       document.body.classList.add(special);
-    }
+    }*/
     const Time = new Date();
     switch (Time.getUTCMonth()) {
       case 5: // Pride month
@@ -216,6 +216,7 @@ GeneratorLoaded(
       document.querySelector('.mod-tag[data-mod="turbowarp"]').setAttribute('data-active', '1');
       // Adding extensions
       this.addExtension = (meta) => {
+        if (meta.legacyHideHelper) return;
         meta.mod ||= ['turbowarp'];
         if (meta.mod instanceof Set) {
           meta.mod = Array.from(meta.mod);
