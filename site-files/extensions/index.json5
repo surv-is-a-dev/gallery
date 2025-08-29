@@ -13,7 +13,7 @@
   // these are all the available tags.
   "search_tags": ("experimental", "advanced"), "requirements": ("internet", "hardware", "mobile"),
   // If your extension is new or you just updated just add the string to the Set.
-  // Do the same with unsandboxed and sandboxed.
+  // Do the same with  and sandboxed.
   "mode": ("unsandboxed"),
   // This is the little I-Card, you can use this for docs, or anything that makes sense.
   "iCard": {
@@ -36,7 +36,7 @@
   }),
   // This field is actually not required and can be a string, array or set!
   // Just fill it with the supported mod names, if its missing one then it will default to turbowarp :3
-  "mod": ("turbowarp", "unsandboxed"),
+  "mod": ("turbowarp"),
 }, {
   "img": "0znzw/NicheToolbox.svg", "id": "0znzw/NicheToolbox",
   "name": "NicheToolbox",
@@ -62,20 +62,19 @@
   }, {
     "name": "FurryR",
     "url": "https://github.com/FurryR/"
-  })
+  }),
+  "legacyHideHelper": true
 }, {
-  // Originally made for Unsandboxed but it works on TurboWarp (for now)
   "img": "0znzw/SwitchCase.svg", "id": "0znzw/SwitchCaseUSB",
   "name": "Switch Case",
-  // Thanks cubester for the description, its hilarious lol
-  "description": '"this is the better way" -evil yandere dev',
+  "description": "Faster if else basically :3",
   "search_tags": ("advanced"), "requirements": (),
   "mode": ("unsandboxed"),
   "credits": ({
     "name": "0znzw",
     "url": "https://scratch.mit.edu/users/0znzw/"
   }),
-  "mod": ("turbowarp", "unsandboxed")
+  "mod": ("turbowarp")
 }, {
   "img": "0znzw/PeriodicTable.svg", "id": "0znzw/PeriodicTable",
   "name": "Periodic Table",
@@ -196,7 +195,9 @@
   "credits": ({
     "name": "0znzw",
     "url": "https://scratch.mit.edu/users/0znzw/"
-  })
+  }),
+  "mod": ("turbowarp", "penguinmod"),
+  "legacyHideHelper": true
 }, {
   "img": "0znzw/MoreButtons.svg", "id": "0znzw/MoreButtons",
   "name": "More Buttons",
@@ -211,7 +212,7 @@
   "img": "0znzw/TryCatchV2.svg", "id": "0znzw/TryCatchV2",
   "name": "Try Catch V2",
   "description": "Catch and throw REAL JavaScript errors.",
-  "search_tags": ["advanced"], "requirements": [],
+  "search_tags": ("advanced"), "requirements": (),
   "mode": ("unsandboxed"),
   "credits": ({
     "name": "0znzw",
@@ -226,7 +227,8 @@
   "credits": ({
     "name": "0znzw",
     "url": "https://scratch.mit.edu/users/0znzw/"
-  })
+  }),
+  "legacyHideHelper": true
 }, {
   "img": "0znzw/ErrorPages.svg", "id": "0znzw/ErrorPages",
   "name": "Fake Crashes",
@@ -236,7 +238,8 @@
   "credits": ({
     "name": "0znzw",
     "url": "https://scratch.mit.edu/users/0znzw/"
-  })
+  }),
+  "legacyHideHelper": true
 }, {
   "img": "", "id": "0znzw/CompilerPatcher",
   "name": "Compiler Injector",
@@ -276,7 +279,8 @@
   "credits": ({
     "name": "0znzw",
     "url": "https://scratch.mit.edu/users/0znzw/"
-  })
+  }),
+  "legacyHideHelper": true
 }, {
   "img": "", "id": "TheShovel/extexp",
   "name": "Extension Exposer",
@@ -305,25 +309,12 @@
   "name": "Fetch",
   // Please help me find a better description :sob:
   "description": "Fetch but with a lot more stuff.",
-  "search_tags": (), "requirements": ("internet"),
-  "updated": true,
-  // RIP the double tag ngl
+  "search_tags": ("advanced"), "requirements": ("internet"),
   "mode": ("unsandboxed"),
   "credits": ({
     "name": "0znzw",
     "url": "https://scratch.mit.edu/users/0znzw/"
   })
-}, {
-  "img": "", "id": "0znzw/USBPause",
-  "name": "USB Pause",
-  "description": "Lets you pause the project. (uses USB's built in apis!)",
-  "search_tags": ("advanced"), "requirements": (),
-  "mode": ("unsandboxed"),
-  "credits": ({
-    "name": "0znzw",
-    "url": "https://scratch.mit.edu/users/0znzw/"
-  }),
-  "mod": ("unsandboxed")
 }, {
   // The code for this extension is not based on TurboWarp's.
   "img": "0znzw/ClipboardV2.svg", "id": "0znzw/ClipboardV2",
@@ -334,9 +325,5 @@
   "credits": ({
     "name": "0znzw",
     "url": "https://scratch.mit.edu/users/0znzw/"
-  }),
-  "iCard": {
-    "url": "https://extensions.turbowarp.org/clipboard.js",
-    "description": "Original extension by TurboWarp."
-  }
+  })
 })
