@@ -13,7 +13,7 @@
   // these are all the available tags.
   "search_tags": ("experimental", "advanced"), "requirements": ("internet", "hardware", "mobile"),
   // If your extension is new or you just updated just add the string to the Set.
-  // Do the same with  and sandboxed.
+  // Do the same with unsandboxed and sandboxed.
   "mode": ("unsandboxed"),
   // This is the little I-Card, you can use this for docs, or anything that makes sense.
   "iCard": {
