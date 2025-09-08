@@ -1,6 +1,6 @@
 /**!
  * Script Manager
- * @author 0znzw <meow@miyo.lol> (@link https://scratch.mit.edu/users/0znzw/)
+ * @author 0znzw <meow@miyo.icu> (@link https://scratch.mit.edu/users/0znzw/)
  * @author CST1229 https://scratch.mit.edu/users/CST1229/
  * @author FurryR https://github.com/FurryR/
  * @version 2.1

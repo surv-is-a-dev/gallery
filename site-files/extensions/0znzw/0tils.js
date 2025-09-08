@@ -1,6 +1,6 @@
 /**!
  * 0tils
- * @author 0znzw <meow@miyo.lol> (@link https://scratch.mit.edu/users/0znzw/)
+ * @author 0znzw <meow@miyo.icu> (@link https://scratch.mit.edu/users/0znzw/)
  * @version 9.0
  * @license MIT
  * Do not remove this comment

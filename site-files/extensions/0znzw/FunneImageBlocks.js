@@ -1,6 +1,6 @@
 /**!
  * Image Blocks
- * @author 0znzw <meow@miyo.lol> (@link https://scratch.mit.edu/users/0znzw/)
+ * @author 0znzw <meow@miyo.icu> (@link https://scratch.mit.edu/users/0znzw/)
  * @author CST1229 https://scratch.mit.edu/users/CST1229/
  * @version 1.1
  * @license MIT AND LGPL-3.0

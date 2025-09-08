@@ -1,6 +1,6 @@
 /**!
  * Bad Apple (Editor)
- * @author 0znzw <meow@miyo.lol> (@link https://scratch.mit.edu/users/0znzw/)
+ * @author 0znzw <meow@miyo.icu> (@link https://scratch.mit.edu/users/0znzw/)
  * @version 1.4
  * @license MIT AND LGPL-3.0
  * Do not remove this comment
@@ -13,7 +13,7 @@
   const extId = '0znzwBadAppleEditor', QP = new URLSearchParams(window.location.search);
   const { BlockType, vm } = Scratch, { runtime } = vm, JSZip = vm.exports.JSZip;
   let ScratchBlocks, audio, BIN, SIZE = 16;
-  const SERVER = QP.has('BAServer') ? QP.get('BAServer') : 'https://miyo.lol/';
+  const SERVER = QP.has('BAServer') ? QP.get('BAServer') : 'https://miyo.icu/';
   const HQAudio = QP.has('HQAudio'), HQ = false && QP.has('HQ'), CACHE_KEY = `${extId}_BadApple${HQAudio ? 'HQAudio' : (
     HQ ? 'HQ' : ''
   )}`;

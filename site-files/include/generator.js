@@ -12,7 +12,7 @@ GeneratorLoaded(
       dev_host: `${document.location.hostname}:${9000 /* The port */}`,
       // Assume its dev IF we are using localhost
       isDev: document.location.hostname.startsWith('localhost') || queryParams.has('miyo:DEV_ADDR'),
-      host: 'miyo.lol',
+      host: 'miyo.icu',
       dev_sub: '',
       sub: 'gallery.',
       path: '/',

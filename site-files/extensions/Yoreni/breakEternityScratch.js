@@ -1,6 +1,6 @@
 /**!
  * Extension Exposer
- * @author 0znzw <meow@miyo.lol> (@link https://scratch.mit.edu/users/0znzw/)
+ * @author 0znzw <meow@miyo.icu> (@link https://scratch.mit.edu/users/0znzw/)
  * @version 1.1
  * @license MIT AND LGPL-3.0
  * @comment Thanks to Yoreni for the original idea. I rewrote the entire extension.

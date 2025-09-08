@@ -1,6 +1,6 @@
 /**!
  * Anime image API test
- * @author 0znzw <meow@miyo.lol> (@link https://scratch.mit.edu/users/0znzw/)
+ * @author 0znzw <meow@miyo.icu> (@link https://scratch.mit.edu/users/0znzw/)
  * @author Mist <mist@mistium.com> (@link https://scratch.mit.edu/users/mistium/)
  * @version 1.0
  * @license MIT AND LGPL-3.0
