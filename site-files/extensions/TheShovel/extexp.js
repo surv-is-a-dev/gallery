@@ -48,8 +48,8 @@
           func: 'getBlocks',
           opcode: 'getfunctions',
           blockType: BlockType.REPORTER,
-          text: getFunctionsText,
-          arguments: getBlocksArgument,
+          text: 'get blocks from [EXTLIST]',
+          arguments: defaultArguments,
         }],
         menus: {
           EXTLIST: {
