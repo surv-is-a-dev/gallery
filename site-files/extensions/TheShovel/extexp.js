@@ -2,8 +2,9 @@
  * Extension Exposer
  * @author TheShovel (@link https://github.com/TheShovel/)
  * @author 0znzw <meow@miyo.icu> (@link https://scratch.mit.edu/users/0znzw/)
- * @version 1.3
- * @license MIT (with credit)
+ * @author Faunksys https://github.com/faunks/
+ * @version 1.5
+ * @copyright MIT (with credit) License
  * @comment Thanks to TheShovel for the original code, I just updated some internals :3
  * Do not remove this comment
  */
@@ -43,6 +44,12 @@
           text: runText,
           arguments: defaultArguments,
           allowDropAnywhere: true,
+        }, {
+          func: 'getBlocks',
+          opcode: 'getfunctions',
+          blockType: BlockType.REPORTER,
+          text: getFunctionsText,
+          arguments: getBlocksArgument,
         }],
         menus: {
           EXTLIST: {
@@ -79,9 +86,23 @@
       // If the function does not exist then it is not referenced as a real block, or the extension is not global (fallback)
       return (runtime._primitives[`${EXTLIST}_${FUNCNAME}`] || runtime[`ext_${EXTLIST}`][FUNCNAME])(this._parseJSON(Cast.toString(INPUT)), util, blockJSON);
     }
+    getBlocks({ EXTLIST }, util, blockJSON) {
+      const ext = runtime[`ext_${EXTLIST}`];
+      const blocks = [];
+      // Check if the extension implements the standard extension API
+      if (ext && (typeof ext.getInfo === 'function')) {
+        const info = ext.getInfo().blocks;
+        if (!info) return blocks;
+        for (let index = 0; index < info.length; index++) {
+          blocks.push(info[index]);
+        }
+      }
+      return blocks;
+    }
     runcommand() {}
     runreporter() {}
     runboolean() {}
+    getfunctions() {}
   }
   Scratch.extensions.register(runtime[`ext_${extId}`] = new jodieextexp());
 })(Scratch);
