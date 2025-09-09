@@ -3,7 +3,7 @@
  * @author TheShovel (@link https://github.com/TheShovel/)
  * @author 0znzw <meow@miyo.icu> (@link https://scratch.mit.edu/users/0znzw/)
  * @version 1.3
- * @license MIT AND LGPL-3.0
+ * @license MIT (with credit)
  * @comment Thanks to TheShovel for the original code, I just updated some internals :3
  * Do not remove this comment
  */
