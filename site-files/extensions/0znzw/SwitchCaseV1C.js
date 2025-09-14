@@ -1,7 +1,7 @@
 /**!
  * Switch Case Compiled
  * @author 0znzw <meow@miyo.icu> (@link https://scratch.mit.edu/users/0znzw/)
- * @version 1.2
+ * @version 1.3
  * @license MIT AND LGPL-3.0
  * Do not remove this comment
  * 
@@ -13,6 +13,13 @@
     throw new Error(`"Switch Case v1c" needs to be ran unsandboxed.`);
   }
   const vm = Scratch.vm, runtime = vm.runtime;
+  if (vm.exports.these_broke_before_and_will_break_again) {
+    if (!window.scaffolding) alert('GarboMuffins an ass so this doesnt work anymore lmfao.');
+    throw 'stub is not supported.';
+  } else if (!vm.exports.i_will_not_ask_for_help_when_these_break || vm.exports.JSGenerator) {
+    if (!window.scaffolding) alert('TW (old) format compiler is required.');
+    throw 'cst is not supported.';
+  }
   // For the lols this is gonna be un-used for now.
   const onBlockly = (Blockly) => {
     const ConProto = Blockly.Connection.prototype;
@@ -172,6 +179,11 @@
       this.isLoop = isLoop;
       this.isLastBlock = false;
     }
+  }
+  // @ts-ignore
+  if (vm.exports.i_will_not_ask_for_help_when_these_break().IntermediateStackedBlock) {
+    if (!window.scaffolding) alert('TW (old) format compiler is required.');
+    throw 'next-next is not supported.';
   }
   // @ts-ignore
   const JSG = vm.exports.i_will_not_ask_for_help_when_these_break().JSGenerator;

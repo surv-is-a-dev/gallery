@@ -13,6 +13,10 @@
   }
   const { BlockType, ArgumentType, Cast, vm } = Scratch, { runtime } = vm;
   const extId = '0znzwUSBPause', Runtime = runtime.constructor;
+  if (vm.exports.these_broke_before_and_will_break_again) {
+    if (!window.scaffolding) alert('GarboMuffins an ass so this doesnt work anymore lmfao.');
+    throw 'stub is not supported.';
+  }
   const { Thread } = vm.exports.i_will_not_ask_for_help_when_these_break();
   let ScratchBlocks;
   if (Scratch.gui) Scratch.gui.getBlockly().then(Blockly => ScratchBlocks = Blockly);
