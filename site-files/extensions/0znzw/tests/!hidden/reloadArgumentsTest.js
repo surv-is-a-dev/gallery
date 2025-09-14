@@ -1,7 +1,7 @@
 /**!
  * Reload Test
  * @author 0znzw <meow@miyo.icu> (@link https://scratch.mit.edu/users/0znzw/)
- * @version 1.0
+ * @version 1.1
  * @license MIT AND LGPL-3.0
  * Do not remove this comment
  */
@@ -53,10 +53,20 @@
     }
 
     static patchCompiler() {
-      if (vm.enableDebug) vm.enableDebug();
-      if (!vm.exports.i_will_not_ask_for_help_when_these_break) return;
+      if (vm.enableDebug && !runtime.debug) vm.enableDebug();
+      if (vm.exports.these_broke_before_and_will_break_again) {
+        alert('GarboMuffins an ass so this doesnt work anymore lmfao.');
+        throw 'stub is not supported.';
+      }
+      if (!vm.exports.i_will_not_ask_for_help_when_these_break || vm.exports.JSGenerator) {
+        alert('TW (old) format compiler is required.');
+        throw 'cst is not supported.';
+      }
       const iwnafhwtb = vm.exports.i_will_not_ask_for_help_when_these_break();
-      if (iwnafhwtb.IntermediateStackedBlock) return;
+      if (iwnafhwtb.IntermediateStackedBlock) {
+        alert('TW (old) format compiler is required.');
+        throw 'next-next is not supported.';
+      }
       const { JSGenerator, ScriptTreeGenerator } = iwnafhwtb;
       const { TYPE_UNKNOWN } = JSGenerator.unstable_exports;
       const JSGP = JSGenerator.prototype, STGP = ScriptTreeGenerator.prototype;

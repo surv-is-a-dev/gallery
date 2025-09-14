@@ -1,7 +1,7 @@
 /**!
  * Compiler Injector
  * @author 0znzw <meow@miyo.icu> (@link https://scratch.mit.edu/users/0znzw/)
- * @version 1.5
+ * @version 1.6
  * @license MIT AND LGPL-3.0
  * Do not remove this comment
  * 
@@ -20,8 +20,11 @@
     const extras = {
       ...ve,
     };
-    if (hasOwn(ve, 'i_will_not_ask_for_help_when_these_break')) {
-      const iwnafhwtb = ve.i_will_not_ask_for_help_when_these_break();
+    if (hasOwn(ve, 'these_broke_before_and_will_break_again') || hasOwn(ve, 'i_will_not_ask_for_help_when_these_break')) {
+      const iwnafhwtb = (hasOwn(ve, 'these_broke_before_and_will_break_again')
+        ? ve.these_broke_before_and_will_break_again()
+        : ve.i_will_not_ask_for_help_when_these_break()
+      );
       taco = hasOwn(iwnafhwtb, 'IntermediateStackBlock');
       return {
         ...extras,

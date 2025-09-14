@@ -1,7 +1,7 @@
 /**!
  * Try Catch
  * @author 0znzw <meow@miyo.icu> (@link https://scratch.mit.edu/users/0znzw/)
- * @version 2.8
+ * @version 2.9
  * @license MIT AND LGPL-3.0
  * Do not remove this comment
  * 
@@ -234,7 +234,12 @@
     }
     return `(${(k || {})[THREAD_ERR] ?? '\'\''})`;
   }
-  const iwnafhwtb = exports.i_will_not_ask_for_help_when_these_break;
+  let brosanass = !!exports.these_broke_before_and_will_break_again;
+  if (brosanass) {
+    if (!window.scaffolding) alert('GarboMuffins an ass so this doesnt work anymore lmfao.');
+    throw 'stub not supported.';
+  }
+  const iwnafhwtb = (brosanass ? exports.these_broke_before_and_will_break_again : exports.i_will_not_ask_for_help_when_these_break);
   let JSG, STG, IRG;
   if (iwnafhwtb) {
     const temp = iwnafhwtb();

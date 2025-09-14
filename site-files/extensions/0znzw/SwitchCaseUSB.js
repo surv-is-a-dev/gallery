@@ -1,11 +1,12 @@
 /**!
  * Switch Case (extension)
  * @author 0znzw <meow@miyo.icu> (@link https://scratch.mit.edu/users/0znzw/)
- * @version 1.2
+ * @version 1.3
  * @license MIT AND LGPL-3.0
  * Do not remove this comment
  * 
  * @todo Fix this in Unsandboxed.
+ * @todo Fix this in the new compiler.
  */
 (function(Scratch) {
   if (!Scratch.extensions.unsandboxed) {
@@ -20,6 +21,10 @@
   }
   const extId = '0znzwSwitchCaseUSB';
   const { BlockType, ArgumentType, vm } = Scratch, { runtime } = vm;
+  if (vm.exports.these_broke_before_and_will_break_again) {
+    if (!('scaffolding' in window)) alert('GarboMuffins an ass so this doesnt work anymore lmfao.');
+    throw 'stub is not supported.';
+  }
   const showDevBlocks = true, patchAnyways = true;
   let patchThread = (t) => undefined;
   if (patchAnyways || !Scratch.extensions.isUSB) {
