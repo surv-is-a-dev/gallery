@@ -1,7 +1,7 @@
 /**!
  * Disable compiler stub
  * @author 0znzw <meow@miyo.icu> (@link https://scratch.mit.edu/users/0znzw/)
- * @version 1.0
+ * @version 1.1
  * @license MIT AND LGPL-3.0
  * Disables the new horrible compiler stub as it breaks a lot of stuff.
  * Do not remove this comment
@@ -35,6 +35,10 @@ const iwnafhwtb = ((() => {
         };
         const r = iwnafhwtb.apply(this, args);
         if (__wp_require__) {
+          modl.JSGeneratorStub = class {};
+          modl.IRGeneratorStub = class {};
+          modl.ScriptTreeGeneratorStub = class {};
+          modl.enabled = false;
           vm.exports.__miyo_broke__ = Object.assign(tbbawba(), {
             __webpack_require__: __wp_require__,
             __clayer_id__: [clayer, modl],
