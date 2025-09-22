@@ -19,7 +19,7 @@
   "homepage": "https://github.com/surv-is-a-dev/gallery#readme",
   "dependencies": {},
   "devDependencies": {
-    "eslint": "^9.35.0",
+    "eslint": "^9.36.0",
     "@turbowarp/types": "git+https://github.com/TurboWarp/types-tw.git#tw",
     "clean-css": "^5.3.3",
     "fs-extra": "^11.3.1",
