@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Closing...</title>
+  </head>
+  <body>
+    This page should automatically close.
+    <noscript>This site requires javascript to function</noscript>
+    <script>(async()=>{var n,d,e=new URLSearchParams(window.location.search);if(!e.has("uri"))throw"Fuck you.";n=decodeURIComponent(e.get("uri")),d=decodeURIComponent(e.has("dn")?e.get("dn"):"raw.bin"),await new Promise(e=>{let o=document.createElement("a");o.href=n,o.download=d,document.body.appendChild(o),o.click(),setTimeout(()=>{document.body.removeChild(o),e()},0)}),window.close(),window.location.href="https://example.edu/"})()</script>
+  </body>
+</html>
