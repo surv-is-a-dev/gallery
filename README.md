@@ -1,3 +1,6 @@
+> [!WARNING]
+> This content is going to be privated permenantly within the coming hours.
+
 # Miyo's Gallery
 
 Please don't take any files from this gallery to put in someone else's gallery without the prior permission of the creator of the extension itself.
