@@ -1,5 +1,5 @@
 > [!WARNING]
-> This content is going to be privated permenantly within the coming hours.
+> This content is archived and will not recieve updates unless there is a critical security issue.
 
 # Miyo's Gallery
 
